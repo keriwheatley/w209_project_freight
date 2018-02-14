@@ -25,8 +25,9 @@ SECRET_KEY = 'us=&f@v7n4#00jj&oj&7u=$hc6jszaben0@2olw!78uwx0nks_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
+# a client can request without a trailing slash
+APPEND_SLASH = True
 
 # Application definition
 
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'restapp.apps.LogisticsappConfig',
     'rest_framework',
+    'django'
 ]
 
 MIDDLEWARE = [

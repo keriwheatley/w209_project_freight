@@ -9,6 +9,8 @@ from rest_framework.views import APIView
 from restapp.models import Shipment
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics
+from django.http import Http404
 
 # Create your views here.
 
@@ -22,17 +24,10 @@ class GroupViewSet(viewsets.ModelViewSet):
    queryset = Group.objects.all()
    serializer_class = GroupSerializer
 
-class ShipmentList(APIView):
-   def get(self, request, format=None):
-      shipments = Shipment.objects.all()
-      serializer = ShipmentSerializer(shipments, many=True)
-      return Response(serializer.data)
+class ShipmentList(generics.ListCreateAPIView):
+   queryset = Shipment.objects.all()
+   serializer_class = ShipmentSerializer
 
-   def post(self, request, format=None):
-      serializer = ShipmentSerializer(data=request.data)
-      if serializer.is_valid():
-         serializer.save()
-         return Response(serializer.data, status=status.HTTP_201_CREATED)
-      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
+class ShipmentDetail(generics.RetrieveUpdateDestroyAPIView):
+   queryset = Shipment.objects.all()
+   serializer_class = ShipmentSerializer
