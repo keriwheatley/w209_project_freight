@@ -1,0 +1,140 @@
+FORMAT: 1A
+
+# Freight and Logistics: w209 Spring Final Project
+
+# Group Shipments
+
+Resources that show a aggregation of shipments between two points. At least one of the destination or origin must be in the US.
+
+## Shipments Collection [/shipments/]
+
+### List All Shipments [GET]
+
+    + Response 200 (application/json)
+
+    [
+        {
+            "id": 1,
+            "foreign_origin": null,
+            "domestic_origin": "513"
+            "domestic_state_origin": "VA",
+            "foreign_dest": "801",
+            "domestic_dest": null,
+            "domestic_state_dest": null,
+            "foreign_inbound_mode": null,
+            "domestic_mode", "3",
+            "foreign_outbound_mode": "2",
+            "commodity": "22",
+            "trade_type": "3",
+            "value": "200",
+            "weight", "300"
+        },
+        {
+            "id": 2,
+            "foreign_origin": "802",
+            "domestic_origin": null
+            "domestic_state_origin": null,
+            "foreign_dest": null,
+            "domestic_dest": "201",
+            "domestic_state_dest": KS,
+            "foreign_inbound_mode": "4",
+            "domestic_mode", "1",
+            "foreign_outbound_mode": null,
+            "commodity": "06",
+            "trade_type": "2",
+            "value": "201",
+            "weight", "301"
+        },
+        {
+            "id": 3,
+            "foreign_origin": null,
+            "domestic_origin": "392"
+            "domestic_state_origin": OH,
+            "foreign_dest": null,
+            "domestic_dest": "421",
+            "domestic_state_dest": "PA",
+            "foreign_inbound_mode": null,
+            "domestic_mode", "1",
+            "foreign_outbound_mode": null,
+            "commodity": "34",
+            "trade_type": "1",
+            "value": "202",
+            "weight", "302"
+        }
+    ]
+
+### Create a new Shipment [POST]
+
+create a new shipment (csv row)
+
+    + Request (application/json)
+
+        {
+            "foreign_origin": null,
+            "domestic_origin": "392"
+            "domestic_state_origin": OH,
+            "foreign_dest": null,
+            "domestic_dest": "421",
+            "domestic_state_dest": "PA",
+            "foreign_inbound_mode": null,
+            "domestic_mode", "1",
+            "foreign_outbound_mode": null,
+            "commodity": "34",
+            "trade_type": "1",
+            "value": "202",
+            "weight", "302"
+        }
+
+    + Response 201 (application/json)
+
+        + Headers
+
+            Location: /shipments/1/
+
+        + Body
+
+            {
+                "foreign_origin": null,
+                "domestic_origin": "392"
+                "domestic_state_origin": OH,
+                "foreign_dest": null,
+                "domestic_dest": "421",
+                "domestic_state_dest": "PA",
+                "foreign_inbound_mode": null,
+                "domestic_mode", "1",
+                "foreign_outbound_mode": null,
+                "commodity": "34",
+                "trade_type": "1",
+                "value": "202",
+                "weight", "302"
+            }
+
+## Shipments Detail [/shipments/{shipment_id}]
+
++ Parameters
+    + shipment_id (number) auto-generated id for the shipment row as an integer
+
+### View a Shipment's detailed info [GET]
+
++ Response 200 (application/json)
+            {
+                "id": 4,
+                "foreign_origin": null,
+                "domestic_origin": "392"
+                "domestic_state_origin": OH,
+                "foreign_dest": null,
+                "domestic_dest": "421",
+                "domestic_state_dest": "PA",
+                "foreign_inbound_mode": null,
+                "domestic_mode", "1",
+                "foreign_outbound_mode": null,
+                "commodity": "34",
+                "trade_type": "1",
+                "value": "202",
+                "weight", "302"
+            }
+
+### Delete [DELETE]
+
+    + Response 204
+

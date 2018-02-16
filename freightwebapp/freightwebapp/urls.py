@@ -27,5 +27,6 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='restframework')),
     url(r'^admin/', admin.site.urls),
     url(r'^shipments/$', views.ShipmentList.as_view()),
-    url(r'^shipment/?(?P<pk>[0-9]+)/$', views.ShipmentDetail.as_view()),
+    url(r'^shipment/(?P<pk>[0-9]+)/$', views.ShipmentDetail.as_view()),
+    url(r'^state/(?P<pk>[a-zA-Z]{2})'),
 ]

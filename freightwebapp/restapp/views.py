@@ -31,3 +31,7 @@ class ShipmentList(generics.ListCreateAPIView):
 class ShipmentDetail(generics.RetrieveUpdateDestroyAPIView):
    queryset = Shipment.objects.all()
    serializer_class = ShipmentSerializer
+
+class StateDetail(generics.ListAPIView):
+   queryset = Shipment.objects.all()
+   serializer_class = GroupSerializer
