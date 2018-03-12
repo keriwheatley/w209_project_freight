@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <style>
+    .bar {
+      fill: steelblue;
+    }
+    .bar:hover {
+      fill: brown;
+    }
+    .axis--x path {
+      display: none;
+    }
+    .button {
+      background-color: white;
+      color: black;
+      border: 2px solid #4CAF50; /* Green */
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+    }
+    .button:hover {
+      background-color: #4CAF50;
+      color: white;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+  <h1>Prototype</h1>
+  <button class="button" id="transition">click me</button>
+  <svg width="960" height="500"></svg>
+  <script src=app.js></script>
+</body>
