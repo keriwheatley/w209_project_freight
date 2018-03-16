@@ -1,0 +1,54 @@
+body {
+  font: 10px sans-serif;
+}
+
+.group-tick line {
+  stroke: #000;
+  stroke-width: 6px;
+}
+
+.name-label {
+  font-size: 10px;
+  font: sans-serif;
+  text-anchor: middle;
+}
+
+.ribbons {
+  fill-opacity: 0.6;
+}
+
+.ticks {
+  font: 10px sans-serif;
+}
+
+.track,
+.track-inset,
+.track-overlay {
+  stroke-linecap: round;
+}
+
+.track line {
+  stroke: #000;
+  /*fill: #000;*/
+  /*stroke-opacity: 0.3;*/
+  stroke-width: 10px;
+}
+
+.track-inset {
+  stroke: #ddd;
+  stroke-width: 8px;
+}
+
+.track-overlay {
+  pointer-events: stroke;
+  stroke-width: 50px;
+  stroke: transparent;
+  cursor: crosshair;
+}
+
+.handle {
+  fill: #fff;
+  stroke: #000;
+  stroke-opacity: 0.5;
+  stroke-width: 1.25px;
+}
