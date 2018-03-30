@@ -12,10 +12,10 @@ lib.barChartModule = function() {
   }
 
   function plot_net(name, accessor) {
-    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-        y = d3.scaleLinear().rangeRound([height, 0]);
-    y.domain([d3.extent(data, accessor)]);
-    x.domain(data.map(function(d) {return d.state_origin; }));
+    var x = d3.scaleLinear().range([0, width]),
+        y = d3.scaleBand().rangeRound([height, 0]).padding(0.1);
+    x.domain(d3.extent(data, function(d) {return d.net_total_m_dollar}));
+    y.domain(data.map(function(d) {return d.state; }));
 
     g.select(".title").remove();
     g.append("text")
@@ -39,22 +39,22 @@ lib.barChartModule = function() {
     var bars = g.selectAll("rect")
       .data(data);
 
-
     bars.transition().duration(300)
-      .attr("id", function(d) {return d.state_origin; })
-      .attr("x", function(d) { return x(d.state_origin); })
-      .attr("y", function(d) { return y(accessor(d)); })
-      .attr("width", x.bandwidth())
-      .attr("height", function(d) { return height - y(accessor(d)); });
+      .attr("id", function(d) {return d.state; })
+      .attr("x", function(d) {return x(Math.min(0, +accessor(d))); })
+
+      .attr("y", function(d) { return y(d.state); })
+      .attr("height", y.bandwidth())
+      .attr("width", function(d) { return Math.abs(x(accessor(d)) - x(0)); });
 
 
     bars.enter().append("rect")
         .attr("class", "bar")
-        .attr("id", function(d) {return d.state_origin; })
-        .attr("x", function(d) { return x(d.state_origin); })
-        .attr("y", function(d) { return y(accessor(d)); })
-        .attr("width", x.bandwidth())
-        .attr("height", function(d) { return height - y(accessor(d)); });
+        .attr("id", function(d) {return d.state; })
+        .attr("x", function(d) { return x(Math.min(0, +accessor(d))); })
+        .attr("y", function(d) { return y(d.state); })
+        .attr("height", y.bandwidth())
+        .attr("width", function(d) { return Math.abs(x(accessor(d)) - x(0)); });
 
     bars.exit().transition().duration(300).remove();
 
@@ -112,7 +112,8 @@ lib.barChartModule = function() {
 
   return {
     "data": data_,
-    "plot_absolute": plot_absolute
+    "plot_absolute": plot_absolute,
+    "plot_net": plot_net
   };
 };
 
@@ -162,3 +163,22 @@ d3.csv("by_state.csv", function(d) {
     });
   });
 });
+
+d3.csv("domestic_combined.csv", function(d) {
+  d.net_total_ktons = +d.net_total_ktons;
+  d.net_total_m_dollar = +d.net_total_m_dollar;
+  d.net_total_ton_mile= +d.net_total_ton_mile;
+  return d;
+}, function(error, data) {
+  if (error) throw error;
+
+  var top_ten = data.sort(function(a,b) {return b.net_total_m_dollar - a.net_total_m_dollar}).slice(0,10);
+  var bottom_ten = data.slice(-1,-10);
+  console.log(bottom_ten.length)
+
+  var myBars2= lib.barChartModule();
+  myBars2.data(data);
+  myBars2.plot_net("Millions of Dollars, Net",function(d) {
+    return d.net_total_m_dollar;
+  });
+  });
