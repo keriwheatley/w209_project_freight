@@ -92,7 +92,7 @@
         <option value='International'> International</option>
         <option value='Africa'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Africa</option>
         <option value='Canada'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Canada</option>
-        <option value='Eastern Asia'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Eastern Asia</option>
+        <option selected="selected" value='Eastern Asia'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Eastern Asia</option>
         <option value='Europe'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Europe</option>
         <option value='Mexico'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mexico</option>
         <option value='Rest of Americas'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rest of Americas</option>
@@ -144,7 +144,7 @@
         <option value='Texas'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Texas</option>
         <option value='West'> West</option>
         <option value='Alaska'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Alaska</option>
-        <option selected="selected" value='California'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; California</option>
+        <option value='California'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; California</option>
         <option value='Colorado'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Colorado</option>
         <option value='Hawaii'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hawaii</option>
         <option value='Idaho'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Idaho</option>
@@ -157,8 +157,8 @@
     </select>
 
     Min. Metric
-    <input id="number" type="number" min="0" max="73991" step="1" value="10000" onchange="document.getElementById('slider').value = this.value">
-    <input id="slider" type="range" min="0" max="73991" step="1" value="10000" onchange="document.getElementById('number').value = this.value">
+    <input id="number" type="number" min="0" max="73991" step="1" value="3699" onchange="document.getElementById('slider').value = this.value">
+    <input id="slider" type="range" min="0" max="73991" step="1" value="3699" onchange="document.getElementById('number').value = this.value">
 
     <button id="run_explore" onclick="myExploreFunction()">Run Explore</button>
 
@@ -589,8 +589,6 @@
     // 2. set the Min. Metric slider value to 0
     function changeMetric(selected_metric) {
         console.log(selected_metric)
-        document.getElementById('number').value = 0;
-        document.getElementById('slider').value = 0;
         var selected_category = d3.select( "#d3-dropdown-category" ).node().value
         console.log(selected_category);
         var selected_year = d3.select( "#d3-dropdown-year" ).node().value
@@ -599,6 +597,9 @@
           return row.category == selected_category;})
         console.log(range)
         var range_number = range[0][selected_metric+'_'+selected_year]-5
+        var range_value = Math.round(range_number/20,0)
+        document.getElementById('number').value = range_value;
+        document.getElementById('slider').value = range_value;
         console.log("Range max: " + range_number)
         document.getElementById('number').max = range_number;
         document.getElementById('slider').max = range_number;
