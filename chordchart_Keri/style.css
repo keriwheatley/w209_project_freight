@@ -1,0 +1,111 @@
+/* Container holding the image and the text */
+.container {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+/* Bottom left text */
+.bottom-left {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+}
+
+/* Top left text */
+.top-left {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+}
+
+/* Top right text */
+.top-right {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+}
+
+/* Bottom right text */
+.bottom-right {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+}
+
+/* Centered text */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+body {
+  font: 26px sans-serif;
+}
+
+#option_box {
+ 
+    background-position: left top;
+    background-repeat: repeat;
+  
+}
+
+
+.group-tick line {
+  stroke: #000;
+  stroke-width: 6px;
+}
+
+.group text {
+  font-size: 14px;
+  font: sans-serif;
+}
+
+.name-label {
+  font-size: 14px;
+  font: sans-serif;
+  text-anchor: middle;
+}
+
+.ribbons {
+  fill-opacity: 0.9;
+}
+
+.ticks {
+  font: 10px sans-serif;
+}
+
+.track,
+.track-inset,
+.track-overlay {
+  stroke-linecap: round;
+}
+
+.track line {
+  stroke: #000;
+  /*fill: #000;
+  /*stroke-opacity: 0.3;*/
+  stroke-width: 10px;
+}
+
+.track-inset {
+  stroke: #ddd;
+  stroke-width: 8px;
+}
+
+.track-overlay {
+  pointer-events: stroke;
+  stroke-width: 50px;
+  stroke: transparent;
+  cursor: crosshair;
+}
+
+.handle {
+  fill: #fff;
+  stroke: #000;
+  stroke-opacity: 0.5;
+  stroke-width: 1.25px;
+}
+
