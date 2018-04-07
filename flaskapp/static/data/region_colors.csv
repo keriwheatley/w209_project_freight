@@ -1,0 +1,60 @@
+type,name,color
+International,INT - AFR,#606060
+International,INT- CAN,#606060
+International,INT - EAS,#606060
+International,INT - EUR,#606060
+International,INT- MEX,#606060
+International,INT - AMS,#606060
+International,INT - SEA,#606060
+International,INT - SWA,#606060
+Midwest,IL,#00CC66
+Midwest,IN,#00CC66
+Midwest,IA,#00CC66
+Midwest,KS,#00CC66
+Midwest,MI,#00CC66
+Midwest,MN,#00CC66
+Midwest,MO,#00CC66
+Midwest,NE,#00CC66
+Midwest,ND,#00CC66
+Midwest,OH,#00CC66
+Midwest,SD,#00CC66
+Midwest,WI,#00CC66
+Northeast,CT,#8A2BE2
+Northeast,ME,#8A2BE2
+Northeast,MA,#8A2BE2
+Northeast,NH,#8A2BE2
+Northeast,NJ,#8A2BE2
+Northeast,NY,#8A2BE2
+Northeast,PA,#8A2BE2
+Northeast,RI,#8A2BE2
+Northeast,VT,#8A2BE2
+Southeast,AL,#FF6666
+Southeast,AR,#FF6666
+Southeast,DE,#FF6666
+Southeast,FL,#FF6666
+Southeast,GA,#FF6666
+Southeast,KY,#FF6666
+Southeast,LA,#FF6666
+Southeast,MD,#FF6666
+Southeast,MS,#FF6666
+Southeast,NC,#FF6666
+Southeast,SC,#FF6666
+Southeast,TN,#FF6666
+Southeast,VA,#FF6666
+Southeast,DC,#FF6666
+Southeast,WV,#FF6666
+Southwest,AZ,#FF9933
+Southwest,NM,#FF9933
+Southwest,OK,#FF9933
+Southwest,TX,#FF9933
+West,AK,#0080FF
+West,CA,#0080FF
+West,CO,#0080FF
+West,HI,#0080FF
+West,ID,#0080FF
+West,MT,#0080FF
+West,NV,#0080FF
+West,OR,#0080FF
+West,UT,#0080FF
+West,WA,#0080FF
+West,WY,#0080FF
