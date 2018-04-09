@@ -353,7 +353,7 @@ function renderBarChart(bars) {
     switch(metric) {
       case "million_dollars":
         console.log("millions of dollars!");
-        bars.plot_opposition_vertical("Millions of Dollars",
+        bars.plot_opposition_vertical("Imports/Exports in Millions of Dollars",
         function(d) {
           return d.value_total_imported;
         }, function(d) {
@@ -364,7 +364,7 @@ function renderBarChart(bars) {
         break;
       case "ktons":
         //console.log("ktons!");
-        bars.plot_opposition_vertical("Thousands of Tons",
+        bars.plot_opposition_vertical("Imports/Exports in Thousands of Tons",
         function(d) {
           return d.tons_total_imported;
         }, function(d) {
@@ -375,7 +375,7 @@ function renderBarChart(bars) {
         break;
       case "ton_miles":
         //console.log("ktons!");
-        bars.plot_opposition_vertical("Ton-Miles",
+        bars.plot_opposition_vertical("Imports/Exports in Ton-Miles",
         function(d) {
           return d.tmiles_total_imported;
         }, function(d) {

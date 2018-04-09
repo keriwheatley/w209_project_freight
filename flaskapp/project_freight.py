@@ -3,9 +3,8 @@ import sqlite3
 from flask import g
 from flask import jsonify
 import pandas as pd
-import properties as prop
 
-# DATABASE = 'sqlite.db'
+DATABASE = 'sqlite.db'
 app = Flask(__name__)
 
 @app.route("/")
@@ -45,7 +44,7 @@ def commodities():
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = sqlite3.connect(prop.DATABASE)
+        db = g._database = sqlite3.connect(DATABASE)
     db.row_factory = sqlite3.Row
     return db
 
