@@ -141,12 +141,13 @@ function render(data, category, metric, metricyear, region, metric_min ) {
     var ribbon = d3.ribbon()
         .radius(innerRadius);
 
-    // Add chordchart to svg
+    // remove and re-add new chordchart
     console.log("render the chordchart!");
-    var g = d3.select("#chords").datum(chord(matrix))
-      .attr("transform", "translate(" + (width * 0.5) + "," + (height* 0.5) + ")"); // center it into its window
-        //.datum(chord(matrix))
-        // .attr("transform", "translate(" + 520 + "," + 530 + ")")
+    d3.select("#chords").remove();
+    var g = d3.select("#chordchart")
+        .append("g").datum(chord(matrix))
+        .attr("id", "chords")
+        .attr("transform", "translate(" + (width * 0.5) + "," + (height* 0.5) + ")"); // center it into its window
 
     // Defines each "group" in the chord diagram
     var group = g.append("g")
