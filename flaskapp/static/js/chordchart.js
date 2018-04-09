@@ -28,23 +28,23 @@
   var svgChart = d3.select("#chordchart");
   var margin = {top: 20, right: 20, bottom: 20, left: 20},
       width = +svgChart.attr("width")  - margin.left - margin.right,
-      height = +svgChart.attr("height") - margin.top - margin.bottom,
-      innerRadius = height / 3;
-      outerRadius = innerRadius + 40;
+      height = +svgChart.attr("height") - margin.top - margin.bottom;
+      // innerRadius = Math.min(height, width) * 0.5 - 40 ;
+      // outerRadius = innerRadius + 40;
 
-  svgChart
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g");
+  // svgChart
+  //   .attr("width", width + margin.left + margin.right)
+  //   .attr("height", height + margin.top + margin.bottom)
+  //   .append("g");
 
 
   function render(data, category, metricyear, region, metric_min ) {
 
     // console.log(metric)
 
-    svgChart
-      .select("g")
-      .remove();
+    // svgChart
+    //   .select("g")
+    //   .remove();
 
     var nest_data = d3.nest()
       .key(function(d) { return (d.orig_type + d.orig_name); }).sortKeys(d3.ascending)

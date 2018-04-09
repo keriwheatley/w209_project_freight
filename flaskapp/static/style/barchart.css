@@ -1,9 +1,16 @@
 
-  .bar {
+  .leftbar {
+    fill: brown;
+  }
+  
+  .title {
+  }
+
+  .rightbar {
     fill: steelblue;
   }
   .bar:hover {
-    fill: brown;
+    fill: gold;
   }
   .axisx path {
     display: none;

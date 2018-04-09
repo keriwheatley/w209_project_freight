@@ -8,6 +8,7 @@
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{{url_for('static',filename='js/config.js')}}"></script>
   </head>
 
   <body >
@@ -15,10 +16,10 @@
       <h1>Movement of Freight Across US Regions</h1>
       <aside>w209 Daniel Balck, Felix Tsui, and Keri Wheatley</aside>
 
-      <div id="charts" style="height: 910px">
+      <div id="charts" style="height: 910px; white-space: nowrap">
         <!--<svg width="1560" height="960" style="float:left"></svg> -->
-        <svg id="chordchart" class="section" style="float: left" width="900" height="900"></svg>
-        <svg id="barchart" class="section" style="float: right" width="500" height="900"></svg>
+        <svg id="chordchart" class="section" preserveAspectRatio="xMaxYMin meet" style="display: inline-block" width="900" height="900"></svg>
+        <svg id="barchart" class="section" style="display: inline-block; " width="500" height="900"></svg>
       </div >
     <div class="section"  id="option_box">
       <b><font size="3">Directions:</font></b>
