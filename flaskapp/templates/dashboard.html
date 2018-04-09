@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style/chordchart.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style/barchart.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{{url_for('static',filename='js/config.js')}}"></script>
+  </head>
+
+  <body >
+    <div class="container">
+      <img src="{{url_for('static',filename='img/temp.jpg')}}" alt="Norway" style="width:100%;">
+    </div>
+    <div style="background-color: #CFCFD0"; id="option_box";>
+
+        <b><font size="5">Directions:</font></b>
+        <b><font size="4">Please choose A) the category of goods, B) the unit of which to view the data, C) the year, D) the location of interest (can be selected at region or state wise level), and E) minimum value filter (dependent on the unit selected). For example, if you select New York as location, you will see only net export / import between New York and other states/region. We have created a few What-If Scenario to illustrate the impact on trade for different goods if certain events were to happen.</font></b>
+
+        <p></p>
+
+        <b><font size="5">Explore Data:</font></b>
+
+        Category:
+        <select id="d3-dropdown-category" onchange="changeCategory(this.value)">
+            <option selected="selected" value='All'>All</option>
+            <option value='Alcoholic beverages'>Alcoholic beverages</option>
+            <option value='Animal feed'>Animal feed</option>
+            <option value='Articles-base metal'>Articles-base metal</option>
+            <option value='Base metals'>Base metals</option>
+            <option value='Basic chemicals'>Basic chemicals</option>
+            <option value='Building stone'>Building stone</option>
+            <option value='Cereal grains'>Cereal grains</option>
+            <option value='Chemical prods.'>Chemical prods.</option>
+            <option value='Coal'>Coal</option>
+            <option value='Coal-n.e.c.'>Coal-n.e.c.</option>
+            <option value='Crude petroleum'>Crude petroleum</option>
+            <option value='Electronics'>Electronics</option>
+            <option value='Fertilizers'>Fertilizers</option>
+            <option value='Fuel oils'>Fuel oils</option>
+            <option value='Furniture'>Furniture</option>
+            <option value='Gasoline'>Gasoline</option>
+            <option value='Gravel'>Gravel</option>
+            <option value='Live animals/fish'>Live animals/fish</option>
+            <option value='Logs'>Logs</option>
+            <option value='Machinery'>Machinery</option>
+            <option value='Meat/seafood'>Meat/seafood</option>
+            <option value='Metallic ores'>Metallic ores</option>
+            <option value='Milled grain prods.'>Milled grain prods.</option>
+            <option value='Misc. mfg. prods.'>Misc. mfg. prods.</option>
+            <option value='Mixed freight'>Mixed freight</option>
+            <option value='Motorized vehicles'>Motorized vehicles</option>
+            <option value='Natural sands'>Natural sands</option>
+            <option value='Newsprint/paper'>Newsprint/paper</option>
+            <option value='Nonmetal min. prods.'>Nonmetal min. prods.</option>
+            <option value='Nonmetallic minerals'>Nonmetallic minerals</option>
+            <option value='Other ag prods.'>Other ag prods.</option>
+            <option value='Other foodstuffs'>Other foodstuffs</option>
+            <option value='Paper articles'>Paper articles</option>
+            <option value='Pharmaceuticals'>Pharmaceuticals</option>
+            <option value='Plastics/rubber'>Plastics/rubber</option>
+            <option value='Precision instruments'>Precision instruments</option>
+            <option value='Printed prods.'>Printed prods.</option>
+            <option value='Textiles/leather'>Textiles/leather</option>
+            <option value='Tobacco prods.'>Tobacco prods.</option>
+            <option value='Transport equip.'>Transport equip.</option>
+            <option value='Unknown'>Unknown</option>
+            <option value='Waste/scrap'>Waste/scrap</option>
+            <option value='Wood prods.'>Wood prods.</option>
+        </select>
+
+        Metric:
+        <select id="d3-dropdown-metric" onchange="changeMetric(this.value)">
+            <option value='million_dollars'>Value in Million Dollars</option>
+            <option value='ktons'>Weight in Kilotons</option>
+            <option value='ton_miles'>Work in Ton-Miles</option>
+        </select>
+
+        Year:
+        <select id="d3-dropdown-year">
+            <option value='2012'>2012</option>
+            <option value='2013'>2013</option>
+            <option value='2014'>2014</option>
+            <option value='2015'>2015</option>
+        </select>
+
+        Location:
+        <select id="d3-dropdown-region">
+            <option value='International'> International</option>
+            <option value='Africa'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Africa</option>
+            <option value='Canada'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Canada</option>
+            <option selected="selected" value='Eastern Asia'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Eastern Asia</option>
+            <option value='Europe'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Europe</option>
+            <option value='Mexico'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mexico</option>
+            <option value='Rest of Americas'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rest of Americas</option>
+            <option value='SE Asia & Oceania'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SE Asia & Oceania</option>
+            <option value='SW & Central Asia'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SW & Central Asia</option>
+            <option value='Midwest'> Midwest</option>
+            <option value='Illinois'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Illinois</option>
+            <option value='Indiana'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Indiana</option>
+            <option value='Iowa'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Iowa</option>
+            <option value='Kansas'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kansas</option>
+            <option value='Michigan'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Michigan</option>
+            <option value='Minnesota'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Minnesota</option>
+            <option value='Missouri'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Missouri</option>
+            <option value='Nebraska'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Nebraska</option>
+            <option value='North Dakota'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; North Dakota</option>
+            <option value='Ohio'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ohio</option>
+            <option value='South Dakota'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; South Dakota</option>
+            <option value='Wisconsin'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wisconsin</option>
+            <option value='Northeast'> Northeast</option>
+            <option value='Connecticut'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Connecticut</option>
+            <option value='Maine'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Maine</option>
+            <option value='Massachusetts'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Massachusetts</option>
+            <option value='New Hampshire'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; New Hampshire</option>
+            <option value='New Jersey'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; New Jersey</option>
+            <option value='New York'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; New York</option>
+            <option value='Pennsylvania'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pennsylvania</option>
+            <option value='Rhode Island'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rhode Island</option>
+            <option value='Vermont'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Vermont</option>
+            <option value='Southeast'> Southeast</option>
+            <option value='Alabama'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Alabama</option>
+            <option value='Arkansas'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arkansas</option>
+            <option value='Delaware'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Delaware</option>
+            <option value='Florida'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Florida</option>
+            <option value='Georgia'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Georgia</option>
+            <option value='Kentucky'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kentucky</option>
+            <option value='Louisiana'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Louisiana</option>
+            <option value='Maryland'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Maryland</option>
+            <option value='Mississippi'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mississippi</option>
+            <option value='North Carolina'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; North Carolina</option>
+            <option value='South Carolina'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; South Carolina</option>
+            <option value='Tennessee'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tennessee</option>
+            <option value='Virginia'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Virginia</option>
+            <option value='Washington DC'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Washington DC</option>
+            <option value='West Virginia'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; West Virginia</option>
+            <option value='Southwest'> Southwest</option>
+            <option value='Arizona'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arizona</option>
+            <option value='New Mexico'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; New Mexico</option>
+            <option value='Oklahoma'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Oklahoma</option>
+            <option value='Texas'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Texas</option>
+            <option value='West'> West</option>
+            <option value='Alaska'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Alaska</option>
+            <option value='California'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; California</option>
+            <option value='Colorado'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Colorado</option>
+            <option value='Hawaii'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hawaii</option>
+            <option value='Idaho'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Idaho</option>
+            <option value='Montana'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Montana</option>
+            <option value='Nevada'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Nevada</option>
+            <option value='Oregon'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Oregon</option>
+            <option value='Utah'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Utah</option>
+            <option value='Washington'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Washington</option>
+            <option value='Wyoming'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wyoming</option>
+        </select>
+
+        Min. Metric
+        <input id="number" type="number" min="0" max="73991" step="1" value="3699" onchange="document.getElementById('slider').value = this.value">
+        <input id="slider" type="range" min="0" max="73991" step="1" value="3699" onchange="document.getElementById('number').value = this.value">
+
+        <button id="run_explore" onclick="myExploreFunction()">Run Explore</button>
+
+        <p></p>
+        <b><font size="3">What-If Scenarios:</font></b>
+        <select id="d3-dropdown-scenario">
+            <option value='none'></option>
+            <option value='nafta'>End of NAFTA Trade Agreement</option>
+            <option value='tariff'>Tariff On Metals</option>
+            <option value='natural_disaster'>Natural Disaster in Oregon</option>
+            <option value='electronics'>New tax on electronic goods</option>
+        </select>
+        <button id="master" onclick="myScenarioFunction()">Run Scenario</button>
+    </div>
+    <div>
+      <div id="charts" style=" white-space: nowrap">
+        <!--<svg width="1560" height="960" style="float:left"></svg> -->
+        <svg id="chordchart" class="section" preserveAspectRatio="xMaxYMin meet" style="display: inline-block" width="1000" height="1000"></svg>
+        <svg id="barchart" class="section" style="display: inline-block; " width="500" height="1000"></svg>
+      </div >
+      <div id="description">
+      </div>
+    </div>
+    <script src="{{url_for('static',filename='js/chordchart.js')}}"></script>
+    <script src="{{url_for('static',filename='js/barchart.js')}}"></script>
+      <!--<script src="/js/chordchart.js"></script>
+      <script src="/js/barchart.js"></script> -->
+    </body>
+  </html>
