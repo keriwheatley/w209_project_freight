@@ -72,7 +72,7 @@ var svgChart = d3.select("#chordchart").append("g").attr("id", "chords");
 // START This code creates the function that renders the chortchart
 /////////////////////////////
 
-function render(data, category, year, metric, metricyear, region, metric_min ) {
+function render( explore_scenario_type, data, category, year, metric, metricyear, region, metric_min ) {
 
     // Remove previous rendered chortchart
     // svgChart
@@ -181,25 +181,33 @@ function render(data, category, year, metric, metricyear, region, metric_min ) {
         .data(selected_state_data)
         .attr("class", "descript")
         .text(function(d){
-          var str = "The net export for region " + region;
-          str += " in the category "+ category;
-          str += " for the year " + year + " was ";
-            var temp=0;
-            for (var i=0;i<59;i++) {
-                temp=temp-parseFloat(d.values[i].value);
-            }
-            var formatDecimalComma = d3.format(",.0f")
-            if (metric == 'million_dollars'){
-                if (Math.sign(temp)==-1){var sign = '-'}
-                else {var sign = ''}
-                var amount = formatDecimalComma(Math.abs(Math.round(temp)))
-                str += sign +"$" + amount + "M."}
-            if (metric == 'ton_miles'){
-                var amount = formatDecimalComma(Math.round(temp))
-                str += amount + " ton-miles."}
-            if (metric == 'ktons'){
-                var amount = formatDecimalComma(Math.round(temp))
-                str += amount + " kilotons."}
+            if (explore_scenario_type == 'explore') {
+                var str = "The net export for region " + region;
+                str += " in the category "+ category;
+                str += " for the year " + year + " was ";
+                    var temp=0;
+                    for (var i=0;i<59;i++) {
+                        temp=temp-parseFloat(d.values[i].value);
+                    }
+                    var formatDecimalComma = d3.format(",.0f")
+                    if (metric == 'million_dollars'){
+                        if (Math.sign(temp)==-1){var sign = '-'}
+                        else {var sign = ''}
+                        var amount = formatDecimalComma(Math.abs(Math.round(temp)))
+                        str += sign +"$" + amount + "M."}
+                    if (metric == 'ton_miles'){
+                        var amount = formatDecimalComma(Math.round(temp))
+                        str += amount + " ton-miles."}
+                    if (metric == 'ktons'){
+                        var amount = formatDecimalComma(Math.round(temp))
+                        str += amount + " kilotons."}};
+            if (explore_scenario_type == 'nafta') {var str = "nafta blah blah"};
+            if (explore_scenario_type == 'tariff') {var str = "Tariffs blah blah"};
+            if (explore_scenario_type == 'natural_disaster') {
+                var str = "Though Oregon may look like a small player in the "
+                str += " import and export business (with net imports totaling "
+                str += " -$1,010M in 2015) blah blah"};
+            if (explore_scenario_type == 'electronics') {var str = "Electronics blah blah"}
           return str
 
       });
@@ -371,13 +379,13 @@ function render(data, category, year, metric, metricyear, region, metric_min ) {
 /////////////////////////////
 
 // Get all the filter values and call render chordchart function
-function select() {
+function select(explore_scenario_type) {
     var category = d3.select( "#d3-dropdown-category" ).node().value
     var year = d3.select( "#d3-dropdown-year" ).node().value
     var metric = d3.select( "#d3-dropdown-metric" ).node().value
     var region = d3.select( "#d3-dropdown-region" ).node().value
     var metric_min = document.getElementById("number").value
-    render( imports, category, year, metric, metric+'_'+year, region, metric_min );
+    render( explore_scenario_type, imports, category, year, metric, metric+'_'+year, region, metric_min );
     console.log( category );
     console.log( metric+'_'+year );
     console.log( region )
@@ -387,7 +395,7 @@ function select() {
 // If Explore Data option is run, reset What-If Scenarios to empty
 function myExploreFunction() {
   document.getElementById('d3-dropdown-scenario').value = 'none';
-  select()
+  select("explore")
 }
 
 // If What-If Scenarios  option is run, change the filters for the Explore Data section
@@ -400,7 +408,7 @@ function myScenarioFunction() {
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
         document.getElementById('number').value = 1000;
         document.getElementById('slider').value = 1000;
-        select();}
+        select(scenario_type);}
     else if (scenario_type=='tariff') {
         document.getElementById('d3-dropdown-category').value = 'All';
         document.getElementById('d3-dropdown-region').value = 'Eastern Asia';
@@ -408,7 +416,7 @@ function myScenarioFunction() {
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
         document.getElementById('number').value = 1000;
         document.getElementById('slider').value = 1000;
-        select();}
+        select(scenario_type);}
     else if (scenario_type=='natural_disaster') {
         document.getElementById('d3-dropdown-category').value = 'All';
         document.getElementById('d3-dropdown-region').value = 'Oregon';
@@ -416,7 +424,7 @@ function myScenarioFunction() {
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
         document.getElementById('number').value = 1000;
         document.getElementById('slider').value = 1000;
-        select();}
+        select(scenario_type);}
     else if (scenario_type=='electronics') {
         document.getElementById('d3-dropdown-category').value = 'Electronics';
         document.getElementById('d3-dropdown-region').value = 'International';
@@ -424,7 +432,7 @@ function myScenarioFunction() {
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
         document.getElementById('number').value = 5000;
         document.getElementById('slider').value = 5000;
-        select();}
+        select(scenario_type);}
     else {console.log("Do nothing")}
 };
 
@@ -477,7 +485,7 @@ function changeMetric(selected_metric) {
 
 // Create initial chordchart
 // There is an added 1 second delay so data can load first
-setTimeout(func, 2000);
+setTimeout(func, 500);
 function func() {
     console.log('Load initial chordchart');
     document.getElementById('run_explore').click();
