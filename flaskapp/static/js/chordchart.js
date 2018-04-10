@@ -8,7 +8,7 @@ var imports = [];
 var lookup = [];
 d3.csv("/static/data/summed_data.csv", function(error, data){
     d3.csv("/static/data/default_data.csv", function(error, default_data){
-        d3.csv("/static/data/region_legend.csv", function(error, region_data){
+        d3.csv("/static/data/lookup_states.csv", function(error, region_data){
             if (error) {
                 console.log(error);
             return error;}
@@ -28,25 +28,19 @@ d3.csv("/static/data/category_min_metric_range.csv", function(error, data){
     category_range = data;
     console.log(category_range);
 });
+
+// 4. Legend for regions
+var legendVals = []
+d3.csv("/static/data/legend.csv", function(error, data){
+    if (error) {
+        console.log(error);
+        return error;}
+    legendVals = data;
+});
+
 /////////////////////////////
 // END code
 /////////////////////////////
-
-
-// legendVals = d3.set(lookup.map( function(d) { return d.type,d.color } ) ).keys()
-
-// console.log(legendVals)
-// var legend5 = d3.select('.legend5').selectAll("legend")
-//     .data(legendVals)
-
-// legend5.enter().append("div")
-// .attr("class","legends5")
-
-// var p = legend5.append("p").attr("class","country-name")
-// p.append("span").attr("class","key-dot")
-//     .style("background",function(d,i) { return color(i) } ) 
-// p.insert("text").text(function(d,i) { return d } ) 
-
 
 /////////////////////////////
 // START Set up margin values and create SVG
@@ -511,10 +505,27 @@ function changeMetric(selected_metric) {
 // to render the chord chart
 /////////////////////////////
 
+
 // Create initial chordchart
 // There is an added 1 second delay so data can load first
 setTimeout(func, 1500);
 function func() {
+
+    console.log("Load legend")
+
+    var legend5 = d3.select('.legend5').selectAll("legend")
+    .data(legendVals)
+
+    legend5.enter().append("div")
+    .attr("class","legends5")
+
+    var p = legend5.append("p").attr("class","country-name")
+    p.append("span").attr("class","key-dot")
+    .style("background",function(d,i) { return d.color } ) 
+    p.insert("text").text(function(d,i) { return d.type } ) 
+    console.log()
+    console.log("end test")
+
     console.log('Load initial chordchart');
     document.getElementById('run_explore').click();
 }
