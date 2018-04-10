@@ -72,7 +72,7 @@ var svgChart = d3.select("#chordchart").append("g").attr("id", "chords");
 // START This code creates the function that renders the chortchart
 /////////////////////////////
 
-function render(data, category, metric, metricyear, region, metric_min ) {
+function render(data, category, year, metric, metricyear, region, metric_min ) {
 
     // Remove previous rendered chortchart
     // svgChart
@@ -175,18 +175,33 @@ function render(data, category, metric, metricyear, region, metric_min ) {
       .style("stroke", function(d){ return lookup[d.source.index].color;})
       .style("opacity", 0.01);
 
-    var description = d3.select("#description").selectAll("p").remove()
-    d3.select("#description").append("p")
-      .data(selected_state_data)
-      .attr("class", "descript")
-      .text(function(d){
-          var str = "With " + region + " as the region of interest, ";
-          str += "the net export for category "+ category;
+    var description = d3.select("#description")
+        .selectAll("p").remove()
+        d3.select("#description").append("p")
+        .data(selected_state_data)
+        .attr("class", "descript")
+        .text(function(d){
+          var str = "The net export for region " + region;
+          str += " in the category "+ category;
+          str += " for the year " + year + " was ";
             var temp=0;
             for (var i=0;i<59;i++) {
                 temp=temp-parseFloat(d.values[i].value);
             }
-          return str + " is " + Math.round(temp) + " " +metricyear;
+            var formatDecimalComma = d3.format(",.0f")
+            if (metric == 'million_dollars'){
+                if (Math.sign(temp)==-1){var sign = '-'}
+                else {var sign = ''}
+                var amount = formatDecimalComma(Math.abs(Math.round(temp)))
+                str += sign +"$" + amount + "M."}
+            if (metric == 'ton_miles'){
+                var amount = formatDecimalComma(Math.round(temp))
+                str += amount + " ton-miles."}
+            if (metric == 'ktons'){
+                var amount = formatDecimalComma(Math.round(temp))
+                str += amount + " kilotons."}
+          return str
+
       });
 
     // /////////////////////////////
@@ -362,7 +377,7 @@ function select() {
     var metric = d3.select( "#d3-dropdown-metric" ).node().value
     var region = d3.select( "#d3-dropdown-region" ).node().value
     var metric_min = document.getElementById("number").value
-    render( imports, category, metric, metric+'_'+year, region, metric_min );
+    render( imports, category, year, metric, metric+'_'+year, region, metric_min );
     console.log( category );
     console.log( metric+'_'+year );
     console.log( region )
