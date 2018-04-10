@@ -183,16 +183,16 @@
         <button id="master" onclick="myScenarioFunction()">Run Scenario</button>
     </div>
     <div>
-      <div id="charts" style=" white-space: nowrap">
+      <div class='graphs' id="charts">
         <!--<svg width="1560" height="960" style="float:left"></svg> -->
-        <svg id="chordchart" class="section" preserveAspectRatio="xMaxYMin meet" style="display: inline-block" width="1000" height="1000"></svg>
-        <svg id="barchart" class="section" style="display: inline-block; " width="500" height="1000"></svg>
+        <svg id="chordchart" class="section" preserveAspectRatio="xMaxYMin meet" width="1000" height="1000"></svg>
+        <br>
+        <svg id="barchart" class="section" width="500" height="1000"></svg>
       </div >
       <div id="description">
       </div>
     </div>
     <script src="{{url_for('static',filename='js/chordchart.js')}}"></script>
-    <font></font>
     <script src="{{url_for('static',filename='js/barchart.js')}}"></script>
       <!--<script src="/js/chordchart.js"></script>
       <script src="/js/barchart.js"></script> -->
