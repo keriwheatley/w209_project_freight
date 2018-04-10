@@ -1,4 +1,3 @@
-
 /////////////////////////////
 // START This code loads the data from 3 csv documents into 3 variables:
 /////////////////////////////
@@ -32,6 +31,21 @@ d3.csv("/static/data/category_min_metric_range.csv", function(error, data){
 /////////////////////////////
 // END code
 /////////////////////////////
+
+
+// legendVals = d3.set(lookup.map( function(d) { return d.type,d.color } ) ).keys()
+
+// console.log(legendVals)
+// var legend5 = d3.select('.legend5').selectAll("legend")
+//     .data(legendVals)
+
+// legend5.enter().append("div")
+// .attr("class","legends5")
+
+// var p = legend5.append("p").attr("class","country-name")
+// p.append("span").attr("class","key-dot")
+//     .style("background",function(d,i) { return color(i) } ) 
+// p.insert("text").text(function(d,i) { return d } ) 
 
 
 /////////////////////////////
@@ -499,7 +513,7 @@ function changeMetric(selected_metric) {
 
 // Create initial chordchart
 // There is an added 1 second delay so data can load first
-setTimeout(func, 500);
+setTimeout(func, 1500);
 function func() {
     console.log('Load initial chordchart');
     document.getElementById('run_explore').click();

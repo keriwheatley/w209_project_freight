@@ -43,3 +43,7 @@
     flex-direction: column;
     white-space: nowrap;
 }
+
+.chord_info {
+    padding: 0 40px;
+}
