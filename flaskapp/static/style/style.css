@@ -31,18 +31,15 @@
     background-color: white;
     position: relative;
     text-align: center;
-    color: white;
 }
 
 .section {
     margin: auto;
     display: inline-block;
 }
-/*style=" margin: auto; "*/
 
 .graphs {
     display: flex;
     flex-direction: column;
     white-space: nowrap;
 }
-/*style="display: inline-block flex-direction: column;"*/
