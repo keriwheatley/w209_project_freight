@@ -1,0 +1,35 @@
+.title {
+    padding: 200px 40px 200px 40px;
+    background-color: white;
+    position: relative;
+    text-align: center;
+/*    color: white;*/
+}
+
+.intro {
+    padding: 200px 40px 200px 40px;
+    background-color: #6699FF;
+}
+
+.direction {
+    margin: 35px;
+    border-radius: 10px;
+    border: 3px solid black;
+    padding: 20px;
+}
+
+.conclusion {
+    padding: 200px 40px 200px 40px;
+    background-color: #7ccd7c;
+    position: relative;
+    text-align: center;
+/*    color: white;*/
+}
+
+.team {
+    padding: 200px 40px 200px 40px;
+    background-color: white;
+    position: relative;
+    text-align: center;
+/*    color: white;*/
+}
