@@ -183,17 +183,47 @@
         <button id="master" onclick="myScenarioFunction()">Run Scenario</button>
     </div>
     <div class='chord_info'>
-        <font>Hover over each ribbon for flow information. Ribbon color identifies the freight origin.</font>
+        <font size="4">Hover over each ribbon for flow information. Ribbon color identifies the freight origin.</font>
     </div>
+
     <div class="legend">
-        <font>Legend goes here</font>
+        <b><font size="5">&nbsp;&nbsp;&nbsp;Legend&nbsp;&nbsp;&nbsp;</font></b>
+        <br>
+        <div class="legend_box international">
+            <font size="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;International</font>
+        </div>
+        <br>
+        <br>
+        <div class="legend_box midwest">
+            <font size="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Midwest</font>
+        </div>
+        <br>
+        <br>
+        <div class="legend_box northeast">
+            <font size="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Northeast</font>
+        </div>
+        <br>
+        <br>
+        <div class="legend_box southeast">
+            <font size="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Southeast</font>
+        </div>
+        <br>
+        <br>
+        <div class="legend_box southwest">
+            <font size="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Southwest</font>
+        </div>
+        <br>
+        <br>
+        <div class="legend_box west">
+            <font size="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;West</font>
+        </div>
     </div>
-    <br>
+
     <div>
       <div class='graphs' id="charts">
         <!--<svg width="1560" height="960" style="float:left"></svg> -->
-        <svg id="chordchart" class="section" preserveAspectRatio="xMaxYMin meet" width="1200" height="1000"></svg>
-        <br>
+        <svg id="chordchart" class="section" preserveAspectRatio="xMaxYMin meet" width="1200" height="1000">
+        </svg>
         <svg id="barchart" class="section" width="500" height="1000"></svg>
       </div >
       <div id="description">

@@ -12,7 +12,7 @@
 }
 
 .direction {
-    margin: 35px;
+    margin: 35px 35px 10px 35px;
     border-radius: 10px;
     border: 3px solid black;
     padding: 20px;
@@ -34,7 +34,7 @@
 }
 
 .section {
-    margin: auto;
+    /*margin: auto;*/
     display: inline-block;
     padding: 0 40px;
 }
@@ -50,8 +50,39 @@
 }
 
 .legend {
-    padding: 0 40px;
+    margin: 10px 35px;
     float:left;
-    margin-right: 1em;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.legend_box {
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  border: 1px solid black;
+}
+
+.international {
+  background: #606060;
+}
+
+.west {
+  background: #0080FF;
+}
+
+.midwest {
+  background: #00CC66;
+}
+.northeast {
+  background: #8A2BE2;
+}
+.southeast {
+  background: #FF6666;
+}
+.southwest {
+  background: #FF9933;
 }
 
