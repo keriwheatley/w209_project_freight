@@ -395,7 +395,11 @@ function renderBarChart(bars) {
 var bars = lib.barChartModule();
 renderBarChart(bars);
 
-d3.select("#master").on("click", function() {
+d3.select("#run_explore").on("click", function() {
+    renderBarChart(bars);
+});
+
+d3.select("#scenario").on("click", function() {
     renderBarChart(bars);
 });
 // data = d3.json("/states").json();
