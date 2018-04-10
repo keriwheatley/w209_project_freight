@@ -74,8 +74,6 @@ var svgChart = d3.select("#chordchart").append("g").attr("id", "chords");
 // END code
 /////////////////////////////
 
-
-
 /////////////////////////////
 // START This code creates the function that renders the chortchart
 /////////////////////////////
@@ -511,20 +509,20 @@ function changeMetric(selected_metric) {
 setTimeout(func, 1500);
 function func() {
 
-    console.log("Load legend")
+    // console.log("Load legend")
 
-    var legend5 = d3.select('.legend5').selectAll("legend")
-    .data(legendVals)
+    // var legend5 = d3.select('.legend5').selectAll("legend")
+    // .data(legendVals)
 
-    legend5.enter().append("div")
-    .attr("class","legends5")
+    // legend5.enter().append("div")
+    // .attr("class","legend5")
 
-    var p = legend5.append("p").attr("class","country-name")
-    p.append("span").attr("class","key-dot")
-    .style("background",function(d,i) { return d.color } ) 
-    p.insert("text").text(function(d,i) { return d.type } ) 
-    console.log()
-    console.log("end test")
+    // var p = legend5.append("p").attr("class","country-name")
+    // p.append("span").attr("class","key-dot")
+    // .style("background",function(d,i) { return d.color } ) 
+    // p.insert("text").text(function(d,i) { return d.type } ) 
+    // console.log()
+    // console.log("end test")
 
     console.log('Load initial chordchart');
     document.getElementById('run_explore').click();
