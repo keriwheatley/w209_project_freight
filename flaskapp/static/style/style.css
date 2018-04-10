@@ -1,0 +1,56 @@
+.title {
+    padding: 200px 40px 200px 40px;
+    background-color: white;
+    position: relative;
+    text-align: center;
+/*    color: white;*/
+}
+
+.intro {
+    padding: 200px 40px 200px 40px;
+    background-color: #6699FF;
+}
+
+.direction {
+    margin: 35px;
+    border-radius: 10px;
+    border: 3px solid black;
+    padding: 20px;
+}
+
+.conclusion {
+    padding: 200px 40px 200px 40px;
+    background-color: #7ccd7c;
+    position: relative;
+    text-align: center;
+/*    color: white;*/
+}
+
+.team {
+    padding: 200px 40px 200px 40px;
+    background-color: white;
+    position: relative;
+    text-align: center;
+}
+
+.section {
+    margin: auto;
+    display: inline-block;
+}
+
+.graphs {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+}
+
+.chord_info {
+    padding: 0 40px;
+}
+
+.legend5 {
+    padding: 0 40px;
+    float:left;
+    margin-right: 1em;
+}
+

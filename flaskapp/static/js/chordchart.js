@@ -1,4 +1,3 @@
-
 /////////////////////////////
 // START This code loads the data from 3 csv documents into 3 variables:
 /////////////////////////////
@@ -9,7 +8,7 @@ var imports = [];
 var lookup = [];
 d3.csv("/static/data/summed_data.csv", function(error, data){
     d3.csv("/static/data/default_data.csv", function(error, default_data){
-        d3.csv("/static/data/region_legend.csv", function(error, region_data){
+        d3.csv("/static/data/lookup_states.csv", function(error, region_data){
             if (error) {
                 console.log(error);
             return error;}
@@ -29,10 +28,19 @@ d3.csv("/static/data/category_min_metric_range.csv", function(error, data){
     category_range = data;
     console.log(category_range);
 });
+
+// 4. Legend for regions
+var legendVals = []
+d3.csv("/static/data/legend.csv", function(error, data){
+    if (error) {
+        console.log(error);
+        return error;}
+    legendVals = data;
+});
+
 /////////////////////////////
 // END code
 /////////////////////////////
-
 
 /////////////////////////////
 // START Set up margin values and create SVG
@@ -72,7 +80,7 @@ var svgChart = d3.select("#chordchart").append("g").attr("id", "chords");
 // START This code creates the function that renders the chortchart
 /////////////////////////////
 
-function render(data, category, metric, metricyear, region, metric_min ) {
+function render( explore_scenario_type, data, category, year, metric, metricyear, region, metric_min ) {
 
     // Remove previous rendered chortchart
     // svgChart
@@ -175,20 +183,6 @@ function render(data, category, metric, metricyear, region, metric_min ) {
       .style("stroke", function(d){ return lookup[d.source.index].color;})
       .style("opacity", 0.01);
 
-    var description = d3.select("#description").selectAll("p").remove()
-    d3.select("#description").append("p")
-      .data(selected_state_data)
-      .attr("class", "descript")
-      .text(function(d){
-          var str = "With " + region + " as the region of interest, ";
-          str += "the net export for category "+ category;
-            var temp=0;
-            for (var i=0;i<59;i++) {
-                temp=temp-parseFloat(d.values[i].value);
-            }
-          return str + " is " + Math.round(temp) + " " +metricyear;
-      });
-
     // /////////////////////////////
     // // START This code builds a list of the top 10 largest states in the chordchart.
     // // The variable relevant states is used to show state names in the chordchart.
@@ -243,8 +237,17 @@ function render(data, category, metric, metricyear, region, metric_min ) {
     // /////////////////////////////
 
     // Set color on ribbons for currently selected state
+    var total_net = 0
     ribbons
         .filter(function(row) {
+            if (lookup[row.source.index].type == region
+                || lookup[row.source.index].name == region) {
+                total_net += row.source.value
+            };
+            if (lookup[row.target.index].type == region
+                || lookup[row.target.index].name == region) {
+                total_net -= row.target.value
+            };
             // if (lookup[row.source.index].type == region || lookup[row.source.index].name == region){
                 // relevant_states.push(lookup[row.source.index].type + lookup[row.source.index].name);
                 // relevant_states.push(lookup[row.target.index].type + lookup[row.target.index].name); }
@@ -276,6 +279,48 @@ function render(data, category, metric, metricyear, region, metric_min ) {
                     return "Flow Info:\n" + lookup[d.source.index].name + " → " + lookup[d.target.index].name + ": " + tooltip_value;});
         })
         .on("mouseout", function (d, i) {d3.select(this).style("opacity", 0.6); });
+    console.log(total_net);
+
+
+    var description = d3.select("#description")
+        .selectAll("p").remove()
+        d3.select("#description").append("p")
+        .data(selected_state_data)
+        .attr("class", "descript")
+        .text(function(d){
+            if (explore_scenario_type == 'explore') {
+                var str = "The net export for region " + region;
+                str += " in the category "+ category;
+                str += " for the year " + year + " was ";
+                    // var temp=0;
+                    // for (var i=0;i<59;i++) {
+                        // temp=temp-parseFloat(d.values[i].value);
+                        // console.log("Here")
+                        // console.log(temp);
+                    // }
+                    var formatDecimalComma = d3.format(",.2f")
+                    if (metric == 'million_dollars'){
+                        if (Math.sign(total_net)==-1){var sign = '-'}
+                        else {var sign = ''}
+                        var amount = formatDecimalComma(Math.abs(total_net))
+                        str += sign +"$" + amount + "M."}
+                    if (metric == 'ton_miles'){
+                        var amount = formatDecimalComma(total_net)
+                        str += amount + " ton-miles."}
+                    if (metric == 'ktons'){
+                        var amount = formatDecimalComma(total_net)
+                        str += amount + " kilotons."}};
+            if (explore_scenario_type == 'nafta') {var str = "nafta blah blah"};
+            if (explore_scenario_type == 'tariff') {var str = "Tariffs blah blah"};
+            if (explore_scenario_type == 'natural_disaster') {
+                var str = "Though Oregon may look like a small player in the "
+                str += " import and export business (with net imports totaling "
+                str += " -$1,010M in 2015) blah blah"};
+            if (explore_scenario_type == 'electronics') {var str = "Electronics blah blah"}
+          return str
+
+      });
+
 
     // Add labels to each state
     group.append("text")
@@ -356,13 +401,13 @@ function render(data, category, metric, metricyear, region, metric_min ) {
 /////////////////////////////
 
 // Get all the filter values and call render chordchart function
-function select() {
+function select(explore_scenario_type) {
     var category = d3.select( "#d3-dropdown-category" ).node().value
     var year = d3.select( "#d3-dropdown-year" ).node().value
     var metric = d3.select( "#d3-dropdown-metric" ).node().value
     var region = d3.select( "#d3-dropdown-region" ).node().value
     var metric_min = document.getElementById("number").value
-    render( imports, category, metric, metric+'_'+year, region, metric_min );
+    render( explore_scenario_type, imports, category, year, metric, metric+'_'+year, region, metric_min );
     console.log( category );
     console.log( metric+'_'+year );
     console.log( region )
@@ -372,7 +417,7 @@ function select() {
 // If Explore Data option is run, reset What-If Scenarios to empty
 function myExploreFunction() {
   document.getElementById('d3-dropdown-scenario').value = 'none';
-  select()
+  select("explore")
 }
 
 // If What-If Scenarios  option is run, change the filters for the Explore Data section
@@ -385,7 +430,7 @@ function myScenarioFunction() {
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
         document.getElementById('number').value = 1000;
         document.getElementById('slider').value = 1000;
-        select();}
+        select(scenario_type);}
     else if (scenario_type=='tariff') {
         document.getElementById('d3-dropdown-category').value = 'All';
         document.getElementById('d3-dropdown-region').value = 'Eastern Asia';
@@ -393,7 +438,7 @@ function myScenarioFunction() {
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
         document.getElementById('number').value = 1000;
         document.getElementById('slider').value = 1000;
-        select();}
+        select(scenario_type);}
     else if (scenario_type=='natural_disaster') {
         document.getElementById('d3-dropdown-category').value = 'All';
         document.getElementById('d3-dropdown-region').value = 'Oregon';
@@ -401,7 +446,7 @@ function myScenarioFunction() {
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
         document.getElementById('number').value = 1000;
         document.getElementById('slider').value = 1000;
-        select();}
+        select(scenario_type);}
     else if (scenario_type=='electronics') {
         document.getElementById('d3-dropdown-category').value = 'Electronics';
         document.getElementById('d3-dropdown-region').value = 'International';
@@ -409,7 +454,7 @@ function myScenarioFunction() {
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
         document.getElementById('number').value = 5000;
         document.getElementById('slider').value = 5000;
-        select();}
+        select(scenario_type);}
     else {console.log("Do nothing")}
 };
 
@@ -460,10 +505,27 @@ function changeMetric(selected_metric) {
 // to render the chord chart
 /////////////////////////////
 
+
 // Create initial chordchart
 // There is an added 1 second delay so data can load first
-setTimeout(func, 2000);
+setTimeout(func, 1500);
 function func() {
+
+    console.log("Load legend")
+
+    var legend5 = d3.select('.legend5').selectAll("legend")
+    .data(legendVals)
+
+    legend5.enter().append("div")
+    .attr("class","legends5")
+
+    var p = legend5.append("p").attr("class","country-name")
+    p.append("span").attr("class","key-dot")
+    .style("background",function(d,i) { return d.color } ) 
+    p.insert("text").text(function(d,i) { return d.type } ) 
+    console.log()
+    console.log("end test")
+
     console.log('Load initial chordchart');
     document.getElementById('run_explore').click();
 }
