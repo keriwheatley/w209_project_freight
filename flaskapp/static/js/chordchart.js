@@ -175,43 +175,6 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
       .style("stroke", function(d){ return lookup[d.source.index].color;})
       .style("opacity", 0.01);
 
-    var description = d3.select("#description")
-        .selectAll("p").remove()
-        d3.select("#description").append("p")
-        .data(selected_state_data)
-        .attr("class", "descript")
-        .text(function(d){
-            if (explore_scenario_type == 'explore') {
-                var str = "The net export for region " + region;
-                str += " in the category "+ category;
-                str += " for the year " + year + " was ";
-                    var temp=0;
-                    for (var i=0;i<59;i++) {
-                        temp=temp-parseFloat(d.values[i].value);
-                    }
-                    var formatDecimalComma = d3.format(",.0f")
-                    if (metric == 'million_dollars'){
-                        if (Math.sign(temp)==-1){var sign = '-'}
-                        else {var sign = ''}
-                        var amount = formatDecimalComma(Math.abs(Math.round(temp)))
-                        str += sign +"$" + amount + "M."}
-                    if (metric == 'ton_miles'){
-                        var amount = formatDecimalComma(Math.round(temp))
-                        str += amount + " ton-miles."}
-                    if (metric == 'ktons'){
-                        var amount = formatDecimalComma(Math.round(temp))
-                        str += amount + " kilotons."}};
-            if (explore_scenario_type == 'nafta') {var str = "nafta blah blah"};
-            if (explore_scenario_type == 'tariff') {var str = "Tariffs blah blah"};
-            if (explore_scenario_type == 'natural_disaster') {
-                var str = "Though Oregon may look like a small player in the "
-                str += " import and export business (with net imports totaling "
-                str += " -$1,010M in 2015) blah blah"};
-            if (explore_scenario_type == 'electronics') {var str = "Electronics blah blah"}
-          return str
-
-      });
-
     // /////////////////////////////
     // // START This code builds a list of the top 10 largest states in the chordchart.
     // // The variable relevant states is used to show state names in the chordchart.
@@ -266,8 +229,17 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
     // /////////////////////////////
 
     // Set color on ribbons for currently selected state
+    var total_net = 0
     ribbons
         .filter(function(row) {
+            if (lookup[row.source.index].type == region
+                || lookup[row.source.index].name == region) {
+                total_net += row.source.value
+            };
+            if (lookup[row.target.index].type == region
+                || lookup[row.target.index].name == region) {
+                total_net -= row.target.value
+            };
             // if (lookup[row.source.index].type == region || lookup[row.source.index].name == region){
                 // relevant_states.push(lookup[row.source.index].type + lookup[row.source.index].name);
                 // relevant_states.push(lookup[row.target.index].type + lookup[row.target.index].name); }
@@ -299,6 +271,48 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                     return "Flow Info:\n" + lookup[d.source.index].name + " → " + lookup[d.target.index].name + ": " + tooltip_value;});
         })
         .on("mouseout", function (d, i) {d3.select(this).style("opacity", 0.6); });
+    console.log(total_net);
+
+
+    var description = d3.select("#description")
+        .selectAll("p").remove()
+        d3.select("#description").append("p")
+        .data(selected_state_data)
+        .attr("class", "descript")
+        .text(function(d){
+            if (explore_scenario_type == 'explore') {
+                var str = "The net export for region " + region;
+                str += " in the category "+ category;
+                str += " for the year " + year + " was ";
+                    // var temp=0;
+                    // for (var i=0;i<59;i++) {
+                        // temp=temp-parseFloat(d.values[i].value);
+                        // console.log("Here")
+                        // console.log(temp);
+                    // }
+                    var formatDecimalComma = d3.format(",.2f")
+                    if (metric == 'million_dollars'){
+                        if (Math.sign(total_net)==-1){var sign = '-'}
+                        else {var sign = ''}
+                        var amount = formatDecimalComma(Math.abs(total_net))
+                        str += sign +"$" + amount + "M."}
+                    if (metric == 'ton_miles'){
+                        var amount = formatDecimalComma(total_net)
+                        str += amount + " ton-miles."}
+                    if (metric == 'ktons'){
+                        var amount = formatDecimalComma(total_net)
+                        str += amount + " kilotons."}};
+            if (explore_scenario_type == 'nafta') {var str = "nafta blah blah"};
+            if (explore_scenario_type == 'tariff') {var str = "Tariffs blah blah"};
+            if (explore_scenario_type == 'natural_disaster') {
+                var str = "Though Oregon may look like a small player in the "
+                str += " import and export business (with net imports totaling "
+                str += " -$1,010M in 2015) blah blah"};
+            if (explore_scenario_type == 'electronics') {var str = "Electronics blah blah"}
+          return str
+
+      });
+
 
     // Add labels to each state
     group.append("text")
