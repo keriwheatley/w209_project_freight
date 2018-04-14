@@ -91,13 +91,13 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
         ;}))
     console.log(nest_data)
 
-    // Create variable containing data for selected state only
-    var selected_state_data = nest_data.filter(
-        function(d){
-            if (d.key.includes(region1)) {
-                return d; }
-        });
-    console.log(selected_state_data);
+    // // Create variable containing data for selected state only
+    // var selected_state_data = nest_data.filter(
+    //     function(d){
+    //         if (d.key.includes(region1)) {
+    //             return d; }
+    //     });
+    // console.log(selected_state_data);
 
     // Create data matrix to feed into the chordchart
     var matrix = nest_data.map(
@@ -227,18 +227,40 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
     // /////////////////////////////
 
     // Set color on ribbons for currently selected state
-    var total_net = 0
+    var region1_net = 0
+    var region2_net = 0
     ribbons
         .filter(function(row) {
-            if (lookup[row.source.index].type == region1
-                || lookup[row.source.index].name == region1) {
-                total_net += row.source.value
-            };
-            if (lookup[row.target.index].type == region1
-                || lookup[row.target.index].name == region1) {
-                total_net -= row.target.value
-            };
-            if (region2 == 'All') {
+            if (region1 != 'All') {
+                if (lookup[row.source.index].type == region1
+                    || lookup[row.source.index].name == region1) {
+                    region1_net += row.source.value
+                };
+                if (lookup[row.target.index].type == region1
+                    || lookup[row.target.index].name == region1) {
+                    region1_net -= row.target.value
+                };
+            }
+            if (region2 != 'All') {
+                if (lookup[row.source.index].type == region2
+                    || lookup[row.source.index].name == region2) {
+                    region2_net += row.source.value
+                };
+                if (lookup[row.target.index].type == region2
+                    || lookup[row.target.index].name == region2) {
+                    region2_net -= row.target.value
+                };
+            }
+            if (region1 == 'All' && region2 == 'All') {
+                return row
+            }
+            else if (region1 == 'All') {
+                return lookup[row.source.index].type == region2
+                    || lookup[row.source.index].name == region2
+                    || lookup[row.target.index].type == region2
+                    || lookup[row.target.index].name == region2;
+            }
+            else if (region2 == 'All') {
                 return lookup[row.source.index].type == region1
                     || lookup[row.source.index].name == region1
                     || lookup[row.target.index].type == region1
@@ -274,37 +296,62 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                     return "Flow Info:\n" + lookup[d.source.index].name + " → " + lookup[d.target.index].name + ": " + tooltip_value;});
         })
         .on("mouseout", function (d, i) {d3.select(this).style("opacity", 0.6); });
-    console.log(total_net);
+    console.log("region1_net", region1, region1_net);
+    console.log("region2_net", region2, region2_net);
 
 
     var description = d3.select("#description")
         .selectAll("p").remove()
         d3.select("#description").append("p")
-        .data(selected_state_data)
+        // .data(selected_state_data)
         .attr("class", "descript")
         .text(function(d){
             if (explore_scenario_type == 'explore') {
-                var str = "The net export for region " + region1;
-                str += " in the category "+ category;
-                str += " for the year " + year + " was ";
-                    // var temp=0;
-                    // for (var i=0;i<59;i++) {
-                        // temp=temp-parseFloat(d.values[i].value);
-                        // console.log("Here")
-                        // console.log(temp);
-                    // }
-                    var formatDecimalComma = d3.format(",.2f")
+                str = ""
+                var formatDecimalComma = d3.format(",.2f")
+                console.log("here for text description")
+                console.log("region1", region1)
+                if (region1 == 'All' && region2 == 'All') {
+                    str = "Showing all regions";
+                }
+                if (region1 != 'All') {
+                    str = region1;
+                    if (Math.sign(region1_net)==-1){
+                        str += " ( net importer of ";}
+                    else {
+                        str += " ( net exporter of ";}
                     if (metric == 'million_dollars'){
-                        if (Math.sign(total_net)==-1){var sign = '-'}
-                        else {var sign = ''}
-                        var amount = formatDecimalComma(Math.abs(total_net))
-                        str += sign +"$" + amount + "M."}
+                        var amount = formatDecimalComma(Math.abs(region1_net))
+                        str += "$" + amount + "M";}
                     if (metric == 'ton_miles'){
-                        var amount = formatDecimalComma(total_net)
-                        str += amount + " ton-miles."}
+                        var amount = formatDecimalComma(Math.abs(region1_net))
+                        str += amount + " ton-miles";}
                     if (metric == 'ktons'){
-                        var amount = formatDecimalComma(total_net)
-                        str += amount + " kilotons."}};
+                        var amount = formatDecimalComma(Math.abs(region1_net))
+                        str += amount + " kilotons";}
+                    str+= " ) ";
+                }
+                if (region1 != 'All' & region2 != 'All') {
+                    str += " and ";
+                }
+                if (region2 != 'All') {
+                    str += region2;
+                    if (Math.sign(region2_net)==-1){
+                        str += " ( net importer of ";}
+                    else {
+                        str += " ( net exporter of ";}
+                    if (metric == 'million_dollars'){
+                        var amount = formatDecimalComma(Math.abs(region2_net))
+                        str += "$" + amount + "M";}
+                    if (metric == 'ton_miles'){
+                        var amount = formatDecimalComma(Math.abs(region2_net))
+                        str += amount + " ton-miles";}
+                    if (metric == 'ktons'){
+                        var amount = formatDecimalComma(Math.abs(region2_net))
+                        str += amount + " kilotons";}
+                    str+= " ) ";
+                }
+            }
             if (explore_scenario_type == 'nafta') {var str = "nafta blah blah"};
             if (explore_scenario_type == 'tariff') {var str = "Tariffs blah blah"};
             if (explore_scenario_type == 'natural_disaster') {
@@ -552,8 +599,8 @@ function func() {
     // console.log("end test")
 
     console.log('Load initial chordchart');
-    render( "run_explore", imports, "All", "2015", "million_dollars", 
-        "million_dollars_2015", "International","All", "0" );
+    render( "explore", imports, "All", "2015", "million_dollars", 
+        "million_dollars_2015", "All","All", "0" );
     // document.getElementById('run_explore').click();
 }
 

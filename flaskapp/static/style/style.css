@@ -115,9 +115,10 @@ display: flex;
 }
 
 .descript {
-  margin: 10px;
+  margin: 20px;
   /*border-radius: 10px;*/
   /*border: 1px solid black;*/
-  padding: 10px;
   font-size: 20px;
+  /*text-align: center;*/
+
 }
