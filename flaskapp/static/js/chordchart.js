@@ -3,7 +3,7 @@
 /////////////////////////////
 
 // 1. imports - contains all data
-// 2. lookup - contains color lengend info
+// 2. lookup - contains color legend info
 var imports = [];
 var lookup = [];
 d3.csv("/static/data/summed_data.csv", function(error, data){
@@ -29,14 +29,6 @@ d3.csv("/static/data/category_min_metric_range.csv", function(error, data){
     console.log(category_range);
 });
 
-// 4. Legend for regions
-var legendVals = []
-d3.csv("/static/data/legend.csv", function(error, data){
-    if (error) {
-        console.log(error);
-        return error;}
-    legendVals = data;
-});
 
 /////////////////////////////
 // END code
@@ -78,7 +70,7 @@ var svgChart = d3.select("#chordchart").append("g").attr("id", "chords");
 // START This code creates the function that renders the chortchart
 /////////////////////////////
 
-function render( explore_scenario_type, data, category, year, metric, metricyear, region, metric_min ) {
+function render( explore_scenario_type, data, category, year, metric, metricyear, region1, region2, metric_min ) {
 
     // Remove previous rendered chortchart
     // svgChart
@@ -102,7 +94,7 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
     // Create variable containing data for selected state only
     var selected_state_data = nest_data.filter(
         function(d){
-            if (d.key.includes(region)) {
+            if (d.key.includes(region1)) {
                 return d; }
         });
     console.log(selected_state_data);
@@ -238,12 +230,12 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
     var total_net = 0
     ribbons
         .filter(function(row) {
-            if (lookup[row.source.index].type == region
-                || lookup[row.source.index].name == region) {
+            if (lookup[row.source.index].type == region1
+                || lookup[row.source.index].name == region1) {
                 total_net += row.source.value
             };
-            if (lookup[row.target.index].type == region
-                || lookup[row.target.index].name == region) {
+            if (lookup[row.target.index].type == region1
+                || lookup[row.target.index].name == region1) {
                 total_net -= row.target.value
             };
             // if (lookup[row.source.index].type == region || lookup[row.source.index].name == region){
@@ -252,10 +244,10 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
             // if (lookup[row.target.index].type == region || lookup[row.target.index].name == region){
                 // relevant_states.push(lookup[row.source.index].type + lookup[row.source.index].name);
                 // relevant_states.push(lookup[row.target.index].type + lookup[row.target.index].name); }
-            return lookup[row.source.index].type == region
-                || lookup[row.source.index].name == region
-                || lookup[row.target.index].type == region
-                || lookup[row.target.index].name == region
+            return lookup[row.source.index].type == region1
+                || lookup[row.source.index].name == region1
+                || lookup[row.target.index].type == region1
+                || lookup[row.target.index].name == region1
                 ; })
         .style("fill", function(d){ return lookup[d.source.index].color;})
         .style("stroke", function(d){ return lookup[d.source.index].color;})
@@ -287,7 +279,7 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
         .attr("class", "descript")
         .text(function(d){
             if (explore_scenario_type == 'explore') {
-                var str = "The net export for region " + region;
+                var str = "The net export for region " + region1;
                 str += " in the category "+ category;
                 str += " for the year " + year + " was ";
                     // var temp=0;
@@ -403,9 +395,10 @@ function select(explore_scenario_type) {
     var category = d3.select( "#d3-dropdown-category" ).node().value
     var year = d3.select( "#d3-dropdown-year" ).node().value
     var metric = d3.select( "#d3-dropdown-metric" ).node().value
-    var region = d3.select( "#d3-dropdown-region" ).node().value
+    var region1 = d3.select( "#d3-dropdown-region1" ).node().value
+    var region2 = d3.select( "#d3-dropdown-region2" ).node().value
     var metric_min = document.getElementById("number").value
-    render( explore_scenario_type, imports, category, year, metric, metric+'_'+year, region, metric_min );
+    render( explore_scenario_type, imports, category, year, metric, metric+'_'+year, region1, region2, metric_min );
     console.log( category );
     console.log( metric+'_'+year );
     console.log( region )
@@ -423,7 +416,7 @@ function myScenarioFunction() {
     scenario_type = d3.select( "#d3-dropdown-scenario" ).node().value
     if (scenario_type=='nafta') {
         document.getElementById('d3-dropdown-category').value = 'All';
-        document.getElementById('d3-dropdown-region').value = 'Canada';
+        document.getElementById('d3-dropdown-region1').value = 'Canada';
         document.getElementById('d3-dropdown-year').value = '2015';
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
         document.getElementById('number').value = 1000;
@@ -431,7 +424,7 @@ function myScenarioFunction() {
         select(scenario_type);}
     else if (scenario_type=='tariff') {
         document.getElementById('d3-dropdown-category').value = 'All';
-        document.getElementById('d3-dropdown-region').value = 'Eastern Asia';
+        document.getElementById('d3-dropdown-region1').value = 'Eastern Asia';
         document.getElementById('d3-dropdown-year').value = '2015';
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
         document.getElementById('number').value = 1000;
@@ -439,7 +432,7 @@ function myScenarioFunction() {
         select(scenario_type);}
     else if (scenario_type=='natural_disaster') {
         document.getElementById('d3-dropdown-category').value = 'All';
-        document.getElementById('d3-dropdown-region').value = 'Oregon';
+        document.getElementById('d3-dropdown-region1').value = 'Oregon';
         document.getElementById('d3-dropdown-year').value = '2015';
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
         document.getElementById('number').value = 1000;
@@ -447,7 +440,7 @@ function myScenarioFunction() {
         select(scenario_type);}
     else if (scenario_type=='electronics') {
         document.getElementById('d3-dropdown-category').value = 'Electronics';
-        document.getElementById('d3-dropdown-region').value = 'International';
+        document.getElementById('d3-dropdown-region1').value = 'International';
         document.getElementById('d3-dropdown-year').value = '2015';
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
         document.getElementById('number').value = 5000;
@@ -461,21 +454,23 @@ function myScenarioFunction() {
 // 2. set the Min. Metric slider value to 0
 function changeCategory(selected_category) {
     console.log(selected_category)
-    // console.log(range_number/10);
+    console.log(selected_category);
     var selected_metric = d3.select( "#d3-dropdown-metric" ).node().value
-    // console.log(selected_metric);
+    console.log(selected_metric);
     var selected_year = d3.select( "#d3-dropdown-year" ).node().value
-    // console.log(selected_year);
-    var range = window.category_range.filter(function(row) {
-      return row.category == selected_category;})
-    // console.log(range)
-    var range_number = range[0][selected_metric+'_'+selected_year]-5
-    var range_value = Math.round(range_number/2,0)
-    console.log("Range max: " + range_number)
-    document.getElementById('number').max = range_number;
-    document.getElementById('slider').max = range_number;
-    document.getElementById('number').value = range_value;
-    document.getElementById('slider').value = range_value;
+    console.log(selected_year);
+    if (selected_metric != "none" && selected_year != "none" && selected_category != "none") {
+        var range = window.category_range.filter(function(row) {
+          return row.category == selected_category;})
+        // console.log(range)
+        var range_number = range[0][selected_metric+'_'+selected_year]-5
+        var range_value = Math.round(range_number/20,0)
+        console.log("Range max: " + range_number)
+        document.getElementById('number').max = range_number;
+        document.getElementById('slider').max = range_number;
+        document.getElementById('number').value = range_value;
+        document.getElementById('slider').value = range_value;    
+    }
 };
 
 // If a new item is selected in the Metric dropdown,
@@ -487,16 +482,18 @@ function changeMetric(selected_metric) {
     console.log(selected_category);
     var selected_year = d3.select( "#d3-dropdown-year" ).node().value
     console.log(selected_year);
-    var range = window.category_range.filter(function(row) {
-      return row.category == selected_category;})
-    console.log(range)
-    var range_number = range[0][selected_metric+'_'+selected_year]-5
-    var range_value = Math.round(range_number/2,0)
-    document.getElementById('number').max = range_number;
-    document.getElementById('slider').max = range_number;
-    document.getElementById('number').value = range_value;
-    document.getElementById('slider').value = range_value;
-    console.log("Range max: " + range_number)
+    if (selected_metric != "none" && selected_year != "none" && selected_category != "none") {
+        var range = window.category_range.filter(function(row) {
+          return row.category == selected_category;})
+        console.log(range)
+        var range_number = range[0][selected_metric+'_'+selected_year]-5
+        var range_value = Math.round(range_number/20,0)
+        document.getElementById('number').max = range_number;
+        document.getElementById('slider').max = range_number;
+        document.getElementById('number').value = range_value;
+        document.getElementById('slider').value = range_value;
+        console.log("Range max: " + range_number)
+    }
 };
 
 
@@ -509,16 +506,18 @@ function changeYear(selected_year) {
     console.log(selected_category);
     var selected_metric = d3.select( "#d3-dropdown-metric" ).node().value
     console.log(selected_metric);
-    var range = window.category_range.filter(function(row) {
-      return row.category == selected_category;})
-    console.log(range)
-    var range_number = range[0][selected_metric+'_'+selected_year]-5
-    var range_value = Math.round(range_number/2,0)
-    document.getElementById('number').max = range_number;
-    document.getElementById('slider').max = range_number;
-    document.getElementById('number').value = range_value;
-    document.getElementById('slider').value = range_value;
-    console.log("Range max: " + range_number)
+    if (selected_metric != "none" && selected_year != "none" && selected_category != "none") {
+        var range = window.category_range.filter(function(row) {
+          return row.category == selected_category;})
+        console.log(range)
+        var range_number = range[0][selected_metric+'_'+selected_year]-5
+        var range_value = Math.round(range_number/20,0)
+        document.getElementById('number').max = range_number;
+        document.getElementById('slider').max = range_number;
+        document.getElementById('number').value = range_value;
+        document.getElementById('slider').value = range_value;
+        console.log("Range max: " + range_number)
+    }
 };
 /////////////////////////////
 // END This code updates the filter values and calls the function
@@ -547,7 +546,10 @@ function func() {
     // console.log("end test")
 
     console.log('Load initial chordchart');
-    document.getElementById('run_explore').click();
+    render( "run_explore", imports, "All", "2015", "million_dollars", 
+        "million_dollars_2015", "International","All", "0" );
+    // document.getElementById('run_explore').click();
 }
+
 
 render()
