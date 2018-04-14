@@ -13,10 +13,10 @@ d3.csv("/static/data/summed_data.csv", function(error, data){
                 console.log(error);
             return error;}
     var filtered_data = data.filter(function(d) { return d.orig_name != d.dest_name; });
-    console.log(default_data);
+    console.log("default_data", default_data);
     imports = d3.merge([filtered_data,default_data]);
     lookup = region_data
-    console.log(imports);
+    console.log("imports", imports);
 });});});
 
 //3. category_range - contains the maximum range for the "min. metric" selector
@@ -26,7 +26,7 @@ d3.csv("/static/data/category_min_metric_range.csv", function(error, data){
         console.log(error);
         return error;}
     category_range = data;
-    console.log(category_range);
+    console.log("category_range", category_range);
 });
 
 
@@ -89,7 +89,7 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
             else {
                 return (d.category == category || d.category == 'Default')}
         ;}))
-    console.log(nest_data)
+    console.log("nest_data", nest_data)
 
     // // Create variable containing data for selected state only
     // var selected_state_data = nest_data.filter(
@@ -115,11 +115,11 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
     function(orig_name, row) {
       return orig_name.values.map(
         function(dest_name, col) {
-          return Math.sign(dest_name.value + -1*nest_data[col].values[row].value)
+          return Math.sign(dest_name.value + nest_data[col].values[row].value)
         })})
 
-    console.log(matrix);
-    console.log(color_matrix);
+    console.log("matrix", matrix);
+    console.log("color_matrix", color_matrix);
 
     // Initialize canvas and inner/outer radii of the chords
     var outerRadius = Math.min(innerwidth, innerheight) * 0.5  - 60,
@@ -169,8 +169,18 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
       .data(function(chords) { return chords; })
       .enter().append("path")
       .attr("d", ribbon)
-      .style("fill", function(d){ return lookup[d.source.index].color;})
-      .style("stroke", function(d){ return lookup[d.source.index].color;})
+      .style("fill", function(d){ 
+            if (color_matrix[d.source.index][d.target.index] == 1) { 
+                return lookup[d.source.index].color; }
+            else { 
+                return lookup[d.target.index].color; }
+            })
+      .style("stroke", function(d){ 
+            if (color_matrix[d.source.index][d.target.index] == 1) { 
+                return lookup[d.source.index].color; }
+            else { 
+                return lookup[d.target.index].color; }
+            })
       .style("opacity", 0.01);
 
     // /////////////////////////////
@@ -231,26 +241,46 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
     var region2_net = 0
     ribbons
         .filter(function(row) {
+
+
             if (region1 != 'All') {
-                if (lookup[row.source.index].type == region1
-                    || lookup[row.source.index].name == region1) {
-                    region1_net += row.source.value
-                };
-                if (lookup[row.target.index].type == region1
-                    || lookup[row.target.index].name == region1) {
-                    region1_net -= row.target.value
-                };
+                if (lookup[row.source.index].type == region1 || lookup[row.source.index].name == region1) {
+                    if (color_matrix[row.source.index][row.target.index] == 1) {
+                        region1_net += row.source.value
+                    } else {
+                        region1_net -= row.source.value
+                    }
+                }
+                if (lookup[row.target.index].type == region1 || lookup[row.target.index].name == region1) {
+                    if (color_matrix[row.source.index][row.target.index] == 1) {
+                        region1_net -= row.target.value
+                    } else {
+                        region1_net += row.target.value
+                    }
+                }
             }
+
+
+
             if (region2 != 'All') {
-                if (lookup[row.source.index].type == region2
-                    || lookup[row.source.index].name == region2) {
-                    region2_net += row.source.value
-                };
-                if (lookup[row.target.index].type == region2
-                    || lookup[row.target.index].name == region2) {
-                    region2_net -= row.target.value
-                };
+                if (lookup[row.source.index].type == region2 || lookup[row.source.index].name == region2) {
+                    if (color_matrix[row.source.index][row.target.index] == 1) {
+                        region2_net += row.source.value
+                    } else {
+                        region2_net -= row.source.value
+                    }
+                }
+                if (lookup[row.target.index].type == region2 || lookup[row.target.index].name == region2) {
+                    if (color_matrix[row.source.index][row.target.index] == 1) {
+                        region2_net -= row.target.value
+                    } else {
+                        region2_net += row.target.value
+                    }
+                }
             }
+
+
+
             if (region1 == 'All' && region2 == 'All') {
                 return row
             }
@@ -276,8 +306,18 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                     || lookup[row.target.index].type == region2
                     || lookup[row.target.index].name == region2);
                 }; })
-        .style("fill", function(d){ return lookup[d.source.index].color;})
-        .style("stroke", function(d){ return lookup[d.source.index].color;})
+        .style("fill", function(d){ 
+            if (color_matrix[d.source.index][d.target.index] == 1) { 
+                return lookup[d.source.index].color; }
+            else { 
+                return lookup[d.target.index].color; }
+            })
+        .style("stroke", function(d){ 
+            if (color_matrix[d.source.index][d.target.index] == 1) { 
+                return lookup[d.source.index].color; }
+            else { 
+                return lookup[d.target.index].color; }
+            })
         .style("opacity", 0.6)
         .on("mouseover", function (d, i) {
             d3.select(this).style("opacity", 1)
@@ -293,8 +333,15 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                     if (metric == 'ktons'){
                         amount = d.target.value
                             tooltip_value = formatDecimalComma(amount)+" kilotons"}
-                    return "Flow Info:\n" + lookup[d.source.index].name + " → " + lookup[d.target.index].name + ": " + tooltip_value;});
-        })
+
+                    if (color_matrix[d.source.index][d.target.index] == 1) {
+                        return "Flow Info:\n" + lookup[d.source.index].name + " → " + 
+                            lookup[d.target.index].name + ": " + tooltip_value;
+                    } else {
+                        return "Flow Info:\n" + lookup[d.target.index].name + " → " + 
+                            lookup[d.source.index].name + ": " + tooltip_value;
+                    };
+        })})
         .on("mouseout", function (d, i) {d3.select(this).style("opacity", 0.6); });
     console.log("region1_net", region1, region1_net);
     console.log("region2_net", region2, region2_net);
@@ -309,8 +356,6 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
             if (explore_scenario_type == 'explore') {
                 str = ""
                 var formatDecimalComma = d3.format(",.2f")
-                console.log("here for text description")
-                console.log("region1", region1)
                 if (region1 == 'All' && region2 == 'All') {
                     str = "Showing all regions";
                 }
@@ -372,7 +417,6 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
         .attr("font","sans-serif")
         .attr("transform", function(d,i) { //angle
             d.angle = (d.startAngle + d.endAngle) / 2; //calculate the average of the start angle and the end angle
-            // console.log(d.angle)
             d.name = lookup[i].name;
             d.type_name = lookup[i].type + lookup[i].name;
             return "rotate(" + (d.angle * 180 / Math.PI) + ")" +
@@ -451,11 +495,11 @@ function select(explore_scenario_type) {
     var region2 = d3.select( "#d3-dropdown-region2" ).node().value
     var metric_min = document.getElementById("number").value
     render( explore_scenario_type, imports, category, year, metric, metric+'_'+year, region1, region2, metric_min );
-    console.log( category );
-    console.log( metric+'_'+year );
-    console.log( region1 )
-    console.log( region2 )
-    console.log( metric_min );
+    console.log( "category", category );
+    console.log( "metric year", metric+'_'+year );
+    console.log( "region1", region1 )
+    console.log( "region2", region2 )
+    console.log( "metric_min", metric_min );
 }
 
 // If Explore Data option is run, reset What-If Scenarios to empty
@@ -506,12 +550,11 @@ function myScenarioFunction() {
 // 1. change the max range for the Min. Metric slider
 // 2. set the Min. Metric slider value to 0
 function changeCategory(selected_category) {
-    console.log(selected_category)
-    console.log(selected_category);
+    console.log("selected_category", selected_category);
     var selected_metric = d3.select( "#d3-dropdown-metric" ).node().value
-    console.log(selected_metric);
+    console.log("selected_metric", selected_metric);
     var selected_year = d3.select( "#d3-dropdown-year" ).node().value
-    console.log(selected_year);
+    console.log("selected_year", selected_year);
     if (selected_metric != "none" && selected_year != "none" && selected_category != "none") {
         var range = window.category_range.filter(function(row) {
           return row.category == selected_category;})
@@ -530,15 +573,15 @@ function changeCategory(selected_category) {
 // 1. change the max range for the Min. Metric slider
 // 2. set the Min. Metric slider value to 0
 function changeMetric(selected_metric) {
-    console.log(selected_metric)
+    console.log("selected_metric", selected_metric)
     var selected_category = d3.select( "#d3-dropdown-category" ).node().value
-    console.log(selected_category);
+    console.log("selected_category", selected_category);
     var selected_year = d3.select( "#d3-dropdown-year" ).node().value
-    console.log(selected_year);
+    console.log("selected_year", selected_year);
     if (selected_metric != "none" && selected_year != "none" && selected_category != "none") {
         var range = window.category_range.filter(function(row) {
           return row.category == selected_category;})
-        console.log(range)
+        console.log("range", range)
         var range_number = range[0][selected_metric+'_'+selected_year]-5
         var range_value = Math.round(range_number/20,0)
         document.getElementById('number').max = range_number;
@@ -554,15 +597,15 @@ function changeMetric(selected_metric) {
 // 1. change the max range for the Min. Metric slider
 // 2. set the Min. Metric slider value to 0
 function changeYear(selected_year) {
-    console.log(selected_year)
+    console.log("selected_year", selected_year)
     var selected_category = d3.select( "#d3-dropdown-category" ).node().value
-    console.log(selected_category);
+    console.log("selected_category", selected_category);
     var selected_metric = d3.select( "#d3-dropdown-metric" ).node().value
-    console.log(selected_metric);
+    console.log("selected_metric", selected_metric);
     if (selected_metric != "none" && selected_year != "none" && selected_category != "none") {
         var range = window.category_range.filter(function(row) {
           return row.category == selected_category;})
-        console.log(range)
+        console.log("range", range)
         var range_number = range[0][selected_metric+'_'+selected_year]-5
         var range_value = Math.round(range_number/20,0)
         document.getElementById('number').max = range_number;
