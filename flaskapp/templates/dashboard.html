@@ -187,7 +187,7 @@
         Minimum Metric Value:
         <br>
         <span class="wrapper">
-        <input style="width: 100px;"" id="slider" type="range" min="0" max="73991" step="1" value="0" onchange="document.getElementById('number').value = this.value">
+        <input style="width: 80px;"" id="slider" type="range" min="0" max="73991" step="1" value="0" onchange="document.getElementById('number').value = this.value">
         &nbsp;&nbsp;
         <input id="number" type="number" min="0" max="73991" step="1" value="0" onchange="document.getElementById('slider').value = this.value">
         </span>
@@ -214,7 +214,7 @@
 
         <br>
         <div class="legend">
-            <b><font size="5">&nbsp;&nbsp;&nbsp;Legend&nbsp;&nbsp;&nbsp;</font></b>
+            <b><font size="5">Legend</font></b>
             <div class="legend-order">
             <div class="legend_box international"></div>
             <font size="3"> International</font>
@@ -257,14 +257,14 @@
             <svg style="background: #606060;" id="barchart2" class="section" width="300" height="300"></svg>
         </div>
       </div >
-      <div id="description">
-      </div>
   </div>
     </div>
     <script src="{{url_for('static',filename='js/chordchart.js')}}"></script>
     <script src="{{url_for('static',filename='js/barchart.js')}}"></script>
       <!--<script src="/js/chordchart.js"></script>
       <script src="/js/barchart.js"></script> -->
+      <div id="description">
+      </div>
 
     <div class="conclusion">
         <p><b><font size="9">In Conclusion</font></b></p>
