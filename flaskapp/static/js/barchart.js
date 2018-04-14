@@ -347,7 +347,8 @@ function renderBarChart(bars) {
     var category = d3.select( "#d3-dropdown-category" ).node().value;
     var year = d3.select( "#d3-dropdown-year" ).node().value;
     var metric = d3.select( "#d3-dropdown-metric" ).node().value;
-    var region = d3.select( "#d3-dropdown-region" ).node().value;
+    var region1 = d3.select( "#d3-dropdown-region1" ).node().value;
+    var region2 = d3.select( "#d3-dropdown-region2" ).node().value;
     var metric_min = document.getElementById("number").value;
     console.log(metric);
     switch(metric) {

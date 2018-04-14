@@ -113,3 +113,11 @@ display: flex;
     display: flex;
     flex-direction: row;  
 }
+
+.descript {
+  margin: 10px;
+  /*border-radius: 10px;*/
+  /*border: 1px solid black;*/
+  padding: 10px;
+  font-size: 20px;
+}

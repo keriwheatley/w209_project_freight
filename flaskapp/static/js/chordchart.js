@@ -238,17 +238,22 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                 || lookup[row.target.index].name == region1) {
                 total_net -= row.target.value
             };
-            // if (lookup[row.source.index].type == region || lookup[row.source.index].name == region){
-                // relevant_states.push(lookup[row.source.index].type + lookup[row.source.index].name);
-                // relevant_states.push(lookup[row.target.index].type + lookup[row.target.index].name); }
-            // if (lookup[row.target.index].type == region || lookup[row.target.index].name == region){
-                // relevant_states.push(lookup[row.source.index].type + lookup[row.source.index].name);
-                // relevant_states.push(lookup[row.target.index].type + lookup[row.target.index].name); }
-            return lookup[row.source.index].type == region1
-                || lookup[row.source.index].name == region1
-                || lookup[row.target.index].type == region1
-                || lookup[row.target.index].name == region1
-                ; })
+            if (region2 == 'All') {
+                return lookup[row.source.index].type == region1
+                    || lookup[row.source.index].name == region1
+                    || lookup[row.target.index].type == region1
+                    || lookup[row.target.index].name == region1;
+            }
+            else {
+                return (lookup[row.source.index].type == region1
+                    || lookup[row.source.index].name == region1
+                    || lookup[row.target.index].type == region1
+                    || lookup[row.target.index].name == region1) && 
+                    (lookup[row.source.index].type == region2
+                    || lookup[row.source.index].name == region2
+                    || lookup[row.target.index].type == region2
+                    || lookup[row.target.index].name == region2);
+                }; })
         .style("fill", function(d){ return lookup[d.source.index].color;})
         .style("stroke", function(d){ return lookup[d.source.index].color;})
         .style("opacity", 0.6)
@@ -401,7 +406,8 @@ function select(explore_scenario_type) {
     render( explore_scenario_type, imports, category, year, metric, metric+'_'+year, region1, region2, metric_min );
     console.log( category );
     console.log( metric+'_'+year );
-    console.log( region )
+    console.log( region1 )
+    console.log( region2 )
     console.log( metric_min );
 }
 
