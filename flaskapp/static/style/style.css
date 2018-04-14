@@ -15,13 +15,13 @@
     margin: 10px;
     border-radius: 10px;
     border: 3px solid black;
-    padding: 20px;
-    float:left;
+    padding: 10px;
 }
 
 .wrapper {
 display: flex;
 }
+
 .conclusion {
     padding: 200px 40px 200px 40px;
     background-color: #7ccd7c;
@@ -54,40 +54,46 @@ display: flex;
 }
 
 .legend {
-    margin: 10px 35px;
-    float:left;
+    display: flex;
+    flex-direction: column;  
     border-radius: 10px;
     border: 1px solid black;
+    margin: 0 10px;
+    border-radius: 10px;
     padding: 10px;
 }
 
 .legend_box {
-  float: left;
-  width: 20px;
-  height: 20px;
-  margin: 5px;
-  border: 1px solid black;
+    width: 15px;
+    height: 15px;
+    margin: 3px;
+    border: 1px solid black;
+}
+
+.legend-order {
+    display: flex;
+    flex-direction: row;  
 }
 
 .international {
-  background: #606060;
+    background: #606060;
 }
 
 .west {
-  background: #0080FF;
+    background: #0080FF;
 }
 
 .midwest {
-  background: #00CC66;
+    background: #00CC66;
 }
 .northeast {
-  background: #8A2BE2;
+    background: #8A2BE2;
 }
 .southeast {
-  background: #FF6666;
+    background: #FF6666;
 }
 .southwest {
-  background: #FF9933;
+    background: #FF9933;
 }
 
 .barcharts_stacked {
@@ -97,3 +103,12 @@ display: flex;
     padding: 10px;
 }
 
+.left-bar {
+    display: flex;
+    flex-direction: column;  
+}
+
+.dashboard {
+    display: flex;
+    flex-direction: row;  
+}
