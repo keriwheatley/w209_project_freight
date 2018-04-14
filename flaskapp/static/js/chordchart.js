@@ -153,7 +153,7 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
     var g = d3.select("#chordchart")
         .append("g").datum(chord(matrix))
         .attr("id", "chords")
-        .attr("transform", "translate(" + (width * 0.5) + "," + (height* 0.5) + ")"); // center it into its window
+        .attr("transform", "translate(" + (width * .445) + "," + (height* 0.5) + ")"); // center it into its window
 
     // Defines each "group" in the chord diagram
     var group = g.append("g")
@@ -470,12 +470,12 @@ function changeCategory(selected_category) {
       return row.category == selected_category;})
     // console.log(range)
     var range_number = range[0][selected_metric+'_'+selected_year]-5
-    var range_value = Math.round(range_number/20,0)
-    document.getElementById('number').value = range_value;
-    document.getElementById('slider').value = range_value;
+    var range_value = Math.round(range_number/2,0)
     console.log("Range max: " + range_number)
     document.getElementById('number').max = range_number;
     document.getElementById('slider').max = range_number;
+    document.getElementById('number').value = range_value;
+    document.getElementById('slider').value = range_value;
 };
 
 // If a new item is selected in the Metric dropdown,
@@ -491,12 +491,34 @@ function changeMetric(selected_metric) {
       return row.category == selected_category;})
     console.log(range)
     var range_number = range[0][selected_metric+'_'+selected_year]-5
-    var range_value = Math.round(range_number/20,0)
+    var range_value = Math.round(range_number/2,0)
+    document.getElementById('number').max = range_number;
+    document.getElementById('slider').max = range_number;
     document.getElementById('number').value = range_value;
     document.getElementById('slider').value = range_value;
     console.log("Range max: " + range_number)
+};
+
+
+// If a new item is selected in the Metric dropdown,
+// 1. change the max range for the Min. Metric slider
+// 2. set the Min. Metric slider value to 0
+function changeYear(selected_year) {
+    console.log(selected_year)
+    var selected_category = d3.select( "#d3-dropdown-category" ).node().value
+    console.log(selected_category);
+    var selected_metric = d3.select( "#d3-dropdown-metric" ).node().value
+    console.log(selected_metric);
+    var range = window.category_range.filter(function(row) {
+      return row.category == selected_category;})
+    console.log(range)
+    var range_number = range[0][selected_metric+'_'+selected_year]-5
+    var range_value = Math.round(range_number/2,0)
     document.getElementById('number').max = range_number;
     document.getElementById('slider').max = range_number;
+    document.getElementById('number').value = range_value;
+    document.getElementById('slider').value = range_value;
+    console.log("Range max: " + range_number)
 };
 /////////////////////////////
 // END This code updates the filter values and calls the function

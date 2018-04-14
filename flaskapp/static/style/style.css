@@ -12,12 +12,16 @@
 }
 
 .direction {
-    margin: 35px 35px 10px 35px;
+    margin: 10px;
     border-radius: 10px;
     border: 3px solid black;
     padding: 20px;
+    float:left;
 }
 
+.wrapper {
+display: flex;
+}
 .conclusion {
     padding: 200px 40px 200px 40px;
     background-color: #7ccd7c;
@@ -41,7 +45,7 @@
 
 .graphs {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     white-space: nowrap;
 }
 
@@ -84,5 +88,12 @@
 }
 .southwest {
   background: #FF9933;
+}
+
+.barcharts_stacked {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 10px;
 }
 
