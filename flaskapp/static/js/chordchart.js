@@ -363,9 +363,9 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                     //Felix: Updated the words to be more clear description
                     str += region1;
                     if (Math.sign(region1_net)==-1){
-                        str += " net importer to all regions with ";}
+                        str += " is net importer to all regions with ";}
                     else {
-                        str += " net exporter to all region with ";}
+                        str += " is net exporter to all regions with ";}
                     if (metric == 'million_dollars'){
                         var amount = formatDecimalComma(Math.abs(region1_net))
                         str += "$" + amount + "M";}
@@ -396,17 +396,17 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                     if (metric == 'ktons'){
                         var amount = formatDecimalComma(Math.abs(region2_net))
                         str += amount + " kilotons";}
-                    // str+= " in the year ";
-                    // str+= year;
-                    // str+= " for ";
-                    // str+= category;
+                    str+= " in the year ";
+                    str+= year;
+                    str+= " for ";
+                    str+= category;
                 }
                 if 
                 (['Africa','Canada','Eastern Asia','Europe','Mexico','Rest of Americas',
                     'SE Asia & Oceania','SW & Central Asia','International'].includes(region1) &&
                 ['Africa','Canada','Eastern Asia','Europe','Mexico','Rest of Americas',
                     'SE Asia & Oceania','SW & Central Asia','International'].includes(region2)) {
-                    str = "Data not available for comparisons between " + region1 + " and " + region2 + "."
+                    str = "Data not available for comparisons between " + region1 + " and " + region2;
                 }
 
             }
