@@ -116,10 +116,12 @@
             <option value="none" selected="selected">Choose metric</option>
             <option value='million_dollars'>value in $M</option>
             <option value='ktons'>weight in kilotons</option>
-            <!-- 
-            Felix: Let's removed work in ton-miles as its not a common form of measurement
+            
+<!--             Felix: Let's removed work in ton-miles as its not a common form of measurement
+            Keri: Since it's not the default setting, I think it's good to keep it in there. 
+ --> 
             <option value='ton_miles'>work in ton-miles</option>
-        -->
+       
         </select>
 
         <br>
@@ -135,9 +137,12 @@
                 <option value='West'> West</option>
                 <option value='Northeast'> Northeast</option>
                 <option value='Southeast'> Southeast</option>
+                <option value='International'> International</option>
             </optgroup>
-            <!--
-            Felix: Removed International as second option because it will show empty if someone select Canada as option 1 and Africa as option 2 since our data set does not containt intenrtioanl to international data
+            
+<!--             Felix: Removed International as second option because it will show empty if someone select Canada as option 1 and Africa as option 2 since our data set does not containt intenrtioanl to international data
+            Keri: I think we should keep this in. That's a small edge case. When someone tries to flip to international on the second filter, they will be confused that it's not there. The two filters should look the same.
+ -->            
             <optgroup label="International">
                 <option value='Africa'>Africa</option>
                 <option value='Canada'>Canada</option>
@@ -148,7 +153,7 @@
                 <option value='SE Asia & Oceania'>SE Asia & Oceania</option>
                 <option value='SW & Central Asia'>SW & Central Asia</option>
             </optgroup>
-            -->
+            
             <optgroup label="State">
                 <option value='Alabama'>Alabama</option>
                 <option value='Alaska'>Alaska</option>
@@ -218,6 +223,7 @@
                 <option value='West'> West</option>
                 <option value='Northeast'> Northeast</option>
                 <option value='Southeast'> Southeast</option>
+                <option value='International'> International</option>
             </optgroup>
             <optgroup label="International">
                 <option value='Africa'>Africa</option>
@@ -323,6 +329,7 @@
     </div>
         <!-- 
     Felix: Removed short description as it will be covera at top
+    Keri: I think we should keep this in because it doesn't affect the 
     
     <div class="short-descript">
         <font size="3">
