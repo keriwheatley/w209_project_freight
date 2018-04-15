@@ -414,22 +414,22 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
             }
             if (explore_scenario_type == 'nafta') {
                 var str = "In 2015, Canada was a net exporter to the United States"
-                str += " 14,725.80 kilotons of wood products. A 10% reduction"
+                str += " 14,726 kilotons of wood products. A 10% reduction"
                 str += " in wood products from Canada due to deteriorating trade relations"
-                str += " would result in an annual loss of 14,72.58 kilotons of wood product supply."};
+                str += " would result in an annual loss of 1,473 kilotons of wood product supply."};
             if (explore_scenario_type == 'tariff') {var str = "Tariffs blah blah"};
             if (explore_scenario_type == 'natural_disaster') {
-                var str = "In 2015, California was a net exporter of $5,874.86M"
+                var str = "In 2015, California was a net exporter of $5.88 billion"
                 str += " in alcoholic beverages. California is a major producer"
                 str += " of wine and ships its products worldwide. A 10% reduction"
                 str += " in supply due to forest fires would amount to an inventory"
-                str += " loss of $587.5M."};
+                str += " loss of $588 million."};
             if (explore_scenario_type == 'electronics') {
-                var str = "In 2015, Eastern Asia was a net exporter of $224,674.26M"
+                var str = "In 2015, Eastern Asia was a net exporter of $224 billion"
                 str += " in electronic goods. China is a leading producer of electronic"
                 str += " products. A 5% tax "
                 str += " placed on products imported from Eastern Asia would result in an "
-                str += " additional cost of $11,233.7M."};
+                str += " additional cost of $11 billion."};
           return str
 
       });
