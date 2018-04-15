@@ -356,9 +356,6 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
             if (explore_scenario_type == 'explore') {
                 str = ""
                 var formatDecimalComma = d3.format(",.2f")
-                if (region1 == 'All' && region2 == 'All') {
-                    str = "Showing all regions";
-                }
                 if (region1 != 'All') {
                     //Felix: Updated the words to be more clear description
                     str += region1;
@@ -378,10 +375,10 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                     str+= " ";
 
                 }
-                if (region1 != 'All' & region2 != 'All') {
+                if (region1 != 'All' && region2 != 'All' && region1 != region2) {
                     str += " and ";
                 }
-                if (region2 != 'All') {
+                if (region2 != 'All' && region1 != region2) {
                     str += region2;
                     if (Math.sign(region2_net)==-1){
                         str += " is net importer to all regions with ";}
@@ -396,11 +393,16 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                     if (metric == 'ktons'){
                         var amount = formatDecimalComma(Math.abs(region2_net))
                         str += amount + " kilotons";}
-                    str+= " in the year ";
-                    str+= year;
-                    str+= " for ";
-                    str+= category;
                 }
+                str+= " in the year ";
+                str+= year;
+                str+= " for ";
+                str+= category;
+
+                if (region1 == 'All' && region2 == 'All') {
+                    str = "Showing all regions";
+                }
+
                 if 
                 (['Africa','Canada','Eastern Asia','Europe','Mexico','Rest of Americas',
                     'SE Asia & Oceania','SW & Central Asia','International'].includes(region1) &&
