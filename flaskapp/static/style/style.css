@@ -1,74 +1,56 @@
 .title {
-    padding: 120px 200px 30px 300px;
+    padding: 80px;
+    margin: 80px ;
     background-color: white;
     position: relative;
     text-align: center;
 /*    color: white;*/
 }
 
-
-.title1 {
-    padding: 0px 40px 120px 40px;
-    background-color: white;
-    position: relative;
-    text-align: center;
-/*    color: white;*/
-}
-
-
-
-.intro {
-    padding: 50px 80px 30px 80px;
-    background-color: #6699FF;
+.intro1 {
+    padding: 80px;
+    background-color: #99CCFF;
     position: relative;
     font-weight: normal;
-    font-size:20px;
-    
- 
+    font-size:20px; 
 }
 
-
-/* Felix: introduction formating*/
 .intro2 {
-    padding: 10px 80px 50px 440px;
-    background-color: #6699FF;
-    font-weight: lighter;
+    background-color: white;
+    padding: 80px;
+    position: relative;
     font-size:20px;
+}
+.intro3 {
+    background-color: #ADDFAD;
+    padding: 80px;
+    font-weight: normal;
+    font-size:20px;
+    position: relative;
+}
 
+.img-title {
+    width: 60%;
+    padding: 0 100px 10px 100px;
 }
 
 .img1 {
   width: 200px;
   float: left;
-  margin-left: 130px;
-  position:relative;
+  margin: 10px 10px 10px 0;
 }
-
-.intro3 {
-    padding: 30px 800px 80px 80px;
-    background-color: white;
-    font-weight: lighter;
-    font-size:15px;
-    color: black;
-
-}
-
-
 
 .img2 {
   width: 750px;
   float: right;
-  position:relative;
+  margin: 10px 0 10px 10px;
+  border: 1px solid gray;
+  border-radius: 10px;
 }
 
-.intro4 {
-
-    padding: 30px 40px 50px 40px;
-    background-color: #8bc34a;
-    position: relative;
-
-    font-size:20px;
+.img3 {
 }
+
 
 .direction {
     margin: 20px 10px 10px 10px;
@@ -82,11 +64,11 @@ display: flex;
 }
 
 .conclusion {
-    padding: 20px 40px 20px 40px;
-     background-color: #ee5a7e;
+    padding: 80px;
+    font-size:20px;
+    background-color: #FFB347;
     position: relative;
-     text-align: center;
-/*    color: white;*/
+    text-align: center;
 }
 
 .team {
