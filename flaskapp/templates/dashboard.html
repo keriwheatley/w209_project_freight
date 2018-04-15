@@ -14,21 +14,42 @@
 
   <body >
     <div class="title">
-      <img src="{{url_for('static',filename='img/top_border.jpg')}}" alt="Norway" style="width:60%;">
-        <p><b><font size="9">Imports and Exports Within United States</font></b></p>
+      <img src="{{url_for('static',filename='img/top_border.jpg')}}" alt="Norway" style="width:100%;">
+     </div>
+      <div class="title1">
+        <p><b><font size="9">International and Domestic Net Imports and Exports for my State / Region</font></b></p>
 
         <p><font size="4">UCB MIDS w209.3 Spring 2018</font></p>
         <p><font size="4">Daniel Balack, Felix Tsui, Keri Wheatley</font></p>
     </div>
 
     <div class="intro">
-        <b><font size="5">The world is an increasingly connected place. blah blah blah mention where we got the data from</font></b>
+        <b><font>Background: Have you as a consumer ever wondered where the gasoline in your state comes from? Have you as a farmer ever wondered how the fertilizers supply might be disrupted if another hurrican Katrina struck? Or Have you as a policy maker ever wondered about how much your state trades with neighbouring states relateive to distant states or even other continents? The visualization of this project is intended to answer just these questions. 
+        </font></b>
     </div>
 
-    <div class="dashboard">
-    <div class="left-bar">
-    <div class="direction">
-    <div>
+      <img src="static/img/intro_image1.png" class="img1" alt="Norway";>
+
+    <div class="intro2">
+        <b><font>The Data sourced is based on the Freight Analysis Framework, which was created through a partnership between Bureau of Transportation Statistics and the Federal Highway Administration, both are part of the United States Department of Transportation. Starting 2012, data from Census Bureau ws also added to provide a comprehensive picture of freight movement (states to states, states to international) all modes of transportation. For further information, please visit https://faf.ornl.gov/fafweb/Default.aspx
+        </font></b>
+
+    </div>
+        <img src="static/img/ChordChartDemo.png" class="img2" alt="Norway";>
+    
+    <div class="intro3">
+        <b><font>This is hor to sue ithhhhhhhhhhhhh
+
+        </font></b>
+
+    </div>
+
+        <div class="intro4">
+        <b><font>Intended Audience, potential bias, limitiation
+
+        </font></b>
+
+    </div>
 
     <!--     <b><font size="5">Directions:</font></b>
         <font size="4">Please choose A) the category of goods, B) the unit of which to view the data, C) the year, D) the location of interest (can be selected at region or state wise level), and E) minimum value filter (dependent on the unit selected). For example, if you select New York as the location, you will see only net exports / imports between New York and other regions. We have created a few What-If Scenarios to illustrate the impact on trade for different goods if certain events were to happen.</font>
@@ -95,7 +116,10 @@
             <option value="none" selected="selected">Choose metric</option>
             <option value='million_dollars'>value in $M</option>
             <option value='ktons'>weight in kilotons</option>
+            <!-- 
+            Felix: Let's removed work in ton-miles as its not a common form of measurement
             <option value='ton_miles'>work in ton-miles</option>
+        -->
         </select>
 
         <br>
@@ -112,6 +136,8 @@
                 <option value='Northeast'> Northeast</option>
                 <option value='Southeast'> Southeast</option>
             </optgroup>
+            <!--
+            Felix: Removed International as second option because it will show empty if someone select Canada as option 1 and Africa as option 2 since our data set does not containt intenrtioanl to international data
             <optgroup label="International">
                 <option value='Africa'>Africa</option>
                 <option value='Canada'>Canada</option>
@@ -122,6 +148,7 @@
                 <option value='SE Asia & Oceania'>SE Asia & Oceania</option>
                 <option value='SW & Central Asia'>SW & Central Asia</option>
             </optgroup>
+            -->
             <optgroup label="State">
                 <option value='Alabama'>Alabama</option>
                 <option value='Alaska'>Alaska</option>
@@ -294,12 +321,16 @@
         <br>
         <button id="scenario" onclick="myScenarioFunction()">Run Scenario</button>
     </div>
+        <!-- 
+    Felix: Removed short description as it will be covera at top
+    
     <div class="short-descript">
         <font size="3">
             *Path color indicates<br> 
-            origin location. Hover<br>
+           origin location. Hover<br>
             over path for details.</font>
     </div>
+    -->
         <div class="legend">
             <b><font size="5">Legend</font></b>
             <div class="legend-order">

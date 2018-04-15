@@ -1,14 +1,72 @@
+
 .title {
-    padding: 200px 40px 200px 40px;
+    padding: 200px 200px 30px 300px;
     background-color: white;
     position: relative;
     text-align: center;
 /*    color: white;*/
 }
 
+
+.title1 {
+    padding: 0px 40px 200px 40px;
+    background-color: white;
+    position: relative;
+    text-align: center;
+/*    color: white;*/
+}
+
+
+
 .intro {
-    padding: 200px 40px 200px 40px;
+    padding: 50px 80px 30px 80px;
     background-color: #6699FF;
+    position: relative;
+    font-weight: normal;
+    font-size:20px;
+    
+ 
+}
+
+
+/* Felix: introduction formating*/
+.intro2 {
+    padding: 10px 80px 50px 440px;
+    background-color: #6699FF;
+    font-weight: lighter;
+    font-size:20px;
+
+}
+
+.img1 {
+  width: 200px;
+  float: left;
+  margin-left: 130px;
+  position:relative;
+}
+
+.intro3 {
+    padding: 50px 440px 340px 80px;
+    background-color: white;
+    font-weight: lighter;
+    font-size:20px;
+    color: black;
+}
+
+
+
+.img2 {
+  width: 750px;
+  float: right;
+  position:relative;
+}
+
+.intro4 {
+    padding: 10px 80px 50px 440px;
+    background-color: #6699FF;
+    font-weight: lighter;
+    font-size:20px;
+
 }
 
 .direction {
@@ -23,7 +81,7 @@ display: flex;
 }
 
 .conclusion {
-    padding: 200px 40px 200px 40px;
+    padding: 100px 40px 100px 40px;
     background-color: #7ccd7c;
     position: relative;
     text-align: center;
