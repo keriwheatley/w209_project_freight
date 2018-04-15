@@ -297,14 +297,14 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                     || lookup[row.target.index].name == region1;
             }
             else {
-                return (lookup[row.source.index].type == region1
-                    || lookup[row.source.index].name == region1
-                    || lookup[row.target.index].type == region1
-                    || lookup[row.target.index].name == region1) && 
-                    (lookup[row.source.index].type == region2
-                    || lookup[row.source.index].name == region2
-                    || lookup[row.target.index].type == region2
-                    || lookup[row.target.index].name == region2);
+                return ((lookup[row.source.index].type == region1
+                        || lookup[row.source.index].name == region1) &&
+                        (lookup[row.target.index].type == region2
+                        || lookup[row.target.index].name == region2)) ||
+                       (( lookup[row.target.index].type == region1
+                        || lookup[row.target.index].name == region1) &&
+                        (lookup[row.source.index].type == region2
+                        || lookup[row.source.index].name == region2));
                 }; })
         .style("fill", function(d){ 
             if (color_matrix[d.source.index][d.target.index] == 1) { 
@@ -396,6 +396,14 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                         str += amount + " kilotons";}
                     str+= " ) ";
                 }
+                if 
+                (['Africa','Canada','Eastern Asia','Europe','Mexico','Rest of Americas',
+                    'SE Asia & Oceania','SW & Central Asia','International'].includes(region1) &&
+                ['Africa','Canada','Eastern Asia','Europe','Mexico','Rest of Americas',
+                    'SE Asia & Oceania','SW & Central Asia','International'].includes(region2)) {
+                    str = "Data not available for comparisons between " + region1 + " and " + region2 + "."
+                }
+
             }
             if (explore_scenario_type == 'nafta') {var str = "nafta blah blah"};
             if (explore_scenario_type == 'tariff') {var str = "Tariffs blah blah"};
