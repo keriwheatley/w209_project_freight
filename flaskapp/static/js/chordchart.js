@@ -360,9 +360,9 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                     //Felix: Updated the words to be more clear description
                     str += region1;
                     if (Math.sign(region1_net)==-1){
-                        str += " is net importer to all regions with ";}
+                        str += " was net importer to all regions with ";}
                     else {
-                        str += " is net exporter to all regions with ";}
+                        str += " was net exporter to all regions with ";}
                     if (metric == 'million_dollars'){
                         var amount = formatDecimalComma(Math.abs(region1_net))
                         str += "$" + amount + "M";}
@@ -381,9 +381,9 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                 if (region2 != 'All' && region1 != region2) {
                     str += region2;
                     if (Math.sign(region2_net)==-1){
-                        str += " is net importer to all regions with ";}
+                        str += " was net importer to all regions with ";}
                     else {
-                        str += " is net exporter to all regions with ";}
+                        str += " was net exporter to all regions with ";}
                     if (metric == 'million_dollars'){
                         var amount = formatDecimalComma(Math.abs(region2_net))
                         str += "$" + amount + "M";}
@@ -397,7 +397,7 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                 str+= " in the year ";
                 str+= year;
                 str+= " for ";
-                str+= category;
+                str+= category.toLowerCase();
 
                 if (region1 == 'All' && region2 == 'All') {
                     str = "Showing all regions";
@@ -412,13 +412,24 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                 }
 
             }
-            if (explore_scenario_type == 'nafta') {var str = "nafta blah blah"};
+            if (explore_scenario_type == 'nafta') {
+                var str = "In 2015, Canada was a net exporter to the United States"
+                str += " 14,725.80 kilotons of wood products. A 10% reduction"
+                str += " in wood products from Canada due to deteriorating trade relations"
+                str += " would result in an annual loss of 14,72.58 kilotons of wood product supply."};
             if (explore_scenario_type == 'tariff') {var str = "Tariffs blah blah"};
             if (explore_scenario_type == 'natural_disaster') {
-                var str = "Though Oregon may look like a small player in the "
-                str += " import and export business (with net imports totaling "
-                str += " -$1,010M in 2015) blah blah"};
-            if (explore_scenario_type == 'electronics') {var str = "Electronics blah blah"}
+                var str = "In 2015, California was a net exporter of $5,874.86M"
+                str += " in alcoholic beverages. California is a major producer"
+                str += " of wine and ships its products worldwide. A 10% reduction"
+                str += " in supply due to forest fires would amount to an inventory"
+                str += " loss of $587.5M."};
+            if (explore_scenario_type == 'electronics') {
+                var str = "In 2015, Eastern Asia was a net exporter of $224,674.26M"
+                str += " in electronic goods. China is a leading producer of electronic"
+                str += " products. A 5% tax "
+                str += " placed on products imported from Eastern Asia would result in an "
+                str += " additional cost of $11,233.7M."};
           return str
 
       });
@@ -527,37 +538,44 @@ function myExploreFunction() {
 function myScenarioFunction() {
     scenario_type = d3.select( "#d3-dropdown-scenario" ).node().value
     if (scenario_type=='nafta') {
-        document.getElementById('d3-dropdown-category').value = 'All';
+        document.getElementById('d3-dropdown-category').value = 'Wood prods.';
         document.getElementById('d3-dropdown-region1').value = 'Canada';
+        document.getElementById('d3-dropdown-region2').value = 'All';
         document.getElementById('d3-dropdown-year').value = '2015';
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
-        document.getElementById('number').value = 1000;
-        document.getElementById('slider').value = 1000;
-        select(scenario_type);}
-    else if (scenario_type=='tariff') {
-        document.getElementById('d3-dropdown-category').value = 'All';
-        document.getElementById('d3-dropdown-region1').value = 'Eastern Asia';
-        document.getElementById('d3-dropdown-year').value = '2015';
-        document.getElementById('d3-dropdown-metric').value = 'million_dollars';
-        document.getElementById('number').value = 1000;
-        document.getElementById('slider').value = 1000;
-        select(scenario_type);}
-    else if (scenario_type=='natural_disaster') {
-        document.getElementById('d3-dropdown-category').value = 'All';
-        document.getElementById('d3-dropdown-region1').value = 'Oregon';
-        document.getElementById('d3-dropdown-year').value = '2015';
-        document.getElementById('d3-dropdown-metric').value = 'million_dollars';
-        document.getElementById('number').value = 1000;
-        document.getElementById('slider').value = 1000;
+        changeCategory('Wood prods.')
+        document.getElementById('number').value = 0;
+        document.getElementById('slider').value = 0;
         select(scenario_type);}
     else if (scenario_type=='electronics') {
         document.getElementById('d3-dropdown-category').value = 'Electronics';
-        document.getElementById('d3-dropdown-region1').value = 'International';
+        document.getElementById('d3-dropdown-region1').value = 'Eastern Asia';
+        document.getElementById('d3-dropdown-region2').value = 'All';
         document.getElementById('d3-dropdown-year').value = '2015';
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
-        document.getElementById('number').value = 5000;
-        document.getElementById('slider').value = 5000;
+        changeCategory('Electronics')
+        document.getElementById('number').value = 0;
+        document.getElementById('slider').value = 0;
         select(scenario_type);}
+    else if (scenario_type=='natural_disaster') {
+        document.getElementById('d3-dropdown-category').value = 'Alcoholic beverages';
+        document.getElementById('d3-dropdown-region1').value = 'California';
+        document.getElementById('d3-dropdown-region2').value = 'All';
+        document.getElementById('d3-dropdown-year').value = '2015';
+        document.getElementById('d3-dropdown-metric').value = 'million_dollars';
+        changeCategory("Alcoholic beverages")
+        document.getElementById('number').value = 0;
+        document.getElementById('slider').value = 0;
+        select(scenario_type);}
+    // else if (scenario_type=='tariff') {
+        // document.getElementById('d3-dropdown-category').value = 'Electronics';
+        // document.getElementById('d3-dropdown-region1').value = 'International';
+        // document.getElementById('d3-dropdown-year').value = '2015';
+        // document.getElementById('d3-dropdown-metric').value = 'million_dollars';
+        // document.getElementById('number').value = 5000;
+        // document.getElementById('slider').value = 5000;
+        // function changeCategory("Electronics")
+        // select(scenario_type);}
     else {console.log("Do nothing")}
 };
 
