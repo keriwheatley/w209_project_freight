@@ -1,6 +1,5 @@
-
 .title {
-    padding: 200px 200px 30px 300px;
+    padding: 120px 200px 30px 300px;
     background-color: white;
     position: relative;
     text-align: center;
@@ -9,7 +8,7 @@
 
 
 .title1 {
-    padding: 0px 40px 200px 40px;
+    padding: 0px 40px 120px 40px;
     background-color: white;
     position: relative;
     text-align: center;
@@ -20,7 +19,7 @@
 
 .intro {
     padding: 50px 80px 30px 80px;
-    background-color: #FFB347;
+    background-color: #6699FF;
     position: relative;
     font-weight: normal;
     font-size:20px;
@@ -32,7 +31,7 @@
 /* Felix: introduction formating*/
 .intro2 {
     padding: 10px 80px 50px 440px;
-    background-color: #FFB347;
+    background-color: #6699FF;
     font-weight: lighter;
     font-size:20px;
 
@@ -46,11 +45,12 @@
 }
 
 .intro3 {
-    padding: 50px 440px 340px 80px;
+    padding: 30px 800px 80px 80px;
     background-color: white;
     font-weight: lighter;
-    font-size:20px;
+    font-size:15px;
     color: black;
+
 }
 
 
@@ -62,11 +62,12 @@
 }
 
 .intro4 {
-    padding: 10px 80px 50px 440px;
-    background-color: #6699FF;
-    font-weight: lighter;
-    font-size:20px;
 
+    padding: 30px 40px 50px 40px;
+    background-color: #8bc34a;
+    position: relative;
+
+    font-size:20px;
 }
 
 .direction {
@@ -81,10 +82,10 @@ display: flex;
 }
 
 .conclusion {
-    padding: 100px 40px 100px 40px;
-    background-color: #7ccd7c;
+    padding: 20px 40px 20px 40px;
+     background-color: #ee5a7e;
     position: relative;
-    text-align: center;
+     text-align: center;
 /*    color: white;*/
 }
 
