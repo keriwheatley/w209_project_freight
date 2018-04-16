@@ -355,6 +355,7 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
         .text(function(d){
             if (explore_scenario_type == 'explore') {
                 str = ""
+                str+= " In " + year + ", ";
                 var formatDecimalComma = d3.format(",.2f")
                 if (region1 != 'All') {
                     //Felix: Updated the words to be more clear description
@@ -394,8 +395,6 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                         var amount = formatDecimalComma(Math.abs(region2_net))
                         str += amount + " kilotons";}
                 }
-                str+= " in the year ";
-                str+= year;
                 str+= " for ";
                 str+= category.toLowerCase();
 
