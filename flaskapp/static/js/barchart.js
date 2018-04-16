@@ -208,19 +208,23 @@ lib.barChartModule = function() {
 
   }
 
-  function plot_absolute(name, accessor) {
-  var x = d3.scaleBand().rangeRound([0, barchartwidth]).padding(0.1),
-      y = d3.scaleLinear().rangeRound([barchartheight, 0]);
+  function plot_absolute(name, accessor_x, accessor_y, g) {
+    var x = d3.scaleBand().rangeRound([0, barchartwidth]).padding(0.1),
+        y = d3.scaleLinear().rangeRound([barchartheight, 10]);
 
-    y.domain([0, d3.max(data, accessor)]);
-    x.domain(data.map(function(d) {return d.state_origin; }));
+    x.domain(data.map(accessor_x));
+    y.domain([0, d3.max(data, accessor_y)]);
 
+    console.log('plotting absolute');
+    console.log(barchartwidth);
+    console.log(data.map(accessor_x))
+    console.log(data);
     g.select(".title").remove();
     g.append("text")
       .attr("class", "title")
       .attr("font-size", "20")
-      .attr("x", 150)
-      .attr("y", 50)
+      .attr("x", 10)
+      .attr("y", 5)
       .text(name);
 
     g.selectAll("g.axis").remove();
@@ -239,20 +243,30 @@ lib.barChartModule = function() {
 
 
     bars.transition().duration(300)
-      .attr("id", function(d) {return d.state_origin; })
-      .attr("x", function(d) { return x(d.state_origin); })
-      .attr("y", function(d) { return y(accessor(d)); })
+      .attr("id", function(d) {
+        return accessor_x(d);})
+      .attr("x", function(d) { return x(accessor_x(d)); })
+      .attr("y", function(d) {
+        console.log("debug in incoming");
+        console.log(d);
+        console.log(accessor_y(d));
+        console.log(y(accessor_y(d)));
+        return y(accessor_y(d)); })
       .attr("width", x.bandwidth())
-      .attr("height", function(d) { return height - y(accessor(d)); });
+      .attr("height", function(d) { return barchartheight - y(accessor_y(d)); });
+    console.log('here?');
 
 
     bars.enter().append("rect")
         .attr("class", "bar")
-        .attr("id", function(d) {return d.state_origin; })
-        .attr("x", function(d) { return x(d.state_origin); })
-        .attr("y", function(d) { return y(accessor(d)); })
+        .attr("id", function(d) {return accessor_x(d);})
+        .attr("x", function(d) { return x(accessor_x(d));})
+        .attr("y", function(d) {
+          console.log(d);
+          console.log(accessor_y(d));
+          return y(accessor_y(d)); })
         .attr("width", x.bandwidth())
-        .attr("height", function(d) { return barchartheight - y(accessor(d)); });
+        .attr("height", function(d) { return  barchartheight - y(accessor_y(d)); });
 
     bars.exit().transition().duration(300).remove();
 
@@ -268,14 +282,19 @@ lib.barChartModule = function() {
 };
 
 
-var svg = d3.select("#barchart"),
-    margin = {top: 20, right: 20, bottom: 30, left: 120},
+var margin = {top: 20, right: 10, bottom: 20, left: 40};
+var svg1 = d3.select("#barchart1"),
+    barchartwidth = +svg1.attr("width") - margin.left - margin.right,
+    barchartheight = +svg1.attr("height") - margin.top - margin.bottom;
 
-    barchartwidth = +svg.attr("width") - margin.left - margin.right,
-    barchartheight = +svg.attr("height") - margin.top - margin.bottom;
+var svg2 = d3.select("#barchart2"),
+    barchartwidth = +svg2.attr("width") - margin.left - margin.right,
+    barchartheight = +svg2.attr("height") - margin.top - margin.bottom;
 
+var g1 = svg1.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var g = svg.append("g")
+var g2 = svg2.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // d3.csv("data/by_state.csv", function(d) {
@@ -391,16 +410,405 @@ function renderBarChart(bars) {
   });
 }
 
+function mapState(state) {
+  switch(state) {
+    case "Alabama":
+      return "AL"
+      break;
+    case "Alaska":
+      return "AK"
+      break;
+    case "Arizona":
+      return "AZ"
+      break;
+    case "Arkansas":
+      return "AR"
+      break;
+    case "California":
+      return "CA"
+      break;
+    case "Colorado":
+      return "CO"
+      break;
+    case "Connecticut":
+      return "CT"
+      break;
+    case "Delaware":
+      return "DE"
+      break;
+    case "Florida":
+      return "FL"
+      break;
+    case "Georgia":
+      return "GA"
+      break;
+    case "Hawaii":
+      return "HI"
+      break;
+    case "Idaho":
+      return "ID"
+      break;
+    case "Illinois":
+      return "IL"
+      break;
+    case "Indiana":
+      return "IN"
+      break;
+    case "Iowa":
+      return "IA"
+      break;
+    case "Kansas":
+      return "KS"
+      break;
+    case "Kentucky":
+      return "KY"
+      break;
+    case "Louisiana":
+      return "LA"
+      break;
+    case "Maine":
+      return "ME"
+      break;
+    case "Maryland":
+      return "MD"
+      break;
+    case "Massachusetts":
+      return "MA"
+      break;
+    case "Michigan":
+      return "MI"
+      break;
+    case "Minnesota":
+      return "ME"
+      break;
+    case "Mississippi":
+      return "MS"
+      break;
+    case "Missouri":
+      return "MO"
+      break;
+    case "Montana":
+      return "MT"
+      break;
+    case "Nebraska":
+      return "NE"
+      break;
+    case "Nevada":
+      return "NV"
+      break;
+    case "New Hampshire":
+      return "NH"
+      break;
+    case "New Jersey":
+      return "NJ"
+      break;
+    case "New Mexico":
+      return "NM"
+      break;
+    case "New York":
+      return "NY"
+      break;
+    case "North Carolina":
+      return "NC"
+      break;
+    case "North Dakota":
+      return "ND"
+      break;
+    case "Ohio":
+      return "OH"
+      break;
+    case "Oklahoma":
+      return "OK"
+      break;
+    case "Oregon":
+      return "OR"
+      break;
+    case "Pennsylvania":
+      return "PA"
+      break;
+    case "Rhode Island":
+      return "RI"
+      break;
+    case "South Carolina":
+      return "SC"
+      break;
+    case "South Dakota":
+      return "SD"
+      break;
+    case "Tennessee":
+      return "TN"
+      break;
+    case "Texas":
+      return "TX"
+      break;
+    case "Utah":
+      return "UT"
+      break;
+    case "Vermont":
+      return "VT"
+      break;
+    case "Virginia":
+      return "VA"
+      break;
+    case "Washington":
+      return "WA"
+      break;
+    case "West Virginia":
+      return "WV"
+      break;
+    case "Wisconsin":
+      return "WI"
+      break;
+    case "Wyoming":
+      return "WY"
+      break;
+    case "District of Columbia":
+      return "DC"
+      break;
+    default:
+      return state;
+    }
+}
+
+function getYearAccessor(year, metric) {
+    switch(year) {
+      case "2012":
+        if (metric == "value") {
+          return function(d) {return +d.value_2012;}
+        } else if (metric == "tons") {
+          return function(d) {return +d.tons_2012;}
+        } else if (metric == "tmiles") {
+          return function(d) {return +d.tmiles_2012;}
+        }
+        break;
+      case "2013":
+        if (metric == "value") {
+          return function(d) {return +d.value_2013;}
+        } else if (metric == "tons") {
+          return function(d) {return +d.tons_2013;}
+        } else if (metric == "tmiles") {
+          return function(d) {return +d.tmiles_2013;}
+        }
+        break;
+      case "2014":
+        if (metric == "value") {
+          return function(d) {return +d.value_2014;}
+        } else if (metric == "tons") {
+          return function(d) {return +d.tons_2014;}
+        } else if (metric == "tmiles") {
+          return function(d) {return +d.tmiles_2014;}
+        }
+        break;
+      case "2015":
+        if (metric == "value") {
+          return function(d) {return +d.value_2015;}
+        } else if (metric == "tons") {
+          return function(d) {return +d.tons_2015;}
+        } else if (metric == "tmiles") {
+          return function(d) {return +d.tmiles_2015;}
+        }
+        break;
+      default:
+        if (metric == "value") {
+          return function(d) {return +d.value_total;}
+        } else if (metric == "tons") {
+          return function(d) {return +d.tons_total;}
+        } else if (metric == "tmiles") {
+          return function(d) {return +d.tmiles_total;}
+        }
+        break;
+    }
+}
+
+function renderOutgoingBarChart(bars) {
+    var commodity = d3.select( "#d3-dropdown-category" ).node().value.replace(" ", "_");
+    var year = d3.select( "#d3-dropdown-year" ).node().value;
+    var metric = d3.select( "#d3-dropdown-metric" ).node().value;
+    var origin = d3.select( "#d3-dropdown-region1" ).node().value;
+    var dest = d3.select( "#d3-dropdown-region2" ).node().value;
+    var metric_min = document.getElementById("number").value;
+    switch(metric) {
+      case "million_dollars":
+        metric = "value";
+        break;
+      case "ktons":
+        metric = "tons";
+        break;
+      case "ton_miles":
+        metric = "tmiles";
+        break;
+      default:
+        metric = "value";
+    }
+    dest = "none";
+    var params = "?"
+    if (dest != "none") {
+      params += "dest=" + mapState(dest) + "&";
+    }
+    if (origin != "none") {
+      params += "origin=" + mapState(origin) + "&";
+    }
+    if (commodity != "none") {
+      params += "commodity=" + commodity + "&";
+    }
+
+    if (year != "none") {
+      params += "year=" + year + "&";
+    }
+    params += "metric=" + metric;
+    console.log(params);
+  d3.json(options.OUTGOING_URL + params, function(d) {
+    console.log("render the barchart! The data is:");
+    console.log(d.length);
+    console.log(metric);
+    switch(metric) {
+      case "value":
+        console.log("millions of dollars!");
+        console.log(d);
+        d = d.sort(function(b, a) {return getYearAccessor(year, "value")(a) - getYearAccessor(year, "value")(b)}).slice(0, 10);
+        bars.data(d);
+        bars.plot_absolute("Millions of Dollars leaving " + origin + " for...",
+          function(d) {
+            return d.dest;
+          }, getYearAccessor(year, "value"), g1);
+        break;
+      case "tons":
+        console.log("ktons!!");
+        console.log(d);
+        //console.log("ktons!");
+        d = d.sort(function(b, a) {return getYearAccessor(year, "tons")(a) - getYearAccessor(year, "tons")(b)}).slice(0, 10);
+        bars.data(d);
+        bars.plot_absolute("Thousands of Tons leaving " + origin + " for...",
+        function(d) {
+          return d.dest;
+        }, getYearAccessor(year, "tons"), g1);
+        break;
+      case "tmiles":
+        //console.log("ktons!");
+        d = d.sort(function(b, a) {return getYearAccessor(year, "tmiles")(a) - getYearAccessor(year, "tmiles")(b)}).slice(0, 10);
+        bars.data(d);
+        bars.plot_absolute("Ton-miles of goods leaving " + origin + " for...",
+        function(d) {
+          return d.dest;
+        }, getYearAccessor(year, "tmiles"), g1);
+        break;
+      default:
+      // for default, just use dollar value
+        console.log("default");
+        console.log("millions of dollars!");
+        d = d.sort(function(b, a) {return getYearAccessor(year, "value")(a) - getYearAccessor(year, "value")(b)}).slice(0, 10);
+        console.log(d);
+        bars.data(d);
+        bars.plot_absolute("Millions of Dollars leaving " + origin + " for...",
+        function(d) {
+          return d.dest;
+        }, getYearAccessor(year, "value"), g1);
+        break;
+    }
+    console.log("done");
+  });
+}
+
+function renderIncomingBarChart(bars) {
+    var commodity = d3.select( "#d3-dropdown-category" ).node().value.replace(" ", "_");
+    var year = d3.select( "#d3-dropdown-year" ).node().value;
+    var metric = d3.select( "#d3-dropdown-metric" ).node().value;
+    var origin = d3.select( "#d3-dropdown-region1" ).node().value;
+    var dest = d3.select( "#d3-dropdown-region2" ).node().value;
+    var metric_min = document.getElementById("number").value;
+    switch(metric) {
+      case "million_dollars":
+        metric = "value";
+        break;
+      case "ktons":
+        metric = "tons";
+        break;
+      case "ton_miles":
+        metric = "tmiles";
+        break;
+      default:
+        metric = "value";
+    }
+    origin = "none";
+    var params = "?"
+    if (dest != "none") {
+      params += "dest=" + mapState(dest) + "&";
+    }
+    if (origin != "none") {
+      params += "origin=" + mapState(origin) + "&";
+    }
+    if (commodity != "none") {
+      params += "commodity=" + commodity + "&";
+    }
+
+    if (year != "none") {
+      params += "year=" + year + "&";
+      year = "total";
+    }
+    params += "metric=" + metric;
+
+    console.log(params);
+  d3.json(options.INCOMING_URL + params, function(d) {
+    console.log("fetch incoming");
+    switch(metric) {
+      case "value":
+        console.log("MILLIONS");
+        console.log(d);
+        d = d.sort(function(b, a) {return getYearAccessor(year, "value")(a) - getYearAccessor(year, "value")(b)}).slice(0, 10);
+        bars.data(d);
+        bars.plot_absolute("Millions of Dollars going to "+ dest +" from...",
+          function(d) {
+            return d.origin;
+          }, getYearAccessor(year, "value"), g2);
+        break;
+      case "tons":
+        console.log("KTONS");
+        d = d.sort(function(b, a) {return getYearAccessor(year, "tons")(a) - getYearAccessor(year, "tons")(b)}).slice(0, 10);
+        bars.data(d);
+        bars.plot_absolute("Thousands of tons going to "+ dest +" from...",
+        function(d) {
+          return d.origin;
+        }, getYearAccessor(year, "tons"), g2);
+        break;
+      case "tmiles":
+        //console.log("ktons!");
+        d = d.sort(function(b, a) {return getYearAccessor(year, "tmiles")(a) - getYearAccessor(year, "tmiles")(b)}).slice(0, 10);
+        bars.data(d);
+        bars.plot_absolute("Ton-miles going to " + dest +" from...",
+        function(d) {
+          return d.origin;
+        }, getYearAccessor(year, "tmiles"), g2);
+        break;
+      default:
+      // for default, just use dollar value
+      console.log("default incoming");
+        console.log("millions of dollars!");
+        d = d.sort(function(b, a) {return getYearAccessor(year, "value")(a) - getYearAccessor(year, "value")(b)}).slice(0, 10);
+        console.log(d);
+        bars.data(d);
+        bars.plot_absolute("Millions of Dollars going to "+ dest +" from...",
+        function(d) {
+          return d.origin;
+        }, getYearAccessor(year, "value"), g2);
+        break;
+    }
+    console.log("done incoming");
+  });
+}
+
 
 var bars = lib.barChartModule();
-renderBarChart(bars);
+renderOutgoingBarChart(bars);
+renderIncomingBarChart(bars);
 
 d3.select("#run_explore").on("click", function() {
-    renderBarChart(bars);
+    renderOutgoingBarChart(bars);
+    renderIncomingBarChart(bars);
 });
 
 d3.select("#scenario").on("click", function() {
-    renderBarChart(bars);
+    renderOutgoingBarChart(bars);
+    renderIncomingBarChart(bars);
 });
 // data = d3.json("/states").json();
 // bars.plot_opposition_vertical("Millions of Dollars, Net",
