@@ -1,18 +1,59 @@
 .title {
-    padding: 200px 40px 200px 40px;
+    padding: 80px;
+    margin: 80px ;
     background-color: white;
     position: relative;
     text-align: center;
 /*    color: white;*/
 }
 
-.intro {
-    padding: 200px 40px 200px 40px;
-    background-color: #6699FF;
+.intro1 {
+    padding: 80px;
+    background-color: #99CCFF;
+    position: relative;
+    font-weight: normal;
+    font-size:20px; 
 }
 
+.intro2 {
+    background-color: white;
+    padding: 80px;
+    position: relative;
+    font-size:20px;
+}
+.intro3 {
+    background-color: #ADDFAD;
+    padding: 80px;
+    font-weight: normal;
+    font-size:20px;
+    position: relative;
+}
+
+.img-title {
+    width: 60%;
+    padding: 0 100px 10px 100px;
+}
+
+.img1 {
+  width: 200px;
+  float: left;
+  margin: 10px 10px 10px 0;
+}
+
+.img2 {
+  width: 750px;
+  float: right;
+  margin: 10px 0 10px 10px;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+
+.img3 {
+}
+
+
 .direction {
-    margin: 10px;
+    margin: 20px 10px 10px 10px;
     border-radius: 10px;
     border: 3px solid black;
     padding: 7px;
@@ -23,11 +64,11 @@ display: flex;
 }
 
 .conclusion {
-    padding: 200px 40px 200px 40px;
-    background-color: #7ccd7c;
+    padding: 80px;
+    font-size:20px;
+    background-color: #FFB347;
     position: relative;
     text-align: center;
-/*    color: white;*/
 }
 
 .team {
@@ -112,4 +153,14 @@ display: flex;
 .dashboard {
     display: flex;
     flex-direction: row;  
+}
+
+.descript {
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px dotted gray;
+    font-size: 20px;
+    text-align: center;
+    white-space: normal;
+    width:300px;
 }

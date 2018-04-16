@@ -57,7 +57,7 @@ body {
 }
 
 .name-label {
-  font-size: 14px;
+  font-size: 10px;
   font: sans-serif;
   text-anchor: middle;
 }
@@ -100,13 +100,4 @@ body {
   stroke: #000;
   stroke-opacity: 0.5;
   stroke-width: 1.25px;
-}
-
-.descript {
-  margin: 10px;
-  /*border-radius: 10px;*/
-  /*border: 1px solid black;*/
-  padding: 10px;
-  font-size: 20px;
-  text-align: center;
 }

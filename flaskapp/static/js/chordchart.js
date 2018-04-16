@@ -13,10 +13,10 @@ d3.csv("/static/data/summed_data.csv", function(error, data){
                 console.log(error);
             return error;}
     var filtered_data = data.filter(function(d) { return d.orig_name != d.dest_name; });
-    console.log(default_data);
+    console.log("default_data", default_data);
     imports = d3.merge([filtered_data,default_data]);
     lookup = region_data
-    console.log(imports);
+    console.log("imports", imports);
 });});});
 
 //3. category_range - contains the maximum range for the "min. metric" selector
@@ -26,7 +26,7 @@ d3.csv("/static/data/category_min_metric_range.csv", function(error, data){
         console.log(error);
         return error;}
     category_range = data;
-    console.log(category_range);
+    console.log("category_range", category_range);
 });
 
 
@@ -89,15 +89,15 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
             else {
                 return (d.category == category || d.category == 'Default')}
         ;}))
-    console.log(nest_data)
+    console.log("nest_data", nest_data)
 
-    // Create variable containing data for selected state only
-    var selected_state_data = nest_data.filter(
-        function(d){
-            if (d.key.includes(region1)) {
-                return d; }
-        });
-    console.log(selected_state_data);
+    // // Create variable containing data for selected state only
+    // var selected_state_data = nest_data.filter(
+    //     function(d){
+    //         if (d.key.includes(region1)) {
+    //             return d; }
+    //     });
+    // console.log(selected_state_data);
 
     // Create data matrix to feed into the chordchart
     var matrix = nest_data.map(
@@ -115,11 +115,11 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
     function(orig_name, row) {
       return orig_name.values.map(
         function(dest_name, col) {
-          return Math.sign(dest_name.value + -1*nest_data[col].values[row].value)
+          return Math.sign(dest_name.value + nest_data[col].values[row].value)
         })})
 
-    console.log(matrix);
-    console.log(color_matrix);
+    console.log("matrix", matrix);
+    console.log("color_matrix", color_matrix);
 
     // Initialize canvas and inner/outer radii of the chords
     var outerRadius = Math.min(innerwidth, innerheight) * 0.5  - 60,
@@ -169,8 +169,18 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
       .data(function(chords) { return chords; })
       .enter().append("path")
       .attr("d", ribbon)
-      .style("fill", function(d){ return lookup[d.source.index].color;})
-      .style("stroke", function(d){ return lookup[d.source.index].color;})
+      .style("fill", function(d){ 
+            if (color_matrix[d.source.index][d.target.index] == 1) { 
+                return lookup[d.source.index].color; }
+            else { 
+                return lookup[d.target.index].color; }
+            })
+      .style("stroke", function(d){ 
+            if (color_matrix[d.source.index][d.target.index] == 1) { 
+                return lookup[d.source.index].color; }
+            else { 
+                return lookup[d.target.index].color; }
+            })
       .style("opacity", 0.01);
 
     // /////////////////////////////
@@ -227,30 +237,87 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
     // /////////////////////////////
 
     // Set color on ribbons for currently selected state
-    var total_net = 0
+    var region1_net = 0
+    var region2_net = 0
     ribbons
         .filter(function(row) {
-            if (lookup[row.source.index].type == region1
-                || lookup[row.source.index].name == region1) {
-                total_net += row.source.value
-            };
-            if (lookup[row.target.index].type == region1
-                || lookup[row.target.index].name == region1) {
-                total_net -= row.target.value
-            };
-            // if (lookup[row.source.index].type == region || lookup[row.source.index].name == region){
-                // relevant_states.push(lookup[row.source.index].type + lookup[row.source.index].name);
-                // relevant_states.push(lookup[row.target.index].type + lookup[row.target.index].name); }
-            // if (lookup[row.target.index].type == region || lookup[row.target.index].name == region){
-                // relevant_states.push(lookup[row.source.index].type + lookup[row.source.index].name);
-                // relevant_states.push(lookup[row.target.index].type + lookup[row.target.index].name); }
-            return lookup[row.source.index].type == region1
-                || lookup[row.source.index].name == region1
-                || lookup[row.target.index].type == region1
-                || lookup[row.target.index].name == region1
-                ; })
-        .style("fill", function(d){ return lookup[d.source.index].color;})
-        .style("stroke", function(d){ return lookup[d.source.index].color;})
+
+
+            if (region1 != 'All') {
+                if (lookup[row.source.index].type == region1 || lookup[row.source.index].name == region1) {
+                    if (color_matrix[row.source.index][row.target.index] == 1) {
+                        region1_net += row.source.value
+                    } else {
+                        region1_net -= row.source.value
+                    }
+                }
+                if (lookup[row.target.index].type == region1 || lookup[row.target.index].name == region1) {
+                    if (color_matrix[row.source.index][row.target.index] == 1) {
+                        region1_net -= row.target.value
+                    } else {
+                        region1_net += row.target.value
+                    }
+                }
+            }
+
+
+
+            if (region2 != 'All') {
+                if (lookup[row.source.index].type == region2 || lookup[row.source.index].name == region2) {
+                    if (color_matrix[row.source.index][row.target.index] == 1) {
+                        region2_net += row.source.value
+                    } else {
+                        region2_net -= row.source.value
+                    }
+                }
+                if (lookup[row.target.index].type == region2 || lookup[row.target.index].name == region2) {
+                    if (color_matrix[row.source.index][row.target.index] == 1) {
+                        region2_net -= row.target.value
+                    } else {
+                        region2_net += row.target.value
+                    }
+                }
+            }
+
+
+
+            if (region1 == 'All' && region2 == 'All') {
+                return row
+            }
+            else if (region1 == 'All') {
+                return lookup[row.source.index].type == region2
+                    || lookup[row.source.index].name == region2
+                    || lookup[row.target.index].type == region2
+                    || lookup[row.target.index].name == region2;
+            }
+            else if (region2 == 'All') {
+                return lookup[row.source.index].type == region1
+                    || lookup[row.source.index].name == region1
+                    || lookup[row.target.index].type == region1
+                    || lookup[row.target.index].name == region1;
+            }
+            else {
+                return ((lookup[row.source.index].type == region1
+                        || lookup[row.source.index].name == region1) &&
+                        (lookup[row.target.index].type == region2
+                        || lookup[row.target.index].name == region2)) ||
+                       (( lookup[row.target.index].type == region1
+                        || lookup[row.target.index].name == region1) &&
+                        (lookup[row.source.index].type == region2
+                        || lookup[row.source.index].name == region2));
+                }; })
+        .style("fill", function(d){ 
+            if (color_matrix[d.source.index][d.target.index] == 1) { 
+                return lookup[d.source.index].color; }
+            else { 
+                return lookup[d.target.index].color; }
+            })
+        .style("stroke", function(d){ 
+            if (color_matrix[d.source.index][d.target.index] == 1) { 
+                return lookup[d.source.index].color; }
+            else { 
+                return lookup[d.target.index].color; }
+            })
         .style("opacity", 0.6)
         .on("mouseover", function (d, i) {
             d3.select(this).style("opacity", 1)
@@ -266,47 +333,102 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
                     if (metric == 'ktons'){
                         amount = d.target.value
                             tooltip_value = formatDecimalComma(amount)+" kilotons"}
-                    return "Flow Info:\n" + lookup[d.source.index].name + " → " + lookup[d.target.index].name + ": " + tooltip_value;});
-        })
+
+                    if (color_matrix[d.source.index][d.target.index] == 1) {
+                        return "Flow Info:\n" + lookup[d.source.index].name + " → " + 
+                            lookup[d.target.index].name + ": " + tooltip_value;
+                    } else {
+                        return "Flow Info:\n" + lookup[d.target.index].name + " → " + 
+                            lookup[d.source.index].name + ": " + tooltip_value;
+                    };
+        })})
         .on("mouseout", function (d, i) {d3.select(this).style("opacity", 0.6); });
-    console.log(total_net);
+    console.log("region1_net", region1, region1_net);
+    console.log("region2_net", region2, region2_net);
 
 
     var description = d3.select("#description")
         .selectAll("p").remove()
         d3.select("#description").append("p")
-        .data(selected_state_data)
+        // .data(selected_state_data)
         .attr("class", "descript")
         .text(function(d){
             if (explore_scenario_type == 'explore') {
-                var str = "The net export for region " + region1;
-                str += " in the category "+ category;
-                str += " for the year " + year + " was ";
-                    // var temp=0;
-                    // for (var i=0;i<59;i++) {
-                        // temp=temp-parseFloat(d.values[i].value);
-                        // console.log("Here")
-                        // console.log(temp);
-                    // }
-                    var formatDecimalComma = d3.format(",.2f")
+                str = ""
+                str+= " In " + year + ", ";
+                var formatDecimalComma = d3.format(",.2f")
+                if (region1 != 'All') {
+                    //Felix: Updated the words to be more clear description
+                    str += region1;
+                    if (Math.sign(region1_net)==-1){
+                        str += " was net importer to all regions with ";}
+                    else {
+                        str += " was net exporter to all regions with ";}
                     if (metric == 'million_dollars'){
-                        if (Math.sign(total_net)==-1){var sign = '-'}
-                        else {var sign = ''}
-                        var amount = formatDecimalComma(Math.abs(total_net))
-                        str += sign +"$" + amount + "M."}
+                        var amount = formatDecimalComma(Math.abs(region1_net))
+                        str += "$" + amount + "M";}
                     if (metric == 'ton_miles'){
-                        var amount = formatDecimalComma(total_net)
-                        str += amount + " ton-miles."}
+                        var amount = formatDecimalComma(Math.abs(region1_net))
+                        str += amount + " ton-miles";}
                     if (metric == 'ktons'){
-                        var amount = formatDecimalComma(total_net)
-                        str += amount + " kilotons."}};
-            if (explore_scenario_type == 'nafta') {var str = "nafta blah blah"};
+                        var amount = formatDecimalComma(Math.abs(region1_net))
+                        str += amount + " kilotons";}
+                    str+= " ";
+
+                }
+                if (region1 != 'All' && region2 != 'All' && region1 != region2) {
+                    str += " and ";
+                }
+                if (region2 != 'All' && region1 != region2) {
+                    str += region2;
+                    if (Math.sign(region2_net)==-1){
+                        str += " was net importer to all regions with ";}
+                    else {
+                        str += " was net exporter to all regions with ";}
+                    if (metric == 'million_dollars'){
+                        var amount = formatDecimalComma(Math.abs(region2_net))
+                        str += "$" + amount + "M";}
+                    if (metric == 'ton_miles'){
+                        var amount = formatDecimalComma(Math.abs(region2_net))
+                        str += amount + " ton-miles";}
+                    if (metric == 'ktons'){
+                        var amount = formatDecimalComma(Math.abs(region2_net))
+                        str += amount + " kilotons";}
+                }
+                str+= " for ";
+                str+= category.toLowerCase();
+
+                if (region1 == 'All' && region2 == 'All') {
+                    str = "Showing all regions";
+                }
+
+                if 
+                (['Africa','Canada','Eastern Asia','Europe','Mexico','Rest of Americas',
+                    'SE Asia & Oceania','SW & Central Asia','International'].includes(region1) &&
+                ['Africa','Canada','Eastern Asia','Europe','Mexico','Rest of Americas',
+                    'SE Asia & Oceania','SW & Central Asia','International'].includes(region2)) {
+                    str = "Data not available for comparisons between " + region1 + " and " + region2;
+                }
+
+            }
+            if (explore_scenario_type == 'nafta') {
+                var str = "In 2015, Canada was a net exporter to the United States"
+                str += " 14,726 kilotons of wood products. A 10% reduction"
+                str += " in wood products from Canada due to deteriorating trade relations"
+                str += " would result in an annual loss of 1,473 kilotons of wood product supply."};
             if (explore_scenario_type == 'tariff') {var str = "Tariffs blah blah"};
             if (explore_scenario_type == 'natural_disaster') {
-                var str = "Though Oregon may look like a small player in the "
-                str += " import and export business (with net imports totaling "
-                str += " -$1,010M in 2015) blah blah"};
-            if (explore_scenario_type == 'electronics') {var str = "Electronics blah blah"}
+                var str = "In 2015, California was a net exporter of $5.88 billion"
+                str += " in alcoholic beverages. California is a major producer"
+                str += " of wine and ships its products worldwide. A 10% reduction"
+                str += " in supply due to forest fires would amount to an inventory"
+                str += " loss of $588 million."};
+            if (explore_scenario_type == 'electronics') {
+                var str = "In 2015, Eastern Asia was a net exporter of $224 billion"
+                str += " in electronic goods. China is a leading producer of electronic"
+                str += " products. A 5% tax "
+                str += " placed on products imported from Eastern Asia would result in an "
+                str += " additional cost of $11 billion."};
           return str
 
       });
@@ -320,7 +442,6 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
         .attr("font","sans-serif")
         .attr("transform", function(d,i) { //angle
             d.angle = (d.startAngle + d.endAngle) / 2; //calculate the average of the start angle and the end angle
-            // console.log(d.angle)
             d.name = lookup[i].name;
             d.type_name = lookup[i].type + lookup[i].name;
             return "rotate(" + (d.angle * 180 / Math.PI) + ")" +
@@ -399,10 +520,11 @@ function select(explore_scenario_type) {
     var region2 = d3.select( "#d3-dropdown-region2" ).node().value
     var metric_min = document.getElementById("number").value
     render( explore_scenario_type, imports, category, year, metric, metric+'_'+year, region1, region2, metric_min );
-    console.log( category );
-    console.log( metric+'_'+year );
-    console.log( region )
-    console.log( metric_min );
+    console.log( "category", category );
+    console.log( "metric year", metric+'_'+year );
+    console.log( "region1", region1 )
+    console.log( "region2", region2 )
+    console.log( "metric_min", metric_min );
 }
 
 // If Explore Data option is run, reset What-If Scenarios to empty
@@ -415,37 +537,44 @@ function myExploreFunction() {
 function myScenarioFunction() {
     scenario_type = d3.select( "#d3-dropdown-scenario" ).node().value
     if (scenario_type=='nafta') {
-        document.getElementById('d3-dropdown-category').value = 'All';
+        document.getElementById('d3-dropdown-category').value = 'Wood prods.';
         document.getElementById('d3-dropdown-region1').value = 'Canada';
+        document.getElementById('d3-dropdown-region2').value = 'All';
         document.getElementById('d3-dropdown-year').value = '2015';
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
-        document.getElementById('number').value = 1000;
-        document.getElementById('slider').value = 1000;
-        select(scenario_type);}
-    else if (scenario_type=='tariff') {
-        document.getElementById('d3-dropdown-category').value = 'All';
-        document.getElementById('d3-dropdown-region1').value = 'Eastern Asia';
-        document.getElementById('d3-dropdown-year').value = '2015';
-        document.getElementById('d3-dropdown-metric').value = 'million_dollars';
-        document.getElementById('number').value = 1000;
-        document.getElementById('slider').value = 1000;
-        select(scenario_type);}
-    else if (scenario_type=='natural_disaster') {
-        document.getElementById('d3-dropdown-category').value = 'All';
-        document.getElementById('d3-dropdown-region1').value = 'Oregon';
-        document.getElementById('d3-dropdown-year').value = '2015';
-        document.getElementById('d3-dropdown-metric').value = 'million_dollars';
-        document.getElementById('number').value = 1000;
-        document.getElementById('slider').value = 1000;
+        changeCategory('Wood prods.')
+        document.getElementById('number').value = 0;
+        document.getElementById('slider').value = 0;
         select(scenario_type);}
     else if (scenario_type=='electronics') {
         document.getElementById('d3-dropdown-category').value = 'Electronics';
-        document.getElementById('d3-dropdown-region1').value = 'International';
+        document.getElementById('d3-dropdown-region1').value = 'Eastern Asia';
+        document.getElementById('d3-dropdown-region2').value = 'All';
         document.getElementById('d3-dropdown-year').value = '2015';
         document.getElementById('d3-dropdown-metric').value = 'million_dollars';
-        document.getElementById('number').value = 5000;
-        document.getElementById('slider').value = 5000;
+        changeCategory('Electronics')
+        document.getElementById('number').value = 0;
+        document.getElementById('slider').value = 0;
         select(scenario_type);}
+    else if (scenario_type=='natural_disaster') {
+        document.getElementById('d3-dropdown-category').value = 'Alcoholic beverages';
+        document.getElementById('d3-dropdown-region1').value = 'California';
+        document.getElementById('d3-dropdown-region2').value = 'All';
+        document.getElementById('d3-dropdown-year').value = '2015';
+        document.getElementById('d3-dropdown-metric').value = 'million_dollars';
+        changeCategory("Alcoholic beverages")
+        document.getElementById('number').value = 0;
+        document.getElementById('slider').value = 0;
+        select(scenario_type);}
+    // else if (scenario_type=='tariff') {
+        // document.getElementById('d3-dropdown-category').value = 'Electronics';
+        // document.getElementById('d3-dropdown-region1').value = 'International';
+        // document.getElementById('d3-dropdown-year').value = '2015';
+        // document.getElementById('d3-dropdown-metric').value = 'million_dollars';
+        // document.getElementById('number').value = 5000;
+        // document.getElementById('slider').value = 5000;
+        // function changeCategory("Electronics")
+        // select(scenario_type);}
     else {console.log("Do nothing")}
 };
 
@@ -453,12 +582,11 @@ function myScenarioFunction() {
 // 1. change the max range for the Min. Metric slider
 // 2. set the Min. Metric slider value to 0
 function changeCategory(selected_category) {
-    console.log(selected_category)
-    console.log(selected_category);
+    console.log("selected_category", selected_category);
     var selected_metric = d3.select( "#d3-dropdown-metric" ).node().value
-    console.log(selected_metric);
+    console.log("selected_metric", selected_metric);
     var selected_year = d3.select( "#d3-dropdown-year" ).node().value
-    console.log(selected_year);
+    console.log("selected_year", selected_year);
     if (selected_metric != "none" && selected_year != "none" && selected_category != "none") {
         var range = window.category_range.filter(function(row) {
           return row.category == selected_category;})
@@ -477,15 +605,15 @@ function changeCategory(selected_category) {
 // 1. change the max range for the Min. Metric slider
 // 2. set the Min. Metric slider value to 0
 function changeMetric(selected_metric) {
-    console.log(selected_metric)
+    console.log("selected_metric", selected_metric)
     var selected_category = d3.select( "#d3-dropdown-category" ).node().value
-    console.log(selected_category);
+    console.log("selected_category", selected_category);
     var selected_year = d3.select( "#d3-dropdown-year" ).node().value
-    console.log(selected_year);
+    console.log("selected_year", selected_year);
     if (selected_metric != "none" && selected_year != "none" && selected_category != "none") {
         var range = window.category_range.filter(function(row) {
           return row.category == selected_category;})
-        console.log(range)
+        console.log("range", range)
         var range_number = range[0][selected_metric+'_'+selected_year]-5
         var range_value = Math.round(range_number/20,0)
         document.getElementById('number').max = range_number;
@@ -501,15 +629,15 @@ function changeMetric(selected_metric) {
 // 1. change the max range for the Min. Metric slider
 // 2. set the Min. Metric slider value to 0
 function changeYear(selected_year) {
-    console.log(selected_year)
+    console.log("selected_year", selected_year)
     var selected_category = d3.select( "#d3-dropdown-category" ).node().value
-    console.log(selected_category);
+    console.log("selected_category", selected_category);
     var selected_metric = d3.select( "#d3-dropdown-metric" ).node().value
-    console.log(selected_metric);
+    console.log("selected_metric", selected_metric);
     if (selected_metric != "none" && selected_year != "none" && selected_category != "none") {
         var range = window.category_range.filter(function(row) {
           return row.category == selected_category;})
-        console.log(range)
+        console.log("range", range)
         var range_number = range[0][selected_metric+'_'+selected_year]-5
         var range_value = Math.round(range_number/20,0)
         document.getElementById('number').max = range_number;
@@ -546,8 +674,8 @@ function func() {
     // console.log("end test")
 
     console.log('Load initial chordchart');
-    render( "run_explore", imports, "All", "2015", "million_dollars", 
-        "million_dollars_2015", "International","All", "0" );
+    render( "explore", imports, "All", "2015", "million_dollars", 
+        "million_dollars_2015", "All","All", "0" );
     // document.getElementById('run_explore').click();
 }
 
