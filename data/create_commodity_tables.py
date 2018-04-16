@@ -107,7 +107,20 @@ if __name__ == "__main__":
 
     # add up all years into 
     commodities_by_origin = data.groupby(['commodity', 'origin', 'dest'])['tmiles_2012', 'tmiles_2013', 'tmiles_2014', 'tmiles_2015','tons_2012', 'tons_2013', 'tons_2014', 'tons_2015', 'trade_type','value_2012', 'value_2013', 'value_2014', 'value_2015', 'curval_2013', 'curval_2014', 'curval_2015', 'tons_total', 'value_total', 'curval_total', 'tmiles_total'].sum().reset_index()
+#    all_commodities_entries_origin = data.groupby(['dest'])['tmiles_2012', 'tmiles_2013', 'tmiles_2014', 'tmiles_2015','tons_2012', 'tons_2013', 'tons_2014', 'tons_2015', 'trade_type','value_2012', 'value_2013', 'value_2014', 'value_2015', 'curval_2013', 'curval_2014', 'curval_2015', 'tons_total', 'value_total', 'curval_total', 'tmiles_total'].sum().reset_index()
+#     all_commodities_entries_origin.loc[:, 'commodity'] = "All"
+#     all_commodities_entries_origin.loc[:, 'origin'] = "Anywhere"
+#     print all_commodities_entries_origin.columns
+#     commodities_by_origin = commodities_by_origin.append(all_commodities_entries_origin, ignore_index=True)
+
+
     commodities_by_dest = data.groupby(['commodity', 'dest',  'origin', ])['tmiles_2012', 'tmiles_2013', 'tmiles_2014', 'tmiles_2015','tons_2012', 'tons_2013', 'tons_2014', 'tons_2015', 'trade_type','value_2012', 'value_2013', 'value_2014', 'value_2015', 'curval_2013', 'curval_2014', 'curval_2015', 'tons_total', 'value_total', 'curval_total', 'tmiles_total'].sum().reset_index()
+#     all_commodities_entries_dest = data.groupby(['origin'])['tmiles_2012', 'tmiles_2013', 'tmiles_2014', 'tmiles_2015','tons_2012', 'tons_2013', 'tons_2014', 'tons_2015', 'trade_type','value_2012', 'value_2013', 'value_2014', 'value_2015', 'curval_2013', 'curval_2014', 'curval_2015', 'tons_total', 'value_total', 'curval_total', 'tmiles_total'].sum().reset_index()
+#     all_commodities_entries_dest.loc[:, 'commodity'] = "All"
+#     all_commodities_entries_dest.loc[:, 'dest'] = "Anywhere"
+#     commodities_by_dest = commodities_by_dest.append(all_commodities_entries_dest, ignore_index=True)
+
+
 
 
     commodities_by_origin.to_csv("commodities_by_origin_table.csv")
