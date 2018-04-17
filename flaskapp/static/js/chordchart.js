@@ -6,9 +6,9 @@
 // 2. lookup - contains color legend info
 var imports = [];
 var lookup = [];
-d3.csv("/static/data/summed_data.csv", function(error, data){
-    d3.csv("/static/data/default_data.csv", function(error, default_data){
-        d3.csv("/static/data/lookup_states.csv", function(error, region_data){
+d3.csv(options.SUMMED_DATA, function(error, data){
+    d3.csv(options.DEFAULT_DATA, function(error, default_data){
+        d3.csv(options.LOOKUP_STATES, function(error, region_data){
             if (error) {
                 console.log(error);
             return error;}
