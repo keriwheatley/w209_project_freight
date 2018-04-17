@@ -57,12 +57,9 @@
 
 
 .img2 {
-        padding: 10px 400px 10px 300px;
+        padding: 10px 80px 10px 80px;
 
   float: center;
-  height: 120%;
-      display: flex;
-    flex-direction: row;  
 
 }
 
