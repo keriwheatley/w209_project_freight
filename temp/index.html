@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="static/style/chordchart.css">
+    <link rel="stylesheet" type="text/css" href="static/style/barchart.css">
+    <link rel="stylesheet" type="text/css" href="static/style/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="static/js/config.js'"></script>
+  </head>
+
+  <body >
+    <div class="title">
+
+      <img src="static/img/top_border.jpg" alt="Norway" style="width:100%;">
+     </div>
+      <div class="title1">
+        <p><b><font size="9">International and Domestic Net Imports and Exports for my State / Region</font></b></p>
+
+        <p><font size="4">UCB MIDS w209.3 Spring 2018</font></p>
+        <p><font size="4">Daniel Balack, Felix Tsui, Keri Wheatley</font></p>
+    </div>
+
+    <div class="intro">
+        <p><b><font size="7">Project Background</font></b></p>
+        <b><font>Have you as a consumer ever wondered where the gasoline in your state comes from? Have you as a farmer ever wondered how fertilizer supply might be disrupted if another hurricane Katrina struck? Or have you as a policy maker ever wondered how much your state trades with neighboring states relative to distant states or even other continents? The visualization of this project is intended to answer just these questions.
+        </font></b>
+    </div>
+
+      <img src="static/img/intro_image1.png" class="img1" alt="Norway";>
+
+    <div class="intro2">
+
+        <b><font>The data source is based on the Freight Analysis Framework, which was created through a partnership between the Bureau of Transportation Statistics and Federal Highway Administration. Both are part of the United States Department of Transportation. Starting 2012, data from Census Bureau was also added to provide a comprehensive picture of freight movement (states to states, states to international) all modes of transportation. For further information, please visit https://faf.ornl.gov.
+        </font></b>
+
+    </div>
+        <img src="static/img/ChordChartDemo.png" class="img2" alt="Norway";>
+    
+    <div class="intro3">
+        <b><font>
+            The main visualization for this project is a chord chart. This chord chart is divided by different regions (color code indicated in the legend) and then further divided into each state within the region (for International region, it is further divided into continents). 
+
+        <br>
+        <br>
+
+        Using the selection bar on the left, choose a category of goods or select "All Goods". The data can be explored in terms of monetary units ($M), weight (kiloton), or work (ton-miles). Next, choose two locations to explore their relationship for the selected goods. You have the option to select different years and exclude any small values (minimum freight size defaults to 5th percentile to reduce background noise within the chart).
+
+        <br>
+        <br>
+        The data is shown on a net basis. The thicker the ribbon, the higher the volume. The color of the ribbon is the color of the net exporter state. You can hover over each riboon to get specific details.Do note that if you select the same state/region for both location, it will reflect the data between that state/region and all locations.
+
+        </font></b>
+
+
+    </div>
+
+        <div class="intro4">
+        <p><b><font size="7">Project Target, Purpose, and Disclaimers</font></b></p>
+        <b><font>We designed this visualization with three types of users and their purposes in mind: <br />
+        </font></b>
+
+        <b><font size=2>A) Anyone interested in understanding more about trade relationships between different states in US and also aboard <br />B) Farmers, manufacturers, businesses who can use this data to understand the supply chain of certain goods that is critical to their business and how disruptions in certain states may impact that <br /> C) Policy makers who need to understand the intricacte trade relationships between states for policy setting or state to state negotiation purposes 
+        </font></b>
+
+        <b><font><br /><br />As a disclaimer, we want to outline some potential bias and limitations in the underyling data and the visualization:<br />
+        </font></b>
+
+        <b><font size=2>A) We are neither in the logistic profession or transportation industry, we have relied on the data collection and classification methodologies of the FAF framework. Detail of their user guide and documentation can be found at https://faf.ornl.gov/fafweb/Documentation.aspx <br />B) The underlying data does not capture illegal trafficing of goods between states and across the US border , <br /> C) The visualization was designed to provide an understanding of the flow of goods, while multiple year of data is offered, it is not designed with the intention of doing YoY comparison analysis
+        
+        </font></b>
+
+    </div>
+
+    <div class="dashboard">
+    <div class="left-bar">
+    <div class="direction">
+    <div>
+
+    <!--     <b><font size="5">Directions:</font></b>
+        <font size="4">Please choose A) the category of goods, B) the unit of which to view the data, C) the year, D) the location of interest (can be selected at region or state wise level), and E) minimum value filter (dependent on the unit selected). For example, if you select New York as the location, you will see only net exports / imports between New York and other regions. We have created a few What-If Scenarios to illustrate the impact on trade for different goods if certain events were to happen.</font>
+
+        <p></p> -->
+
+        <b><font size="5">Explore Data:</font></b>
+
+        <br>
+        Net export paths for
+        <br>
+        <select id="d3-dropdown-category" onchange="changeCategory(this.value)">
+            <option value="none" selected="selected">Choose goods</option>
+            <option value='All'>all goods</option>
+            <option value='Alcoholic beverages'>alcoholic beverages</option>
+            <option value='Animal feed'>animal feed</option>
+            <option value='Articles-base metal'>articles-base metal</option>
+            <option value='Base metals'>base metals</option>
+            <option value='Basic chemicals'>basic chemicals</option>
+            <option value='Building stone'>building stone</option>
+            <option value='Cereal grains'>cereal grains</option>
+            <option value='Chemical prods.'>chemical prods.</option>
+            <option value='Coal'>coal</option>
+            <option value='Coal-n.e.c.'>coal-n.e.c.</option>
+            <option value='Crude petroleum'>crude petroleum</option>
+            <option value='Electronics'>electronics</option>
+            <option value='Fertilizers'>fertilizers</option>
+            <option value='Fuel oils'>fuel oils</option>
+            <option value='Furniture'>furniture</option>
+            <option value='Gasoline'>gasoline</option>
+            <option value='Gravel'>gravel</option>
+            <option value='Live animals/fish'>live animals/fish</option>
+            <option value='Logs'>logs</option>
+            <option value='Machinery'>machinery</option>
+            <option value='Meat/seafood'>meat/seafood</option>
+            <option value='Metallic ores'>metallic ores</option>
+            <option value='Milled grain prods.'>milled grain prods.</option>
+            <option value='Misc. mfg. prods.'>misc. mfg. prods.</option>
+            <option value='Mixed freight'>mixed freight</option>
+            <option value='Motorized vehicles'>motorized vehicles</option>
+            <option value='Natural sands'>natural sands</option>
+            <option value='Newsprint/paper'>newsprint/paper</option>
+            <option value='Nonmetal min. prods.'>nonmetal min. prods.</option>
+            <option value='Nonmetallic minerals'>nonmetallic minerals</option>
+            <option value='Other ag prods.'>other ag prods.</option>
+            <option value='Other foodstuffs'>other foodstuffs</option>
+            <option value='Paper articles'>paper articles</option>
+            <option value='Pharmaceuticals'>pharmaceuticals</option>
+            <option value='Plastics/rubber'>plastics/rubber</option>
+            <option value='Precision instruments'>precision instruments</option>
+            <option value='Printed prods.'>printed prods.</option>
+            <option value='Textiles/leather'>textiles/leather</option>
+            <option value='Tobacco prods.'>tobacco prods.</option>
+            <option value='Transport equip.'>transport equip.</option>
+            <option value='Unknown'>unknown</option>
+            <option value='Waste/scrap'>waste/scrap</option>
+            <option value='Wood prods.'>wood prods.</option>
+        </select>
+
+        <br>
+        measured by
+        <br>
+        <select id="d3-dropdown-metric" onchange="changeMetric(this.value)">
+            <option value="none" selected="selected">Choose metric</option>
+            <option value='million_dollars'>value in $M</option>
+            <option value='ktons'>weight in kilotons</option>
+    
+            <option value='ton_miles'>work in ton-miles</option>
+ 
+        </select>
+
+        <br>
+        between location
+        <br>
+        <select id="d3-dropdown-region1">
+            <option value="none" selected="selected">Choose 1st region</option>
+            <optgroup label="All">
+                <option value='All'> All Regions</option>
+            <optgroup label="Region">
+                <option value='Midwest'> Midwest</option>
+                <option value='Southwest'> Southwest</option>
+                <option value='West'> West</option>
+                <option value='Northeast'> Northeast</option>
+                <option value='Southeast'> Southeast</option>
+            </optgroup>
+            <!--
+            Felix: Removed International as second option because it will show empty if someone select Canada as option 1 and Africa as option 2 since our data set does not containt intenrtioanl to international data -->
+            <optgroup label="International">
+                <option value='Africa'>Africa</option>
+                <option value='Canada'>Canada</option>
+                <option value='Eastern Asia'>Eastern Asia</option>
+                <option value='Europe'>Europe</option>
+                <option value='Mexico'>Mexico</option>
+                <option value='Rest of Americas'>Rest of Americas</option>
+                <option value='SE Asia & Oceania'>SE Asia & Oceania</option>
+                <option value='SW & Central Asia'>SW & Central Asia</option>
+            </optgroup>
+           
+            <optgroup label="State">
+                <option value='Alabama'>Alabama</option>
+                <option value='Alaska'>Alaska</option>
+                <option value='Arizona'>Arizona</option>
+                <option value='Arkansas'>Arkansas</option>
+                <option value='California'>California</option>
+                <option value='Colorado'>Colorado</option>
+                <option value='Connecticut'>Connecticut</option>
+                <option value='Delaware'>Delaware</option>
+                <option value='Florida'>Florida</option>
+                <option value='Georgia'>Georgia</option>
+                <option value='Hawaii'>Hawaii</option>
+                <option value='Idaho'>Idaho</option>
+                <option value='Illinois'>Illinois</option>
+                <option value='Indiana'>Indiana</option>
+                <option value='Iowa'>Iowa</option>
+                <option value='Kansas'>Kansas</option>
+                <option value='Kentucky'>Kentucky</option>
+                <option value='Louisiana'>Louisiana</option>
+                <option value='Maine'>Maine</option>
+                <option value='Maryland'>Maryland</option>
+                <option value='Massachusetts'>Massachusetts</option>
+                <option value='Michigan'>Michigan</option>
+                <option value='Minnesota'>Minnesota</option>
+                <option value='Mississippi'>Mississippi</option>
+                <option value='Missouri'>Missouri</option>
+                <option value='Montana'>Montana</option>
+                <option value='Nebraska'>Nebraska</option>
+                <option value='Nevada'>Nevada</option>
+                <option value='New Hampshire'>New Hampshire</option>
+                <option value='New Jersey'>New Jersey</option>
+                <option value='New Mexico'>New Mexico</option>
+                <option value='New York'>New York</option>
+                <option value='North Carolina'>North Carolina</option>
+                <option value='North Dakota'>North Dakota</option>
+                <option value='Ohio'>Ohio</option>
+                <option value='Oklahoma'>Oklahoma</option>
+                <option value='Oregon'>Oregon</option>
+                <option value='Pennsylvania'>Pennsylvania</option>
+                <option value='Rhode Island'>Rhode Island</option>
+                <option value='South Carolina'>South Carolina</option>
+                <option value='South Dakota'>South Dakota</option>
+                <option value='Tennessee'>Tennessee</option>
+                <option value='Texas'>Texas</option>
+                <option value='Utah'>Utah</option>
+                <option value='Vermont'>Vermont</option>
+                <option value='Virginia'>Virginia</option>
+                <option value='Washington DC'>Washington DC</option>
+                <option value='Washington'>Washington</option>
+                <option value='West Virginia'>West Virginia</option>
+                <option value='Wisconsin'>Wisconsin</option>
+                <option value='Wyoming'>Wyoming</option>
+            </optgroup>
+        </select>
+
+        <br>
+        and location
+        <br>
+        <select id="d3-dropdown-region2">
+            <option value="none" selected="selected">Choose 2nd region</option>
+            <optgroup label="All">
+                <option value='All'> All Regions</option>
+            <optgroup label="Region">
+                <option value='International'> International</option>
+                <option value='Midwest'> Midwest</option>
+                <option value='Southwest'> Southwest</option>
+                <option value='West'> West</option>
+                <option value='Northeast'> Northeast</option>
+                <option value='Southeast'> Southeast</option>
+            </optgroup>
+            <optgroup label="International">
+                <option value='Africa'>Africa</option>
+                <option value='Canada'>Canada</option>
+                <option value='Eastern Asia'>Eastern Asia</option>
+                <option value='Europe'>Europe</option>
+                <option value='Mexico'>Mexico</option>
+                <option value='Rest of Americas'>Rest of Americas</option>
+                <option value='SE Asia & Oceania'>SE Asia & Oceania</option>
+                <option value='SW & Central Asia'>SW & Central Asia</option>
+            </optgroup>
+            <optgroup label="State">
+                <option value='Alabama'>Alabama</option>
+                <option value='Alaska'>Alaska</option>
+                <option value='Arizona'>Arizona</option>
+                <option value='Arkansas'>Arkansas</option>
+                <option value='California'>California</option>
+                <option value='Colorado'>Colorado</option>
+                <option value='Connecticut'>Connecticut</option>
+                <option value='Delaware'>Delaware</option>
+                <option value='Florida'>Florida</option>
+                <option value='Georgia'>Georgia</option>
+                <option value='Hawaii'>Hawaii</option>
+                <option value='Idaho'>Idaho</option>
+                <option value='Illinois'>Illinois</option>
+                <option value='Indiana'>Indiana</option>
+                <option value='International'> International</option>
+                <option value='Iowa'>Iowa</option>
+                <option value='Kansas'>Kansas</option>
+                <option value='Kentucky'>Kentucky</option>
+                <option value='Louisiana'>Louisiana</option>
+                <option value='Maine'>Maine</option>
+                <option value='Maryland'>Maryland</option>
+                <option value='Massachusetts'>Massachusetts</option>
+                <option value='Michigan'>Michigan</option>
+                <option value='Minnesota'>Minnesota</option>
+                <option value='Mississippi'>Mississippi</option>
+                <option value='Missouri'>Missouri</option>
+                <option value='Montana'>Montana</option>
+                <option value='Nebraska'>Nebraska</option>
+                <option value='Nevada'>Nevada</option>
+                <option value='New Hampshire'>New Hampshire</option>
+                <option value='New Jersey'>New Jersey</option>
+                <option value='New Mexico'>New Mexico</option>
+                <option value='New York'>New York</option>
+                <option value='North Carolina'>North Carolina</option>
+                <option value='North Dakota'>North Dakota</option>
+                <option value='Ohio'>Ohio</option>
+                <option value='Oklahoma'>Oklahoma</option>
+                <option value='Oregon'>Oregon</option>
+                <option value='Pennsylvania'>Pennsylvania</option>
+                <option value='Rhode Island'>Rhode Island</option>
+                <option value='South Carolina'>South Carolina</option>
+                <option value='South Dakota'>South Dakota</option>
+                <option value='Tennessee'>Tennessee</option>
+                <option value='Texas'>Texas</option>
+                <option value='Utah'>Utah</option>
+                <option value='Vermont'>Vermont</option>
+                <option value='Virginia'>Virginia</option>
+                <option value='Washington DC'>Washington DC</option>
+                <option value='Washington'>Washington</option>
+                <option value='West Virginia'>West Virginia</option>
+                <option value='Wisconsin'>Wisconsin</option>
+                <option value='Wyoming'>Wyoming</option>
+            </optgroup>
+        </select>
+
+        <br>
+        for year
+        <br>
+        <select id="d3-dropdown-year" onchange="changeYear(this.value)">
+            <option value="none" selected="selected">Choose year</option>
+            <option value='2012'>2012</option>
+            <option value='2013'>2013</option>
+            <option value='2014'>2014</option>
+            <option value='2015'>2015</option>
+        </select>
+
+        <br>
+        with minimum freight size 
+        <br>
+        <span class="wrapper">
+        <input style="width: 70px;" id="number" type="number" min="0" max="73991" step="1" value="0" onchange="document.getElementById('slider').value = this.value">
+        &nbsp;&nbsp;
+        <input style="width: 80px;" id="slider" type="range" min="0" max="73991" step="1" value="0" onchange="document.getElementById('number').value = this.value">
+        </span>
+
+        <button id="run_explore" onclick="myExploreFunction()">Run Explore</button>
+        </div>
+ 
+        <p></p>
+      
+        <b><font size="5">Scenarios:</font></b>
+        <br>
+        <select style="width:150px;" id="d3-dropdown-scenario">
+            <option value='none'></option>
+            <option value='nafta'>End of NAFTA on Lumber</option>
+            <option value='nafta2'>End of NAFTA on Metals</option>
+        </select>
+        <br>
+        <button id="scenario" onclick="myScenarioFunction()">Run Scenario</button>
+    
+        </div>
+
+    <div class="short-descript">
+        <font size="2">
+            <br>
+            <br>
+            *Path color indicates<br> 
+           origin location. Hover<br>
+            over path for details.<br>
+            if the ribbon is too thin <br>
+            to hover, please zoom the <br>
+            screen. Commentary is below.</font>
+    </div>
+ 
+
+
+    </div>
+<!--     <div class='chord_info'>
+        <font size="4">Hover over each ribbon for flow information. Ribbon color identifies the freight origin.</font>
+    </div>
+ -->
+    <div>
+      <div class='graphs' id="charts">
+        <!--<svg width="1560" height="960" style="float:left"></svg> -->
+        <svg id="chordchart" class="section" preserveAspectRatio="xMaxYMin meet" width="750" height="700">
+        </svg>
+            <div class="legend">
+            <b><font size="5">Legend</font></b>
+            <div class="legend-order">
+            <div class="legend_box international"></div>
+            <font size="3"> International</font>
+            </div>
+            <div class="legend-order">
+            <div class="legend_box midwest"></div>
+            <font size="3"> Midwest</font>
+            </div>
+            <div class="legend-order">
+            <div class="legend_box northeast"></div>
+            <font size="3"> Northeast</font>
+            </div>
+            <div class="legend-order">
+            <div class="legend_box southeast"></div>
+            <font size="3"> Southeast</font>
+            </div>
+            <div class="legend-order">
+            <div class="legend_box southwest"></div>
+            <font size="3"> Southwest</font>
+            </div>
+            <div class="legend-order">
+            <div class="legend_box west"></div>
+            <font size="3"> West</font>
+            <br>
+            <br>
+            <br>
+            </div>
+            <div id="description">
+        </div>
+        </div>
+
+
+        <!-- <div style="background: #606060;" id="barchart1" class="section" width="400" height="400"></div> -->
+        <!-- <div style="background: #606060;" id="barchart2" class="section" width="400" height="400"></div> -->
+
+      </div >
+  </div>
+    </div>
+    <script src="static/js/chordchart.js"></script>
+    <!--<script src="static/js/barchart.js"></script> -->
+      <!--<script src="/js/chordchart.js"></script>
+      <script src="/js/barchart.js"></script> -->
+
+
+
+    <div class="conclusion">
+
+        <p><b><font size="9">Who We Are</font></b></p>
+        <img src="static/img/members.png"  alt="Norway";>
+        <p><font size="4"><br />Keri, Felix, and Daniel are Master of Information and Data Science candidates at University of California, Berkeley. They are well versed in data engineering, data science, and data visualization creation. Outside the program, they are respected professionals in their global organizations. Keri works at Civitas Learning, Felix works at Cognizant Technology Solutions, and Daniel works at IBM.</font></p>
+    </div>
+<!--
+    <div class="team">
+        <p><b><font size="9">Who We Are</font></b></p>
+
+        <p><font size="4">blah blah blah</font></p>
+    </div>
+-->
+
+    </body>
+  </html>

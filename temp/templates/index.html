@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style/chordchart.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style/barchart.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style/style.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{{url_for('static',filename='js/config.js')}}"></script>
+  </head>
+
+  <body >
+    <div class="title">
+      <img src="{{url_for('static',filename='img/top_border.jpg')}}" alt="Norway" style="width:60%;">
+        <p><b><font size="9">Imports and Exports Within United States</font></b></p>
+
+        <p><font size="4">UCB MIDS w209.3 Spring 2018</font></p>
+        <p><font size="4">Daniel Balack, Felix Tsui, Keri Wheatley</font></p>
+    </div>
+
+    <div class="intro">
+        <b><font size="5">The world is an increasingly connected place. blah blah blah mention where we got the data from</font></b>
+    </div>
+
+    <div class="dashboard">
+    <div class="left-bar">
+    <div class="direction">
+    <div>
+
+    <!--     <b><font size="5">Directions:</font></b>
+        <font size="4">Please choose A) the category of goods, B) the unit of which to view the data, C) the year, D) the location of interest (can be selected at region or state wise level), and E) minimum value filter (dependent on the unit selected). For example, if you select New York as the location, you will see only net exports / imports between New York and other regions. We have created a few What-If Scenarios to illustrate the impact on trade for different goods if certain events were to happen.</font>
+
+        <p></p> -->
+
+        <b><font size="5">Explore Data:</font></b>
+
+        <br>
+        Net export paths for
+        <br>
+        <select id="d3-dropdown-category" onchange="changeCategory(this.value)">
+            <option value="none" selected="selected">Choose goods</option>
+            <option value='All'>all goods</option>
+            <option value='Alcoholic beverages'>alcoholic beverages</option>
+            <option value='Animal feed'>animal feed</option>
+            <option value='Articles-base metal'>articles-base metal</option>
+            <option value='Base metals'>base metals</option>
+            <option value='Basic chemicals'>basic chemicals</option>
+            <option value='Building stone'>building stone</option>
+            <option value='Cereal grains'>cereal grains</option>
+            <option value='Chemical prods.'>chemical prods.</option>
+            <option value='Coal'>coal</option>
+            <option value='Coal-n.e.c.'>coal-n.e.c.</option>
+            <option value='Crude petroleum'>crude petroleum</option>
+            <option value='Electronics'>electronics</option>
+            <option value='Fertilizers'>fertilizers</option>
+            <option value='Fuel oils'>fuel oils</option>
+            <option value='Furniture'>furniture</option>
+            <option value='Gasoline'>gasoline</option>
+            <option value='Gravel'>gravel</option>
+            <option value='Live animals/fish'>live animals/fish</option>
+            <option value='Logs'>logs</option>
+            <option value='Machinery'>machinery</option>
+            <option value='Meat/seafood'>meat/seafood</option>
+            <option value='Metallic ores'>metallic ores</option>
+            <option value='Milled grain prods.'>milled grain prods.</option>
+            <option value='Misc. mfg. prods.'>misc. mfg. prods.</option>
+            <option value='Mixed freight'>mixed freight</option>
+            <option value='Motorized vehicles'>motorized vehicles</option>
+            <option value='Natural sands'>natural sands</option>
+            <option value='Newsprint/paper'>newsprint/paper</option>
+            <option value='Nonmetal min. prods.'>nonmetal min. prods.</option>
+            <option value='Nonmetallic minerals'>nonmetallic minerals</option>
+            <option value='Other ag prods.'>other ag prods.</option>
+            <option value='Other foodstuffs'>other foodstuffs</option>
+            <option value='Paper articles'>paper articles</option>
+            <option value='Pharmaceuticals'>pharmaceuticals</option>
+            <option value='Plastics/rubber'>plastics/rubber</option>
+            <option value='Precision instruments'>precision instruments</option>
+            <option value='Printed prods.'>printed prods.</option>
+            <option value='Textiles/leather'>textiles/leather</option>
+            <option value='Tobacco prods.'>tobacco prods.</option>
+            <option value='Transport equip.'>transport equip.</option>
+            <option value='Unknown'>unknown</option>
+            <option value='Waste/scrap'>waste/scrap</option>
+            <option value='Wood prods.'>wood prods.</option>
+        </select>
+
+        <br>
+        measured by
+        <br>
+        <select id="d3-dropdown-metric" onchange="changeMetric(this.value)">
+            <option value="none" selected="selected">Choose metric</option>
+            <option value='million_dollars'>value in $M</option>
+            <option value='ktons'>weight in kilotons</option>
+            <option value='ton_miles'>work in ton-miles</option>
+        </select>
+
+        <br>
+        between location
+        <br>
+        <select id="d3-dropdown-region1">
+            <option value="none" selected="selected">Choose 1st region</option>
+            <optgroup label="All">
+                <option value='All'> All Regions</option>
+            <optgroup label="Region">
+                <option value='Midwest'> Midwest</option>
+                <option value='Southwest'> Southwest</option>
+                <option value='West'> West</option>
+                <option value='Northeast'> Northeast</option>
+                <option value='Southeast'> Southeast</option>
+            </optgroup>
+            <optgroup label="International">
+                <option value='Africa'>Africa</option>
+                <option value='Canada'>Canada</option>
+                <option value='Eastern Asia'>Eastern Asia</option>
+                <option value='Europe'>Europe</option>
+                <option value='Mexico'>Mexico</option>
+                <option value='Rest of Americas'>Rest of Americas</option>
+                <option value='SE Asia & Oceania'>SE Asia & Oceania</option>
+                <option value='SW & Central Asia'>SW & Central Asia</option>
+            </optgroup>
+            <optgroup label="State">
+                <option value='Alabama'>Alabama</option>
+                <option value='Alaska'>Alaska</option>
+                <option value='Arizona'>Arizona</option>
+                <option value='Arkansas'>Arkansas</option>
+                <option value='California'>California</option>
+                <option value='Colorado'>Colorado</option>
+                <option value='Connecticut'>Connecticut</option>
+                <option value='Delaware'>Delaware</option>
+                <option value='Florida'>Florida</option>
+                <option value='Georgia'>Georgia</option>
+                <option value='Hawaii'>Hawaii</option>
+                <option value='Idaho'>Idaho</option>
+                <option value='Illinois'>Illinois</option>
+                <option value='Indiana'>Indiana</option>
+                <option value='Iowa'>Iowa</option>
+                <option value='Kansas'>Kansas</option>
+                <option value='Kentucky'>Kentucky</option>
+                <option value='Louisiana'>Louisiana</option>
+                <option value='Maine'>Maine</option>
+                <option value='Maryland'>Maryland</option>
+                <option value='Massachusetts'>Massachusetts</option>
+                <option value='Michigan'>Michigan</option>
+                <option value='Minnesota'>Minnesota</option>
+                <option value='Mississippi'>Mississippi</option>
+                <option value='Missouri'>Missouri</option>
+                <option value='Montana'>Montana</option>
+                <option value='Nebraska'>Nebraska</option>
+                <option value='Nevada'>Nevada</option>
+                <option value='New Hampshire'>New Hampshire</option>
+                <option value='New Jersey'>New Jersey</option>
+                <option value='New Mexico'>New Mexico</option>
+                <option value='New York'>New York</option>
+                <option value='North Carolina'>North Carolina</option>
+                <option value='North Dakota'>North Dakota</option>
+                <option value='Ohio'>Ohio</option>
+                <option value='Oklahoma'>Oklahoma</option>
+                <option value='Oregon'>Oregon</option>
+                <option value='Pennsylvania'>Pennsylvania</option>
+                <option value='Rhode Island'>Rhode Island</option>
+                <option value='South Carolina'>South Carolina</option>
+                <option value='South Dakota'>South Dakota</option>
+                <option value='Tennessee'>Tennessee</option>
+                <option value='Texas'>Texas</option>
+                <option value='Utah'>Utah</option>
+                <option value='Vermont'>Vermont</option>
+                <option value='Virginia'>Virginia</option>
+                <option value='Washington DC'>Washington DC</option>
+                <option value='Washington'>Washington</option>
+                <option value='West Virginia'>West Virginia</option>
+                <option value='Wisconsin'>Wisconsin</option>
+                <option value='Wyoming'>Wyoming</option>
+            </optgroup>
+        </select>
+
+        <br>
+        and location
+        <br>
+        <select id="d3-dropdown-region2">
+            <option value="none" selected="selected">Choose 2nd region</option>
+            <optgroup label="All">
+                <option value='All'> All Regions</option>
+            <optgroup label="Region">
+                <option value='International'> International</option>
+                <option value='Midwest'> Midwest</option>
+                <option value='Southwest'> Southwest</option>
+                <option value='West'> West</option>
+                <option value='Northeast'> Northeast</option>
+                <option value='Southeast'> Southeast</option>
+            </optgroup>
+            <optgroup label="International">
+                <option value='Africa'>Africa</option>
+                <option value='Canada'>Canada</option>
+                <option value='Eastern Asia'>Eastern Asia</option>
+                <option value='Europe'>Europe</option>
+                <option value='Mexico'>Mexico</option>
+                <option value='Rest of Americas'>Rest of Americas</option>
+                <option value='SE Asia & Oceania'>SE Asia & Oceania</option>
+                <option value='SW & Central Asia'>SW & Central Asia</option>
+            </optgroup>
+            <optgroup label="State">
+                <option value='Alabama'>Alabama</option>
+                <option value='Alaska'>Alaska</option>
+                <option value='Arizona'>Arizona</option>
+                <option value='Arkansas'>Arkansas</option>
+                <option value='California'>California</option>
+                <option value='Colorado'>Colorado</option>
+                <option value='Connecticut'>Connecticut</option>
+                <option value='Delaware'>Delaware</option>
+                <option value='Florida'>Florida</option>
+                <option value='Georgia'>Georgia</option>
+                <option value='Hawaii'>Hawaii</option>
+                <option value='Idaho'>Idaho</option>
+                <option value='Illinois'>Illinois</option>
+                <option value='Indiana'>Indiana</option>
+                <option value='International'> International</option>
+                <option value='Iowa'>Iowa</option>
+                <option value='Kansas'>Kansas</option>
+                <option value='Kentucky'>Kentucky</option>
+                <option value='Louisiana'>Louisiana</option>
+                <option value='Maine'>Maine</option>
+                <option value='Maryland'>Maryland</option>
+                <option value='Massachusetts'>Massachusetts</option>
+                <option value='Michigan'>Michigan</option>
+                <option value='Minnesota'>Minnesota</option>
+                <option value='Mississippi'>Mississippi</option>
+                <option value='Missouri'>Missouri</option>
+                <option value='Montana'>Montana</option>
+                <option value='Nebraska'>Nebraska</option>
+                <option value='Nevada'>Nevada</option>
+                <option value='New Hampshire'>New Hampshire</option>
+                <option value='New Jersey'>New Jersey</option>
+                <option value='New Mexico'>New Mexico</option>
+                <option value='New York'>New York</option>
+                <option value='North Carolina'>North Carolina</option>
+                <option value='North Dakota'>North Dakota</option>
+                <option value='Ohio'>Ohio</option>
+                <option value='Oklahoma'>Oklahoma</option>
+                <option value='Oregon'>Oregon</option>
+                <option value='Pennsylvania'>Pennsylvania</option>
+                <option value='Rhode Island'>Rhode Island</option>
+                <option value='South Carolina'>South Carolina</option>
+                <option value='South Dakota'>South Dakota</option>
+                <option value='Tennessee'>Tennessee</option>
+                <option value='Texas'>Texas</option>
+                <option value='Utah'>Utah</option>
+                <option value='Vermont'>Vermont</option>
+                <option value='Virginia'>Virginia</option>
+                <option value='Washington DC'>Washington DC</option>
+                <option value='Washington'>Washington</option>
+                <option value='West Virginia'>West Virginia</option>
+                <option value='Wisconsin'>Wisconsin</option>
+                <option value='Wyoming'>Wyoming</option>
+            </optgroup>
+        </select>
+
+        <br>
+        for year
+        <br>
+        <select id="d3-dropdown-year" onchange="changeYear(this.value)">
+            <option value="none" selected="selected">Choose year</option>
+            <option value='2012'>2012</option>
+            <option value='2013'>2013</option>
+            <option value='2014'>2014</option>
+            <option value='2015'>2015</option>
+        </select>
+
+        <br>
+        with minimum freight size 
+        <br>
+        <span class="wrapper">
+        <input style="width: 70px;" id="number" type="number" min="0" max="73991" step="1" value="0" onchange="document.getElementById('slider').value = this.value">
+        &nbsp;&nbsp;
+        <input style="width: 80px;" id="slider" type="range" min="0" max="73991" step="1" value="0" onchange="document.getElementById('number').value = this.value">
+        </span>
+
+        <button id="run_explore" onclick="myExploreFunction()">Run Explore</button>
+        </div>
+
+        <p></p>
+        <b><font size="5">Scenarios:</font></b>
+        <br>
+        <select style="width:150px;" id="d3-dropdown-scenario">
+            <option value='none'></option>
+            <option value='nafta'>End of NAFTA Trade Agreement</option>
+            <option value='tariff'>Tariff On Metals</option>
+            <option value='natural_disaster'>Natural Disaster in Oregon</option>
+            <option value='electronics'>New tax on electronic goods</option>
+        </select>
+        <br>
+        <button id="scenario" onclick="myScenarioFunction()">Run Scenario</button>
+    </div>
+    <div class="short-descript">
+        <font size="3">
+            *Path color indicates<br> 
+            origin location. Hover<br>
+            over path for details.</font>
+    </div>
+        <div class="legend">
+            <b><font size="5">Legend</font></b>
+            <div class="legend-order">
+            <div class="legend_box international"></div>
+            <font size="3"> International</font>
+            </div>
+            <div class="legend-order">
+            <div class="legend_box midwest"></div>
+            <font size="3"> Midwest</font>
+            </div>
+            <div class="legend-order">
+            <div class="legend_box northeast"></div>
+            <font size="3"> Northeast</font>
+            </div>
+            <div class="legend-order">
+            <div class="legend_box southeast"></div>
+            <font size="3"> Southeast</font>
+            </div>
+            <div class="legend-order">
+            <div class="legend_box southwest"></div>
+            <font size="3"> Southwest</font>
+            </div>
+            <div class="legend-order">
+            <div class="legend_box west"></div>
+            <font size="3"> West</font>
+            </div>
+        </div>
+    </div>
+<!--     <div class='chord_info'>
+        <font size="4">Hover over each ribbon for flow information. Ribbon color identifies the freight origin.</font>
+    </div>
+ -->
+    <div>
+      <div class='graphs' id="charts">
+        <!--<svg width="1560" height="960" style="float:left"></svg> -->
+        <svg id="chordchart" class="section" preserveAspectRatio="xMaxYMin meet" width="750" height="700">
+        </svg>
+        <!-- <div style="background: #606060;" id="barchart1" class="section" width="400" height="400"></div> -->
+        <!-- <div style="background: #606060;" id="barchart2" class="section" width="400" height="400"></div> -->
+        <div class="barcharts_stacked">
+            <svg style="background: #606060;" id="barchart" class="section" width="300" height="300"></svg>
+            <svg style="background: #606060;" id="barchart2" class="section" width="300" height="300"></svg>
+        </div>
+      </div >
+  </div>
+    </div>
+    <script src="{{url_for('static',filename='js/chordchart.js')}}"></script>
+    <script src="{{url_for('static',filename='js/barchart.js')}}"></script>
+      <!--<script src="/js/chordchart.js"></script>
+      <script src="/js/barchart.js"></script> -->
+      <div id="description">
+      </div>
+
+    <div class="conclusion">
+        <p><b><font size="9">In Conclusion</font></b></p>
+
+        <p><font size="4">blah blah blah</font></p>
+    </div>
+
+    <div class="team">
+        <p><b><font size="9">Who We Are</font></b></p>
+
+        <p><font size="4">blah blah blah</font></p>
+    </div>
+
+    </body>
+  </html>
