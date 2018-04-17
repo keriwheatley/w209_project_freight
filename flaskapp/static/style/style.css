@@ -19,7 +19,7 @@
 
 
 .intro {
-    padding: 50px 80px 30px 80px;
+    padding: 50px 80px;
     background-color: #6699FF;
     position: relative;
     font-weight: normal;
@@ -38,6 +38,10 @@
 
 }
 
+.img-title {
+     width: 80%
+}
+
 .img1 {
   width: 120px;
   float: left;
@@ -47,25 +51,23 @@
 }
 
 .intro3 {
-    padding: 10px 80px 20px 80px;
-    background-color: white;
-    font-weight: lighter;
+    padding: 50px 80px;
+     background-color: white;
+    position: relative;
+     text-align: center;
     font-size:1.2vw;
-    color: black;
-
 }
 
 
 .img2 {
-        padding: 10px 80px 10px 80px;
-
-  float: center;
-
+    /*object-fit: contain;*/
+     /*text-align: center;*/
+     /*width: 80%*/
 }
 
 .intro4 {
 
-    padding: 30px 80px 50px 80px;
+    padding: 50px 80px;
     background-color: #9cec9c;
     position: relative;
     font-size:1.2vw;
@@ -83,11 +85,11 @@ display: flex;
 }
 
 .conclusion {
-    padding: 20px 40px 20px 40px;
+    padding: 50px 80px;
      background-color: #ee5a7e;
     position: relative;
      text-align: center;
-         font-size:1.2vw;
+    font-size:1.2vw;
 /*    color: white;*/
 }
 
@@ -117,6 +119,7 @@ display: flex;
 
 .short-descript {
     margin: 0 16px;
+    width: 300;
 }
 
 .legend {
@@ -177,12 +180,11 @@ display: flex;
 }
 
 .descript {
-    width: 5rem;
-    margin: 4px 20px 20px 20px ;
+    padding: 5px;
     border-radius: 10px;
+    border: 1px dotted gray;
     font-size: 20px;
-    text-align:justify;
-    flex-flow: row nowrap;
-    display: flex;
-    flex-direction: column; 
+    text-align: center;
+    white-space: normal;
+    width:300px;
 }
