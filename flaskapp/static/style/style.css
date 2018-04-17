@@ -13,17 +13,18 @@
     background-color: white;
     position: relative;
     text-align: center;
+    font-size:1.4vw;
 /*    color: white;*/
 }
 
 
 
 .intro {
-    padding: 50px 80px;
-    background-color: #6699FF;
+    padding: 50px 80px 20px 80px;
+    background-color: #B5D3E7;
     position: relative;
     font-weight: normal;
-    font-size:1.2vw;
+    font-size:1.4vw;
  
 }
 
@@ -31,9 +32,9 @@
 /* Felix: introduction formating*/
 .intro2 {
     padding: 10px 80px 50px 340px;
-    background-color: #6699FF;
+    background-color: #B5D3E7;
     font-weight: lighter;
-    font-size:1.2vw;
+    font-size:1.4vw;
      
 
 }
@@ -55,7 +56,7 @@
      background-color: white;
     position: relative;
      text-align: center;
-    font-size:1.2vw;
+    font-size:1.4vw;
 }
 
 
@@ -70,11 +71,11 @@
     padding: 50px 80px;
     background-color: #9cec9c;
     position: relative;
-    font-size:1.2vw;
+    font-size:1.4vw;
 }
 
 .direction {
-    margin: 20px 10px 10px 10px;
+    margin: 20px 0 10px 10px;
     border-radius: 10px;
     border: 3px solid black;
     padding: 7px;
@@ -86,10 +87,10 @@ display: flex;
 
 .conclusion {
     padding: 50px 80px;
-     background-color: #ee5a7e;
+     background-color: #FCD440;
     position: relative;
      text-align: center;
-    font-size:1.2vw;
+    font-size:1.4vw;
 /*    color: white;*/
 }
 
@@ -118,8 +119,7 @@ display: flex;
 }
 
 .short-descript {
-    margin: 0 16px;
-    width: 330;
+    margin: 0 0 0 16px;
 }
 
 .legend {
@@ -183,7 +183,7 @@ display: flex;
     padding: 5px;
     border-radius: 10px;
     border: 1px dotted gray;
-    font-size: 20px;
+    font-size: 17px;
     text-align: center;
     white-space: normal;
     width:300px;

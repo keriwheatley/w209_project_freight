@@ -420,9 +420,9 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
             if (explore_scenario_type == 'natural_disaster') {
                 var str = "In 2015, California was a net exporter of $5.88 billion"
                 str += " in alcoholic beverages. California is a major producer"
-                str += " of wine and ships its products worldwide. A 10% reduction"
-                str += " in supply due to forest fires would amount to an inventory"
-                str += " loss of $588 million."};
+                str += " of wine. A 10% reduction"
+                str += " in supply due to forest fires would equate to a "
+                str += " $588 million loss in inventory."};
             if (explore_scenario_type == 'electronics') {
                 var str = "In 2015, Eastern Asia was a net exporter of $224 billion"
                 str += " in electronic goods. China is a leading producer of electronic"
