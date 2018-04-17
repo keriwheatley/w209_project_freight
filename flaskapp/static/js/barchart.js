@@ -208,7 +208,7 @@ lib.barChartModule = function() {
 
   }
 
-  function plot_absolute(name, accessor_x, accessor_y, g) {
+  function plot_absolute(name, accessor_x, accessor_y, g, poi) {
     var x = d3.scaleBand().rangeRound([0, barchartwidth]).padding(0.1),
         y = d3.scaleLinear().rangeRound([barchartheight, 10]);
 
@@ -223,7 +223,7 @@ lib.barChartModule = function() {
       .attr("class", "title")
       .attr("font-size", "20")
       .attr("x", 10)
-      .attr("y", 5)
+      .attr("y", 0)
       .text(name);
 
     g.selectAll("g.axis").remove();
@@ -231,7 +231,15 @@ lib.barChartModule = function() {
     g.append("g")
         .attr("class", "axis axisx")
         .attr("transform", "translate(0," + barchartheight + ")")
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x))
+        .selectAll(".tick text")
+          .call(wrap, x.bandwidth());
+        // .selectAll("text")
+        //   .attr("y", 0)
+        //   .attr("x", 9)
+        //   .attr("dy", ".35em")
+        //   .attr("transform", "rotate(45)")
+        //   .style("text-anchor", "start")
 
     g.append("g")
         .attr("class", "axis axisy")
@@ -242,22 +250,29 @@ lib.barChartModule = function() {
 
 
     bars.transition().duration(300)
-      .attr("id", function(d) {
-        return accessor_x(d);})
+      .attr("id", function(d) { return accessor_x(d);})
+      .attr("class", function(d) {
+          if (accessor_x(d) == mapState(poi)) {
+            return "poi";
+          } else {
+            return "bar";
+          }
+        })
       .attr("x", function(d) { return x(accessor_x(d)); })
-      .attr("y", function(d) {
-        // console.log("debug in incoming");
-        // console.log(d);
-        // console.log(accessor_y(d));
-        // console.log(y(accessor_y(d)));
-        return y(accessor_y(d)); })
+      .attr("y", function(d) { return y(accessor_y(d)); })
       .attr("width", x.bandwidth())
       .attr("height", function(d) { return barchartheight - y(accessor_y(d)); });
     console.log('here?');
 
 
     bars.enter().append("rect")
-        .attr("class", "bar")
+        .attr("class", function(d) {
+          if (accessor_x(d) == mapState(poi)) {
+            return "poi"
+          } else {
+            return "bar"
+          }
+        })
         .attr("id", function(d) {return accessor_x(d);})
         .attr("x", function(d) { return x(accessor_x(d));})
         .attr("y", function(d) {
@@ -281,7 +296,7 @@ lib.barChartModule = function() {
 };
 
 
-var margin = {top: 20, right: 10, bottom: 20, left: 60};
+var margin = {top: 20, right: 10, bottom: 30, left: 60};
 var svg1 = d3.select("#barchart1"),
     barchartwidth = +svg1.attr("width") - margin.left - margin.right,
     barchartheight = +svg1.attr("height") - margin.top - margin.bottom;
@@ -621,7 +636,7 @@ function getYearAccessor(year, metric) {
 }
 
 function renderOutgoingBarChart(bars) {
-    var commodity = d3.select( "#d3-dropdown-category" ).node().value.replace(" ", "_");
+    var commodity = d3.select( "#d3-dropdown-category" ).node().value.replace(/\ /g, "_").replace(/\./g, "");
     var year = d3.select( "#d3-dropdown-year" ).node().value;
     var metric = d3.select( "#d3-dropdown-metric" ).node().value;
     var origin = d3.select( "#d3-dropdown-region1" ).node().value;
@@ -670,17 +685,10 @@ function renderOutgoingBarChart(bars) {
         console.log(d);
         d = d.sort(function(b, a) {return getYearAccessor(year, "value")(a) - getYearAccessor(year, "value")(b)}).slice(0, 10);
         bars.data(d);
-        if (origin == "All" &&  dest == "All") {
-          bars.plot_absolute("Top Exporters in Millions of Dollars",
-            function(d) {
-              return d.origin;
-            }, getYearAccessor(year, "value"), g1);
-        } else {
-          bars.plot_absolute("Millions of Dollars leaving " + origin + " for...",
-            function(d) {
-              return d.origin;
-            }, getYearAccessor(year, "value"), g1);
-        }
+        bars.plot_absolute("Top Exporters in Millions of Dollars, " + commodity.replace(/_/g, " "),
+          function(d) {
+            return d.origin;
+          }, getYearAccessor(year, "value"), g1, origin);
         break;
       case "tons":
         console.log("ktons!!");
@@ -688,33 +696,19 @@ function renderOutgoingBarChart(bars) {
         //console.log("ktons!");
         d = d.sort(function(b, a) {return getYearAccessor(year, "tons")(a) - getYearAccessor(year, "tons")(b)}).slice(0, 10);
         bars.data(d);
-        if (origin == "All" && dest == "All") {
-          bars.plot_absolute("Top Exporters in Thousands of Tons",
-            function(d) {
-              return d.origin;
-            }, getYearAccessor(year, "tons"), g1);
-        } else {
-          bars.plot_absolute("Thousands of Tons leaving " + origin + " for...",
-            function(d) {
-              return d.origin;
-            }, getYearAccessor(year, "tons"), g1);
-        }
+        bars.plot_absolute("Top Exporters in Thousands of Tons, " + commodity.replace(/_/g, " "),
+          function(d) {
+            return d.origin;
+          }, getYearAccessor(year, "tons"), g1, origin);
         break;
       case "tmiles":
         //console.log("ktons!");
         d = d.sort(function(b, a) {return getYearAccessor(year, "tmiles")(a) - getYearAccessor(year, "tmiles")(b)}).slice(0, 10);
         bars.data(d);
-        if (origin == "All" && dest == "All") {
-          bars.plot_absolute("Top Exporters in Ton-miles",
-            function(d) {
-              return d.origin;
-            }, getYearAccessor(year, "tmiles"), g1);
-        } else {
-          bars.plot_absolute("Ton-miles of goods leaving " + origin + " for...",
-            function(d) {
-              return d.origin;
-            }, getYearAccessor(year, "tmiles"), g1);
-        }
+        bars.plot_absolute("Top Exporters in Ton-miles, " + commodity.replace(/_/g, " "),
+          function(d) {
+            return d.origin;
+          }, getYearAccessor(year, "tmiles"), g1, origin);
         break;
       default:
       // for default, just use dollar value
@@ -723,17 +717,10 @@ function renderOutgoingBarChart(bars) {
         d = d.sort(function(b, a) {return getYearAccessor(year, "value")(a) - getYearAccessor(year, "value")(b)}).slice(0, 10);
         console.log(d);
         bars.data(d);
-        if (origin == "All" && dest == "All") {
-          bars.plot_absolute("Top Exporters in Millions of Dollars",
-            function(d) {
-              return d.origin;
-            }, getYearAccessor(year, "value"), g1);
-        } else {
-          bars.plot_absolute("Millions of Dollars leaving " + origin + " for...",
-            function(d) {
-              return d.origin;
-            }, getYearAccessor(year, "value"), g1);
-        }
+        bars.plot_absolute("Top Exporters in Millions of Dollars, " + commodity.replace(/_/g, " "),
+          function(d) {
+            return d.origin;
+          }, getYearAccessor(year, "value"), g1, origin);
         break;
     }
     console.log("done");
@@ -741,7 +728,7 @@ function renderOutgoingBarChart(bars) {
 }
 
 function renderIncomingBarChart(bars) {
-    var commodity = d3.select( "#d3-dropdown-category" ).node().value.replace(" ", "_");
+    var commodity = d3.select( "#d3-dropdown-category" ).node().value.replace(/\ /g, "_").replace(/\./g, "");
     var year = d3.select( "#d3-dropdown-year" ).node().value;
     var metric = d3.select( "#d3-dropdown-metric" ).node().value;
     var origin = d3.select( "#d3-dropdown-region1" ).node().value;
@@ -783,53 +770,30 @@ function renderIncomingBarChart(bars) {
     console.log("fetch incoming");
     switch(metric) {
       case "value":
-        console.log("MILLIONS");
-        console.log(d);
         d = d.sort(function(b, a) {return getYearAccessor(year, "value")(a) - getYearAccessor(year, "value")(b)}).slice(0, 10);
         bars.data(d);
-        if (dest == 'All' && origin == 'All') {
-          bars.plot_absolute("Top Importers by Millions of Dollars",
-            function(d) {
-              return d.dest;
-            }, getYearAccessor(year, "value"), g2);
-        } else {
-          bars.plot_absolute("Millions of Dollars going to "+ dest +" from...",
-            function(d) {
-              return d.dest;
-            }, getYearAccessor(year, "value"), g2);
-        }
+        bars.plot_absolute("Top Importers in Millions of Dollars, " + commodity.replace(/_/g, " "),
+          function(d) {
+            return d.dest;
+          }, getYearAccessor(year, "value"), g2, dest);
         break;
       case "tons":
         console.log("KTONS");
         d = d.sort(function(b, a) {return getYearAccessor(year, "tons")(a) - getYearAccessor(year, "tons")(b)}).slice(0, 10);
         bars.data(d);
-        if (dest == 'All' && origin == 'All') {
-          bars.plot_absolute("Top importers by Thousands of Tons",
-            function(d) {
-              return d.dest;
-            }, getYearAccessor(year, "tons"), g2);
-        } else {
-          bars.plot_absolute("Thousands of tons going to "+ dest +" from...",
-            function(d) {
-              return d.dest;
-            }, getYearAccessor(year, "tons"), g2);
-        }
+        bars.plot_absolute("Top Importers in Thousands of Tons, " + commodity.replace(/_/g, " "),
+          function(d) {
+            return d.dest;
+          }, getYearAccessor(year, "tons"), g2, dest);
         break;
       case "tmiles":
         //console.log("ktons!");
         d = d.sort(function(b, a) {return getYearAccessor(year, "tmiles")(a) - getYearAccessor(year, "tmiles")(b)}).slice(0, 10);
         bars.data(d);
-        if (dest == 'All' && origin == 'All') {
-          bars.plot_absolute("Top importers by Ton-Miles",
-          function(d) {
-            return d.dest;
-          }, getYearAccessor(year, "tmiles"), g2);
-        } else {
-          bars.plot_absolute("Ton-miles going to " + dest +" from...",
-          function(d) {
-            return d.dest;
-          }, getYearAccessor(year, "tmiles"), g2);
-        }
+        bars.plot_absolute("Top Importers in Ton-miles, " + commodity.replace(/_/g, " "),
+        function(d) {
+          return d.dest;
+        }, getYearAccessor(year, "tmiles"), g2, dest);
         break;
       default:
       // for default, just use dollar value
@@ -838,20 +802,36 @@ function renderIncomingBarChart(bars) {
         d = d.sort(function(b, a) {return getYearAccessor(year, "value")(a) - getYearAccessor(year, "value")(b)}).slice(0, 10);
         console.log(d);
         bars.data(d);
-        if (dest == 'All' && origin == 'All') {
-          bars.plot_absolute("Top Importers by Millions of Dollars",
-            function(d) {
-              return d.dest;
-            }, getYearAccessor(year, "value"), g2);
-        } else {
-          bars.plot_absolute("Millions of Dollars going to "+ dest +" from...",
-            function(d) {
-              return d.dest;
-            }, getYearAccessor(year, "value"), g2);
-        }
+        bars.plot_absolute("Top Importers in Millions of Dollars, " + commodity.replace(/_/g, " "),
+          function(d) {
+            return d.dest;
+          }, getYearAccessor(year, "value"), g2, dest);
         break;
     }
     console.log("done incoming");
+  });
+}
+function wrap(text, width) {
+  text.each(function() {
+    var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0,
+        lineHeight = 1.1, // ems
+        y = text.attr("y"),
+        dy = parseFloat(text.attr("dy")),
+        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+      }
+    }
   });
 }
 

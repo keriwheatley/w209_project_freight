@@ -98,10 +98,10 @@ if __name__ == "__main__":
     data = data.merge(commodity_codes, how='left', left_on='sctg2', right_on='code').drop(['sctg2', 'code'], axis=1)
     data = data.reindex(column_order, axis=1)
 
-    data.loc[:, 'tons_total'] = data.loc[:, 'tons_2013'] + data.loc[:, 'tons_2014'] + data.loc[:, 'tons_2015']
-    data.loc[:, 'value_total'] = data.loc[:, 'value_2013'] + data.loc[:, 'value_2014'] + data.loc[:, 'value_2015']
-    data.loc[:, 'curval_total'] = data.loc[:, 'curval_2013'] + data.loc[:, 'curval_2014'] + data.loc[:, 'curval_2015']
-    data.loc[:, 'tmiles_total'] = data.loc[:, 'tmiles_2013'] + data.loc[:, 'tmiles_2014'] + data.loc[:, 'tmiles_2015']
+    data.loc[:, 'tons_total'] = data.loc[:, 'tons_2012'] + data.loc[:, 'tons_2013'] + data.loc[:, 'tons_2014'] + data.loc[:, 'tons_2015']
+    data.loc[:, 'value_total'] =data.loc[:, 'value_2012'] + data.loc[:, 'value_2013'] + data.loc[:, 'value_2014'] + data.loc[:, 'value_2015']
+    data.loc[:, 'curval_total'] = data.loc[:, 'value_2012'] + data.loc[:, 'curval_2013'] + data.loc[:, 'curval_2014'] + data.loc[:, 'curval_2015']
+    data.loc[:, 'tmiles_total'] =  data.loc[:, 'tmiles_2012'] + data.loc[:, 'tmiles_2013'] + data.loc[:, 'tmiles_2014'] + data.loc[:, 'tmiles_2015']
 
     data.loc[:, 'commodity'] = data.commodity.apply(lambda x: x.replace(" ", "_"))
 
@@ -120,8 +120,8 @@ if __name__ == "__main__":
 #     all_commodities_entries_dest.loc[:, 'dest'] = "Anywhere"
 #     commodities_by_dest = commodities_by_dest.append(all_commodities_entries_dest, ignore_index=True)
 
-
-
+    commodities_by_origin = commodities_by_origin[commodities_by_origin['origin'] != commodities_by_origin['dest'] ]
+    commodities_by_dest = commodities_by_dest[commodities_by_dest['origin'] != commodities_by_dest['dest'] ]
 
     commodities_by_origin.to_csv("commodities_by_origin_table.csv")
     commodities_by_dest.to_csv("commodities_by_dest_table.csv")
