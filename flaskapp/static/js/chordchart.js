@@ -21,7 +21,7 @@ d3.csv(options.SUMMED_DATA, function(error, data){
 
 //3. category_range - contains the maximum range for the "min. metric" selector
 var category_range = [];
-d3.csv("/static/data/category_min_metric_range.csv", function(error, data){
+d3.csv(options.CATEGORY_MIN_METRIC_RANGE, function(error, data){
     if (error) {
         console.log(error);
         return error;}
