@@ -655,7 +655,7 @@ function changeYear(selected_year) {
 
 // Create initial chordchart
 // There is an added 1 second delay so data can load first
-setTimeout(func, 2000);
+setTimeout(func, 3000);
 function func() {
 
     // console.log("Load legend")
