@@ -1,6 +1,6 @@
 
 .title {
-    padding: 0px 200px 30px 300px;
+    padding: 120px 200px 30px 300px;
     background-color: white;
     position: relative;
     text-align: center;
@@ -23,8 +23,7 @@
     background-color: #6699FF;
     position: relative;
     font-weight: normal;
-    font-size:20px;
-    
+    font-size:1.5vw;
  
 }
 
@@ -34,22 +33,22 @@
     padding: 10px 80px 50px 440px;
     background-color: #6699FF;
     font-weight: lighter;
-    font-size:20px;
+    font-size:1.5vw;
 
 }
 
 .img1 {
-  width: 200px;
+  width: 175px;
   float: left;
   margin-left: 130px;
   position:relative;
 }
 
 .intro3 {
-    padding: 30px 800px 80px 80px;
+    padding: 30px 800px 40px 80px;
     background-color: white;
     font-weight: lighter;
-    font-size:15px;
+    font-size:1.1vw;
     color: black;
 
 }
@@ -65,10 +64,9 @@
 .intro4 {
 
     padding: 30px 40px 50px 40px;
-    background-color: #8bc34a;
+    background-color: #9cec9c;
     position: relative;
-
-    font-size:20px;
+    font-size:1.5vw;
 }
 
 .direction {
@@ -87,6 +85,7 @@ display: flex;
      background-color: #ee5a7e;
     position: relative;
      text-align: center;
+         font-size:1.5vw;
 /*    color: white;*/
 }
 
@@ -175,11 +174,12 @@ display: flex;
 }
 
 .descript {
-    padding: 5px;
+    width: 5rem;
+    margin: 4px 20px 20px 20px ;
     border-radius: 10px;
-    border: 1px dotted gray;
     font-size: 20px;
-    text-align: center;
-    white-space: normal;
-    width:300px;
+    text-align:justify;
+    flex-flow: row nowrap;
+    display: flex;
+    flex-direction: column; 
 }
