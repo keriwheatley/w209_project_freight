@@ -14,53 +14,43 @@
 
   <body >
     <div class="title">
-        <img class="img-title" src="{{url_for('static',filename='img/top_border.jpg')}}" alt="Norway" style="width:100%;">
+        <img class="img-title" src="{{url_for('static',filename='img/top_border.jpg')}}" alt="Norway">
+    </div>
+      <div class="title1">
+        <p><b><font size="10">Where Did That Come From?</font></b></p>
+        <p><b><font size="6">An Analysis of Domestic and International Exports and Imports</font></b></p>
 
-        <p><b><font size="9">International and Domestic Net Imports and Exports for my State / Region</font></b></p>
-
-        <p><font size="4">UCB MIDS w209.3 Spring 2018</font></p>
-        <p><font size="4">Daniel Balack, Felix Tsui, Keri Wheatley</font></p>
+        <p><b><font>UCB MIDS w209.3 Spring 2018</font></b></p>
+        <p><b><font>Daniel Balack, Felix Tsui, Keri Wheatley</font></b></p>
     </div>
 
-    <div class="intro1">
-        <p><b><font size="7">Project Background</font></b></p>
-        <font>Have you as a consumer ever wondered where the gasoline in your state comes from? Have you as a farmer ever wondered how fertilizer supply might be disrupted if another hurricane Katrina struck? Or have you as a policy maker ever wondered how much your state trades with neighboring states relative to distant states or even other continents? The visualization of this project is intended to answer just these questions.
-        </font>
-        <br>
-        <br>
+    <div class="intro">
+        <div style="text-align: center;">
+        <p><b><font size="6">Project Background</font></b></p>
+        </div>
+        <b><font>Have you as a consumer ever wondered where the gasoline in your state comes from? Have you as a farmer ever wondered how fertilizer supply might be disrupted if another hurricane Katrina struck? Or have you as a policy maker ever wondered how much your state trades with neighboring states relative to distant states or even other continents? The visualization of this project is intended to answer just these questions.
+        </font></b>
+    </div>
 
         <img src="{{url_for('static',filename='img/intro_image1.png')}}" class="img1" alt="Norway";>
 
-        <font>The data source is based on the Freight Analysis Framework, which was created through a partnership between the Bureau of Transportation Statistics and Federal Highway Administration. Both are part of the United States Department of Transportation. Starting 2012, data from Census Bureau was also added to provide a comprehensive picture of freight movement (states to states, states to international) all modes of transportation. For further information, please visit https://faf.ornl.gov.
-        </font>
-    </div>
-
     <div class="intro2">
-        <p><b><font size="7">Project Target, Purpose, and Disclaimers</font></b></p>
-
-        <br>
-        <b><font size="5">We designed this visualization with three types of users and their purposes in mind: <br />
+        
+        <b><font>The data source is based on the Freight Analysis Framework, which was created through a partnership between the Bureau of Transportation Statistics and Federal Highway Administration. Both are part of the United States Department of Transportation. Starting 2012, data from Census Bureau was also added to provide a comprehensive picture of freight movement (states to states, states to international) all modes of transportation. For further information, please visit https://faf.ornl.gov.
         </font></b>
 
-        <font>A) Anyone interested in understanding more about trade relationships between different states in US and also aboard <br />B) Farmers, manufacturers, businesses who can use this data to understand the supply chain of certain goods that is critical to their business and how disruptions in certain states may impact that <br /> C) Policy makers who need to understand the intricacte trade relationships between states for policy setting or state to state negotiation purposes
-        </font>
-
-        <b><font size="5"><br /><br />As a disclaimer, we want to outline some potential bias and limitations in the underyling data and the visualization:<br />
-        </font></b>
-
-        <font>A) We are neither in the logistic profession or transportation industry, we have relied on the data collection and classification methodologies of the FAF framework. Detail of their user guide and documentation can be found at https://faf.ornl.gov/fafweb/Documentation.aspx <br />B) The underlying data does not capture illegal trafficing of goods between states and across the US border , <br /> C) The visualization was designed to provide an understanding of the flow of goods, while multiple year of data is offered, it is not designed with the intention of doing YoY comparison analysis
-        </font>
     </div>
-
-
+   
     <div class="intro3">
 
-        <p><b><font size="7">Instructions</font></b></p>
-
         <img src="{{url_for('static',filename='img/ChordChartDemo.png')}}" class="img2" alt="Norway";>
-
-        <font>The main visualization for this project is a chord chart. This chord chart is divided by different regions (color code indicated in the legend) and then further divided into each state within the region (for International region, it is further divided into continents).
-
+        
+        <br>
+        <p><b><font size="6">Instructions</font></b></p>
+        <div style="text-align: left;">
+        <b><font>
+            The main visualization for this project is a chord chart. This chord chart is divided by different regions (Ex. West) and then further divided into each state within the region (Ex. California with the West). For International region, it is further divided into continents.
+        </font>
         <br>
         <br>
 
@@ -69,8 +59,29 @@
         <br>
         <br>
         The data is shown on a net basis. The thicker the ribbon, the higher the volume. The color of the ribbon is the color of the net exporter state. You can hover over each riboon to get specific details.
+        </font></b>
+</b>
+        </div>
 
-        </font>
+    </div>
+
+        <div class="intro4">
+        <div style="text-align: center;">
+        <p><b><font size="6">Project Target, Purpose, and Disclaimers</font></b></p>
+        </div>
+        <b><font>We designed this visualization with three types of users and their purposes in mind: <br />
+        </font></b>
+
+        <b><font>A) Anyone interested in understanding more about trade relationships between different states in US and also aboard <br />B) Farmers, manufacturers, businesses who can use this data to understand the supply chain of certain goods that is critical to their business and how disruptions in certain states may impact that <br /> C) Policy makers who need to understand the intricacte trade relationships between states for policy setting or state to state negotiation purposes 
+        </font></b>
+
+        <b><font><br /><br />As a disclaimer, we want to outline some potential bias and limitations in the underyling data and the visualization:<br />
+        </font></b>
+
+         <b><font>A) We are neither in the logistic profession or transportation industry, we have relied on the data collection and classification methodologies of the FAF framework. Detail of their user guide and documentation can be found at https://faf.ornl.gov/fafweb/Documentation.aspx <br />B) The underlying data does not capture illegal trafficing of goods between states and across the US border , <br /> C) The visualization was designed to provide an understanding of the flow of goods, while multiple year of data is offered, it is not designed with the intention of doing YoY comparison analysis, <br /> D) The visualization does not capture intra-state data
+        
+        </font></b>
+
     </div>
 
 <div class="dashboard">
@@ -353,11 +364,11 @@
     Keri: I think we should keep this in because it doesn't affect the sizing of the dashboard and is a good reminder for people.
  -->
     <div class="short-descript">
-        <font size="3">
-            *Path color indicates<br>
-           origin location. Hover<br>
-            over path for details.</font>
-    </div>
+        <font style="width: 175px" size="3">
+            *Path color indicates<br> 
+            origin location. Hover<br>
+            over path for details.<br>
+            Zoom screen if needed. <br></font>    </div>
 
         <div class="legend">
             <b><font size="5">Legend</font></b>
@@ -399,9 +410,9 @@
         <!-- <div style="background: #606060;" id="barchart1" class="section" width="400" height="400"></div> -->
         <!-- <div style="background: #606060;" id="barchart2" class="section" width="400" height="400"></div> -->
         <div class="barcharts_stacked">
-            <svg  id="barchart1"  width="600" height="300"></svg>
+            <svg  id="barchart1"  width="300" height="250"></svg>
             <!--<svg style="background: #606060;" id="barchart1" class="section" width="300" height="300"></svg> -->
-            <svg  id="barchart2"  width="600" height="300"></svg>
+            <svg  id="barchart2"  width="300" height="250"></svg>
             <div id="description"></div>
         </div>
       </div >
@@ -415,9 +426,9 @@
 
     <div class="conclusion">
 
-        <p><b><font size="9">Who We Are</font></b></p>
-        <img class= "img3" src="{{url_for('static',filename='img/members.png')}}"  alt="Norway";>
-        <p><font><br />Keri, Felix, and Daniel are Master of Information and Data Science candidates at University of California, Berkeley. They are well versed in data engineering, data science, and data visualization creation. Outside the program, they are respected professionals in their global organizations. Keri works at Civitas Learning, Felix works at Cognizant Technology Solutions, and Daniel works at IBM.</font></p>
+        <p><b><font size="6">Who We Are</font></b></p>
+        <img src="static/img/members.png"  alt="Norway";>
+        <b><p><font><br/>Keri, Felix, and Daniel are Master of Information and Data Science candidates at University of California, Berkeley. They are well versed in data engineering, data science, and data visualization creation. Outside the program, they are respected professionals in their global organizations. Keri works at Civitas Learning, Felix works at Cognizant Technology Solutions, and Daniel works at IBM.</font></p></b>
     </div>
 <!--
     <div class="team">

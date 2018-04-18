@@ -221,8 +221,8 @@ lib.barChartModule = function() {
     g.select(".title").remove();
     g.append("text")
       .attr("class", "title")
-      .attr("font-size", "20")
-      .attr("x", 10)
+      .attr("font-size", "14")
+      .attr("x", -30)
       .attr("y", 0)
       .text(name);
 
@@ -671,6 +671,9 @@ function renderOutgoingBarChart(bars) {
     if (year != "none") {
       params += "year=" + year + "&";
     }
+    if (commodity == "none") {
+      commodity = "All";
+    }
     params += "dest=" + mapState(dest) + "&";
     params += "origin=" + mapState(origin) + "&";
     params += "metric=" + metric;
@@ -685,7 +688,7 @@ function renderOutgoingBarChart(bars) {
         console.log(d);
         d = d.sort(function(b, a) {return getYearAccessor(year, "value")(a) - getYearAccessor(year, "value")(b)}).slice(0, 10);
         bars.data(d);
-        bars.plot_absolute("Top Exporters in Millions of Dollars, " + commodity.replace(/_/g, " "),
+        bars.plot_absolute("Top Exporters (USD Millions), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.origin;
           }, getYearAccessor(year, "value"), g1, origin);
@@ -696,7 +699,7 @@ function renderOutgoingBarChart(bars) {
         //console.log("ktons!");
         d = d.sort(function(b, a) {return getYearAccessor(year, "tons")(a) - getYearAccessor(year, "tons")(b)}).slice(0, 10);
         bars.data(d);
-        bars.plot_absolute("Top Exporters in Thousands of Tons, " + commodity.replace(/_/g, " "),
+        bars.plot_absolute("Top Exporters (Kilotons), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.origin;
           }, getYearAccessor(year, "tons"), g1, origin);
@@ -705,7 +708,7 @@ function renderOutgoingBarChart(bars) {
         //console.log("ktons!");
         d = d.sort(function(b, a) {return getYearAccessor(year, "tmiles")(a) - getYearAccessor(year, "tmiles")(b)}).slice(0, 10);
         bars.data(d);
-        bars.plot_absolute("Top Exporters in Ton-miles, " + commodity.replace(/_/g, " "),
+        bars.plot_absolute("Top Exporters (Ton-miles), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.origin;
           }, getYearAccessor(year, "tmiles"), g1, origin);
@@ -717,7 +720,7 @@ function renderOutgoingBarChart(bars) {
         d = d.sort(function(b, a) {return getYearAccessor(year, "value")(a) - getYearAccessor(year, "value")(b)}).slice(0, 10);
         console.log(d);
         bars.data(d);
-        bars.plot_absolute("Top Exporters in Millions of Dollars, " + commodity.replace(/_/g, " "),
+        bars.plot_absolute("Top Exporters (USD Millions), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.origin;
           }, getYearAccessor(year, "value"), g1, origin);
@@ -764,6 +767,9 @@ function renderIncomingBarChart(bars) {
     params += "dest=" + mapState(dest) + "&";
     params += "origin=" + mapState(origin) + "&";
     params += "metric=" + metric;
+    if (commodity == "none") {
+      commodity = "All";
+    }
 
     console.log(params);
   d3.json(options.INCOMING_URL + params, function(d) {
@@ -772,7 +778,7 @@ function renderIncomingBarChart(bars) {
       case "value":
         d = d.sort(function(b, a) {return getYearAccessor(year, "value")(a) - getYearAccessor(year, "value")(b)}).slice(0, 10);
         bars.data(d);
-        bars.plot_absolute("Top Importers in Millions of Dollars, " + commodity.replace(/_/g, " "),
+        bars.plot_absolute("Top Importers (USD Millions), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.dest;
           }, getYearAccessor(year, "value"), g2, dest);
@@ -781,7 +787,7 @@ function renderIncomingBarChart(bars) {
         console.log("KTONS");
         d = d.sort(function(b, a) {return getYearAccessor(year, "tons")(a) - getYearAccessor(year, "tons")(b)}).slice(0, 10);
         bars.data(d);
-        bars.plot_absolute("Top Importers in Thousands of Tons, " + commodity.replace(/_/g, " "),
+        bars.plot_absolute("Top Importers (Kilotons), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.dest;
           }, getYearAccessor(year, "tons"), g2, dest);
@@ -790,7 +796,7 @@ function renderIncomingBarChart(bars) {
         //console.log("ktons!");
         d = d.sort(function(b, a) {return getYearAccessor(year, "tmiles")(a) - getYearAccessor(year, "tmiles")(b)}).slice(0, 10);
         bars.data(d);
-        bars.plot_absolute("Top Importers in Ton-miles, " + commodity.replace(/_/g, " "),
+        bars.plot_absolute("Top Importers (Ton-miles), " + commodity.replace(/_/g, " "),
         function(d) {
           return d.dest;
         }, getYearAccessor(year, "tmiles"), g2, dest);
@@ -802,7 +808,7 @@ function renderIncomingBarChart(bars) {
         d = d.sort(function(b, a) {return getYearAccessor(year, "value")(a) - getYearAccessor(year, "value")(b)}).slice(0, 10);
         console.log(d);
         bars.data(d);
-        bars.plot_absolute("Top Importers in Millions of Dollars, " + commodity.replace(/_/g, " "),
+        bars.plot_absolute("Top Importers (USD Millions), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.dest;
           }, getYearAccessor(year, "value"), g2, dest);

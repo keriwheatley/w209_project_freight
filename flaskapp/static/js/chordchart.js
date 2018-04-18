@@ -6,9 +6,9 @@
 // 2. lookup - contains color legend info
 var imports = [];
 var lookup = [];
-d3.csv("/static/data/summed_data.csv", function(error, data){
-    d3.csv("/static/data/default_data.csv", function(error, default_data){
-        d3.csv("/static/data/lookup_states.csv", function(error, region_data){
+d3.csv(options.SUMMED_DATA, function(error, data){
+    d3.csv(options.DEFAULT_DATA, function(error, default_data){
+        d3.csv(options.LOOKUP_STATES, function(error, region_data){
             if (error) {
                 console.log(error);
             return error;}
@@ -21,7 +21,7 @@ d3.csv("/static/data/summed_data.csv", function(error, data){
 
 //3. category_range - contains the maximum range for the "min. metric" selector
 var category_range = [];
-d3.csv("/static/data/category_min_metric_range.csv", function(error, data){
+d3.csv(options.CATEGORY_MIN_METRIC_RANGE, function(error, data){
     if (error) {
         console.log(error);
         return error;}
@@ -420,9 +420,9 @@ function render( explore_scenario_type, data, category, year, metric, metricyear
             if (explore_scenario_type == 'natural_disaster') {
                 var str = "In 2015, California was a net exporter of $5.88 billion"
                 str += " in alcoholic beverages. California is a major producer"
-                str += " of wine and ships its products worldwide. A 10% reduction"
-                str += " in supply due to forest fires would amount to an inventory"
-                str += " loss of $588 million."};
+                str += " of wine. A 10% reduction"
+                str += " in supply due to forest fires would equate to a "
+                str += " $588 million loss in inventory."};
             if (explore_scenario_type == 'electronics') {
                 var str = "In 2015, Eastern Asia was a net exporter of $224 billion"
                 str += " in electronic goods. China is a leading producer of electronic"
@@ -655,7 +655,7 @@ function changeYear(selected_year) {
 
 // Create initial chordchart
 // There is an added 1 second delay so data can load first
-setTimeout(func, 1500);
+setTimeout(func, 3000);
 function func() {
 
     // console.log("Load legend")
