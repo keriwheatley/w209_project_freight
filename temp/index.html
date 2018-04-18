@@ -64,7 +64,7 @@
         <b><font>We designed this visualization with three types of users and their purposes in mind: <br />
         </font></b>
 
-        <b><font size=2>A) Anyone interested in understanding more about trade relationships between different states in US and also aboard <br />B) Farmers, manufacturers, businesses who can use this data to understand the supply chain of certain goods that is critical to their business and how disruptions in certain states may impact that <br /> C) Policy makers who need to understand the intricacte trade relationships between states for policy setting or state to state negotiation purposes 
+        <b><font size=2,>A) Anyone interested in understanding more about trade relationships between different states in US and also aboard <br />B) Farmers, manufacturers, businesses who can use this data to understand the supply chain of certain goods that is critical to their business and how disruptions in certain states may impact that <br /> C) Policy makers who need to understand the intricacte trade relationships between states for policy setting or state to state negotiation purposes 
         </font></b>
 
         <b><font><br /><br />As a disclaimer, we want to outline some potential bias and limitations in the underyling data and the visualization:<br />
@@ -75,17 +75,10 @@
         </font></b>
 
     </div>
-
-    <div class="dashboard">
+<div class="dashboard">
     <div class="left-bar">
     <div class="direction">
     <div>
-
-    <!--     <b><font size="5">Directions:</font></b>
-        <font size="4">Please choose A) the category of goods, B) the unit of which to view the data, C) the year, D) the location of interest (can be selected at region or state wise level), and E) minimum value filter (dependent on the unit selected). For example, if you select New York as the location, you will see only net exports / imports between New York and other regions. We have created a few What-If Scenarios to illustrate the impact on trade for different goods if certain events were to happen.</font>
-
-        <p></p> -->
-
         <b><font size="5">Explore Data:</font></b>
 
         <br>
@@ -146,9 +139,12 @@
             <option value="none" selected="selected">Choose metric</option>
             <option value='million_dollars'>value in $M</option>
             <option value='ktons'>weight in kilotons</option>
-    
+
+<!--             Felix: Let's removed work in ton-miles as its not a common form of measurement
+            Keri: Since it's not the default setting, I think it's good to keep it in there.
+ -->
             <option value='ton_miles'>work in ton-miles</option>
- 
+
         </select>
 
         <br>
@@ -164,9 +160,12 @@
                 <option value='West'> West</option>
                 <option value='Northeast'> Northeast</option>
                 <option value='Southeast'> Southeast</option>
+                <option value='International'> International</option>
             </optgroup>
-            <!--
-            Felix: Removed International as second option because it will show empty if someone select Canada as option 1 and Africa as option 2 since our data set does not containt intenrtioanl to international data -->
+
+<!--             Felix: Removed International as second option because it will show empty if someone select Canada as option 1 and Africa as option 2 since our data set does not containt intenrtioanl to international data
+            Keri: I think we should keep this in. That's a small edge case. When someone tries to flip to international on the second filter, they will be confused that it's not there. The two filters should look the same.
+ -->
             <optgroup label="International">
                 <option value='Africa'>Africa</option>
                 <option value='Canada'>Canada</option>
@@ -177,7 +176,7 @@
                 <option value='SE Asia & Oceania'>SE Asia & Oceania</option>
                 <option value='SW & Central Asia'>SW & Central Asia</option>
             </optgroup>
-           
+
             <optgroup label="State">
                 <option value='Alabama'>Alabama</option>
                 <option value='Alaska'>Alaska</option>
@@ -247,6 +246,7 @@
                 <option value='West'> West</option>
                 <option value='Northeast'> Northeast</option>
                 <option value='Southeast'> Southeast</option>
+                <option value='International'> International</option>
             </optgroup>
             <optgroup label="International">
                 <option value='Africa'>Africa</option>
@@ -326,7 +326,7 @@
         </select>
 
         <br>
-        with minimum freight size 
+        with minimum freight size
         <br>
         <span class="wrapper">
         <input style="width: 70px;" id="number" type="number" min="0" max="73991" step="1" value="0" onchange="document.getElementById('slider').value = this.value">
@@ -336,33 +336,33 @@
 
         <button id="run_explore" onclick="myExploreFunction()">Run Explore</button>
         </div>
- 
+
         <p></p>
-      
         <b><font size="5">Scenarios:</font></b>
         <br>
         <select style="width:150px;" id="d3-dropdown-scenario">
             <option value='none'></option>
-            <option value='nafta'>End of NAFTA on Lumber</option>
-            <option value='nafta2'>End of NAFTA on Metals</option>
+            <option value='natural_disaster'>Forest fires in California</option>
+            <option value='electronics'>New tax on electronic goods</option>
+            <option value='nafta'>End of NAFTA trade agreement</option>
+            <!-- <option value='tariff'>Tariff On Metals</option> -->
         </select>
         <br>
         <button id="scenario" onclick="myScenarioFunction()">Run Scenario</button>
-    
-        </div>
+    </div>
 
+<!--     Felix: Removed short description as it will be covera at top
+    Keri: I think we should keep this in because it doesn't affect the sizing of the dashboard and is a good reminder for people.
+ -->
     <div class="short-descript">
-        <font size="2">
-            <br>
-            <br>
+        <font size="3">
             *Path color indicates<br> 
-           origin location. Hover<br>
+            origin location. Hover<br>
             over path for details.<br>
             if the ribbon is too thin <br>
-            to hover, please zoom the <br>
-            screen. Commentary is below.</font>
-    </div>
- 
+            to hover, please zoom the screen. <br>
+            Commentary is below.</font>    </div>
+
 
 
     </div>
@@ -420,13 +420,11 @@
       <!--<script src="/js/chordchart.js"></script>
       <script src="/js/barchart.js"></script> -->
 
-
-
     <div class="conclusion">
 
         <p><b><font size="9">Who We Are</font></b></p>
         <img src="static/img/members.png"  alt="Norway";>
-        <p><font><br />Keri, Felix, and Daniel are Master of Information and Data Science candidates at University of California, Berkeley. They are well versed in data engineering, data science, and data visualization creation. Outside the program, they are respected professionals in their global organizations. Keri works at Civitas Learning, Felix works at Cognizant Technology Solutions, and Daniel works at IBM.</font></p>
+        <p><font size="4"><br />Keri, Felix, and Daniel are Master of Information and Data Science candidates at University of California, Berkeley. They are well versed in data engineering, data science, and data visualization creation. Outside the program, they are respected professionals in their global organizations. Keri works at Civitas Learning, Felix works at Cognizant Technology Solutions, and Daniel works at IBM.</font></p>
     </div>
 <!--
     <div class="team">

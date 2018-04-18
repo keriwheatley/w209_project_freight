@@ -1,16 +1,19 @@
   .leftbar {
     fill: brown;
   }
-  
+
   .title {
   }
 
-  .rightbar {
+  .bar {
     fill: steelblue;
   }
-  .bar:hover {
-    fill: gold;
+  .poi {
+    fill: brown;
   }
+  /* .bar:hover {
+    fill: brown;
+  } */
   .axisx path {
     display: none;
   }
