@@ -21,7 +21,7 @@ def states():
 @app.route("/outgoing")
 def outgoing():
     origin = request.args.get('origin', 'All')
-    dest = request.args.get('dest', 'All')
+    # dest = request.args.get('dest', 'All')
     metric = request.args.get('metric', 'value')    
     commodity = request.args.get('commodity', '%')    
     if (commodity == "All"): commodity = "%"
@@ -183,7 +183,7 @@ def outgoing():
 
 @app.route("/incoming")
 def incoming():
-    origin = request.args.get('origin', 'All')
+    # origin = request.args.get('origin', 'All')
     dest = request.args.get('dest', 'All')
     metric = request.args.get('metric', 'value')    
     commodity = request.args.get('commodity', '%')    
