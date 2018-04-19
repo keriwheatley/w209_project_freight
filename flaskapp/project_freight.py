@@ -22,12 +22,12 @@ def states():
 @app.route("/outgoing")
 def outgoing():
     origin = request.args.get('origin', 'All')
-    # dest = request.args.get('dest', 'All')
+    dest = request.args.get('dest', 'All')
     metric = request.args.get('metric', 'value')    
     commodity = request.args.get('commodity', '%')    
+    print commodity 
     if (commodity == "All"): commodity = "%"
     year = request.args.get('year', 'all')    
-    print origin
 
     if (year == 'all'):
         rows = query_db("""select origin,
@@ -38,7 +38,7 @@ def outgoing():
                         where commodity like ? 
                         group by origin
                         order by """ + metric + "_total " + 
-                        "desc limit 5", ["%" + commodity + "%"])
+                        "desc limit 5", [ commodity ])
         if (origin != "All" ):
             current = query_db("""select origin,
                             sum(tons_total) as tons_total,
@@ -47,7 +47,18 @@ def outgoing():
                             from commodities_by_origin 
                             where commodity like ? AND origin like ?
                             group by origin""",
-                            ["%" + commodity + "%", "%" + origin + "%"])
+                            [ commodity , "%" + origin + "%"])
+            if (len(current) ==1 ):
+                rows.append(current[0])
+        if (dest != "All" ):
+            current = query_db("""select origin,
+                            sum(tons_total) as tons_total,
+                            sum(value_total) as value_total,
+                            sum(tmiles_total) as tmiles_total 
+                            from commodities_by_origin 
+                            where commodity like ? AND origin like ?
+                            group by origin""",
+                            [ commodity  , "%" + dest + "%"])
             if (len(current) ==1 ):
                 rows.append(current[0])
     elif (year == "2012"):
@@ -59,7 +70,7 @@ def outgoing():
                         where commodity like ? 
                         group by origin
                         order by """ + metric + "_2012 " + 
-                        "desc limit 5", ["%" + commodity + "%"])
+                        "desc limit 5", [ commodity ])
         if (origin != "All" ):
             current = query_db("""select origin,
                             sum(tons_2012) as tons_2012,
@@ -68,7 +79,18 @@ def outgoing():
                             from commodities_by_origin 
                             where commodity like ? AND origin like ?
                             group by origin""",
-                            ["%" + commodity + "%", "%" + origin + "%"])
+                            [ commodity, "%" + origin + "%"])
+            if (len(current) == 1):
+                rows.append(current[0])
+        if (dest != "All" ):
+            current = query_db("""select origin,
+                            sum(tons_2012) as tons_2012,
+                            sum(value_2012) as value_2012,
+                            sum(tmiles_2012) as tmiles_2012 
+                            from commodities_by_origin 
+                            where commodity like ? AND origin like ?
+                            group by origin""",
+                            [ commodity , "%" + dest + "%"])
             if (len(current) == 1):
                 rows.append(current[0])
     elif (year == "2013"):
@@ -80,7 +102,7 @@ def outgoing():
                         where commodity like ? 
                         group by origin
                         order by """ + metric + "_2013 " + 
-                        "desc limit 5", ["%" + commodity + "%"])
+                        "desc limit 5", [ commodity ])
         if (origin != "All" ):
             current = query_db("""select origin,
                             sum(tons_2013) as tons_2013,
@@ -89,7 +111,18 @@ def outgoing():
                             from commodities_by_origin 
                             where commodity like ? and origin like ?
                             group by origin""",
-                            ["%" + commodity + "%", "%" + origin + "%"])
+                            [ commodity, "%" + origin + "%"])
+            if (len(current) ==1 ):
+                rows.append(current[0])
+        if (dest != "All" ):
+            current = query_db("""select origin,
+                            sum(tons_2013) as tons_2013,
+                            sum(value_2013) as value_2013,
+                            sum(tmiles_2013) as tmiles_2013 
+                            from commodities_by_origin 
+                            where commodity like ? and origin like ?
+                            group by origin""",
+                            [ commodity , "%" + dest + "%"])
             if (len(current) ==1 ):
                 rows.append(current[0])
     elif (year == "2014"):
@@ -101,7 +134,7 @@ def outgoing():
                         where commodity like ? 
                         group by origin
                         order by """ + metric + "_2014 " + 
-                        "desc limit 5", ["%" + commodity + "%"])
+                        "desc limit 5", [ commodity ])
         if (origin != "All" ):
             current = query_db("""select origin,
                             sum(tons_2014) as tons_2014,
@@ -110,7 +143,18 @@ def outgoing():
                             from commodities_by_origin 
                             where commodity like ? and origin like ?
                             group by origin""",
-                            ["%" + commodity + "%", "%" + origin + "%"])
+                            [ commodity , "%" + origin + "%"])
+            if (len(current) ==1 ):
+                rows.append(current[0])
+        if (dest != "All" ):
+            current = query_db("""select origin,
+                            sum(tons_2014) as tons_2014,
+                            sum(value_2014) as value_2014,
+                            sum(tmiles_2014) as tmiles_2014 
+                            from commodities_by_origin 
+                            where commodity like ? and origin like ?
+                            group by origin""",
+                            [ commodity , "%" + dest + "%"])
             if (len(current) ==1 ):
                 rows.append(current[0])
     elif (year == "2015"):
@@ -122,7 +166,7 @@ def outgoing():
                         where commodity like ? 
                         group by origin
                         order by """ + metric + "_2015 " + 
-                        "desc limit 5", ["%" + commodity + "%"])
+                        "desc limit 5", [ commodity ])
         if (origin != "All" ):
             current = query_db("""select origin,
                             sum(tons_2015) as tons_2015,
@@ -131,60 +175,26 @@ def outgoing():
                             from commodities_by_origin 
                             where commodity like ? and origin like ?
                             group by origin""",
-                            ["%" + commodity + "%", "%" + origin + "%"])
+                            [ commodity , "%" + origin + "%"])
+            if (len(current) ==1 ):
+                rows.append(current[0])
+        if (dest != "All" ):
+            current = query_db("""select origin,
+                            sum(tons_2015) as tons_2015,
+                            sum(value_2015) as value_2015,
+                            sum(tmiles_2015) as tmiles_2015 
+                            from commodities_by_origin 
+                            where commodity like ? and origin like ?
+                            group by origin""",
+                            [ commodity , "%" + dest + "%"])
             if (len(current) ==1 ):
                 rows.append(current[0])
     print rows
     return jsonify(rows)
-#" )
-
-
-    # if (dest == 'All'):
-    #     dest = '%'
-#     dest = "%"
-#     origin = request.args.get('origin', 'Anywhere')    
-#     if (origin == 'All'):
-#         origin = 'Anywhere'
-#     commodity = request.args.get('commodity', '%')    
-#     if (commodity == 'All'):
-#         commodity = '%'
-#     year = request.args.get('year', 'all')    
-#     metric = request.args.get('metric', 'value')    
-#     print year
-#     print metric 
-#     print origin 
-#     print dest 
-# 
-# 
-#     if (year == 'all'):
-#         if (origin == 'Anywhere'):
-#             print "grouping by commodity"
-#             rows = query_db("select origin,sum(tons_total) as tons_total ,sum(value_total) as value_total,sum(curval_total) as curval_total ,sum(tmiles_total) as tmiles_total from commodities_by_origin where commodity like ? group by origin order by  " + metric + "_total" + " desc limit 100", ["%" + commodity + "%"])
-#         else:
-#             rows = query_db("select commodity,origin,dest,tons_total,value_total,curval_total,tmiles_total from commodities_by_origin where origin like ? AND dest like ? and commodity like ? order by "+ metric + "_total" +" desc limit 100", (origin, dest, "%" + commodity + "%"))
-#     elif (year == '2012'):
-#         if (origin == 'Anywhere'):
-#             rows = query_db("select origin,dest,sum(tons_2012) as tons_2012,sum(value_2012) as value_2012,sum(curval_2012) as curval_2012,sum(tmiles_2012) as tmiles_2012 from commodities_by_origin where commodity like ? group by origin, dest order by  " + metric + "_2012" + " desc limit 100", ["%" + commodity + "%"])
-#         else:
-#             rows = query_db("select commodity,origin,dest,tmiles_2012,tons_2012,value_2012 from commodities_by_origin where origin like ? AND dest like ? and commodity like ? order by "+ metric + "_2012 desc limit 100", (origin, dest, "%" + commodity + "%"))
-#     elif (year == '2013'):
-#         if (origin == 'Anywhere'):
-#             rows = query_db("select origin,dest,sum(tons_2013) as tons_2013,sum(value_2013) as value_2013,sum(curval_2013) as curval_2013, sum(tmiles_2013) as tmiles_2013 from commodities_by_origin where commodity like ? group by origin, dest order by  " + metric + "_2013" + " desc limit 100", ["%" + commodity + "%"])
-#         else:
-#             rows = query_db("select commodity,origin,dest,tmiles_2013,tons_2013,value_2013,curval_2013 from commodities_by_origin where origin like ? AND dest like ? and commodity like ? order by "+ metric + "_2013 desc limit 100", (origin, dest, "%" + commodity + "%"))
-#     elif (year == '2014'):
-#         print "year is 2014"
-#         rows = query_db("select commodity,origin,dest,tmiles_2014,tons_2014,value_2014,curval_2014 from commodities_by_origin where origin like ? AND dest like ? and commodity like ? order by "+ metric + "_2014 desc limit 100", (origin, dest, "%" + commodity + "%"))
-#     elif (year == '2015'):
-#         rows = query_db("select commodity,origin,dest,tmiles_2015,tons_2015,value_2015,curval_2015 from commodities_by_origin where origin like ? AND dest like ? and commodity like ? order by "+ metric + "_2015 desc limit 100", (origin, dest, "%" + commodity + "%"))
-#     else:
-#         return "not a year"
-# 
-    return jsonify(rows)
 
 @app.route("/incoming")
 def incoming():
-    # origin = request.args.get('origin', 'All')
+    origin = request.args.get('origin', 'All')
     dest = request.args.get('dest', 'All')
     metric = request.args.get('metric', 'value')    
     commodity = request.args.get('commodity', '%')    
@@ -200,7 +210,7 @@ def incoming():
                         where commodity like ? 
                         group by dest 
                         order by """ + metric + "_total " + 
-                        "desc limit 5", ["%" + commodity + "%"])
+                        "desc limit 5", [commodity ])
         if (dest != "All" ):
             current = query_db("""select dest,
                             sum(tons_total) as tons_total,
@@ -209,7 +219,18 @@ def incoming():
                             from commodities_by_dest 
                             where commodity like ? AND dest like ?
                             group by dest""",
-                            ["%" + commodity + "%", "%" + dest + "%"])
+                            [ commodity , "%" + dest + "%"])
+            if (len(current) ==1 ):
+                rows.append(current[0])
+        if (origin != "All" ):
+            current = query_db("""select dest,
+                            sum(tons_total) as tons_total,
+                            sum(value_total) as value_total,
+                            sum(tmiles_total) as tmiles_total 
+                            from commodities_by_dest 
+                            where commodity like ? AND dest like ?
+                            group by dest""",
+                            [ commodity , "%" + origin + "%"])
             if (len(current) ==1 ):
                 rows.append(current[0])
     elif (year == "2012"):
@@ -221,7 +242,7 @@ def incoming():
                         where commodity like ? 
                         group by dest
                         order by """ + metric + "_2012 " + 
-                        "desc limit 5", ["%" + commodity + "%"])
+                        "desc limit 5", [ commodity ])
         if (dest != "All" ):
             current = query_db("""select dest,
                             sum(tons_2012) as tons_2012,
@@ -230,7 +251,18 @@ def incoming():
                             from commodities_by_dest 
                             where commodity like ? AND dest like ?
                             group by dest""",
-                            ["%" + commodity + "%", "%" + dest + "%"])
+                            [ commodity , "%" + dest + "%"])
+            if (len(current) ==1 ):
+                rows.append(current[0])
+        if (origin != "All" ):
+            current = query_db("""select dest,
+                            sum(tons_2012) as tons_2012,
+                            sum(value_2012) as value_2012,
+                            sum(tmiles_2012) as tmiles_2012 
+                            from commodities_by_dest 
+                            where commodity like ? AND dest like ?
+                            group by dest""",
+                            [ commodity , "%" + origin + "%"])
             if (len(current) ==1 ):
                 rows.append(current[0])
     elif (year == "2013"):
@@ -242,7 +274,7 @@ def incoming():
                         where commodity like ? 
                         group by dest
                         order by """ + metric + "_2013 " + 
-                        "desc limit 5", ["%" + commodity + "%"])
+                        "desc limit 5", [ commodity ])
         if (dest != "All" ):
             current = query_db("""select dest,
                             sum(tons_2013) as tons_2013,
@@ -251,7 +283,18 @@ def incoming():
                             from commodities_by_dest 
                             where commodity like ? and dest like ?
                             group by dest""",
-                            ["%" + commodity + "%", "%" + dest + "%"])
+                            [ commodity , "%" + dest + "%"])
+            if (len(current) ==1 ):
+                rows.append(current[0])
+        if (origin != "All" ):
+            current = query_db("""select dest,
+                            sum(tons_2013) as tons_2013,
+                            sum(value_2013) as value_2013,
+                            sum(tmiles_2013) as tmiles_2013 
+                            from commodities_by_dest 
+                            where commodity like ? and dest like ?
+                            group by dest""",
+                            [ commodity , "%" + origin + "%"])
             if (len(current) ==1 ):
                 rows.append(current[0])
     elif (year == "2014"):
@@ -263,7 +306,7 @@ def incoming():
                         where commodity like ? 
                         group by dest
                         order by """ + metric + "_2014 " + 
-                        "desc limit 5", ["%" + commodity + "%"])
+                        "desc limit 5", [ commodity ])
         if (dest != "All" ):
             current = query_db("""select dest,
                             sum(tons_2014) as tons_2014,
@@ -272,7 +315,18 @@ def incoming():
                             from commodities_by_dest 
                             where commodity like ? and dest like ?
                             group by dest""",
-                            ["%" + commodity + "%", "%" + dest + "%"])
+                            [ commodity , "%" + dest + "%"])
+            if (len(current) ==1 ):
+                rows.append(current[0])
+        if (orgin != "All" ):
+            current = query_db("""select dest,
+                            sum(tons_2014) as tons_2014,
+                            sum(value_2014) as value_2014,
+                            sum(tmiles_2014) as tmiles_2014 
+                            from commodities_by_dest 
+                            where commodity like ? and dest like ?
+                            group by dest""",
+                            [ commodity , "%" + origin + "%"])
             if (len(current) ==1 ):
                 rows.append(current[0])
     elif (year == "2015"):
@@ -284,7 +338,7 @@ def incoming():
                         where commodity like ? 
                         group by dest
                         order by """ + metric + "_2015 " + 
-                        "desc limit 5", ["%" + commodity + "%"])
+                        "desc limit 5", [ commodity ])
         if (dest != "All" ):
             current = query_db("""select dest,
                             sum(tons_2015) as tons_2015,
@@ -293,63 +347,22 @@ def incoming():
                             from commodities_by_dest 
                             where commodity like ? and dest like ?
                             group by dest""",
-                            ["%" + commodity + "%", "%" + dest + "%"])
+                            [ commodity , "%" + dest + "%"])
+            if (len(current) ==1 ):
+                rows.append(current[0])
+        if (origin != "All" ):
+            current = query_db("""select dest,
+                            sum(tons_2015) as tons_2015,
+                            sum(value_2015) as value_2015,
+                            sum(tmiles_2015) as tmiles_2015 
+                            from commodities_by_dest 
+                            where commodity like ? and dest like ?
+                            group by dest""",
+                            [ commodity , "%" + origin + "%"])
             if (len(current) ==1 ):
                 rows.append(current[0])
     print rows
     return jsonify(rows)
-#     if (year == 'all'):
-#         rows = query_db("""select dest,
-#                         sum(tons_total) as tons_total,
-#                         sum(value_total) as value_total,
-#                         sum(tmiles_total) as tmiles_total 
-#                         from commodities_by_dest
-#                         where commodity like ? 
-#                         group by dest 
-#                         order by """ + metric + "_total " + 
-#                         "desc limit 100", ["%" + commodity + "%"])
-#     elif (year == "2012"):
-#         rows = query_db("""select dest,
-#                         sum(tons_2012) as tons_2012,
-#                         sum(value_2012) as value_2012,
-#                         sum(tmiles_2012) as tmiles_2012 
-#                         from commodities_by_dest
-#                         where commodity like ? 
-#                         group by dest 
-#                         order by """ + metric + "_2012 " + 
-#                         "desc limit 100", ["%" + commodity + "%"])
-#     elif (year == "2013"):
-#         rows = query_db("""select dest,
-#                         sum(tons_2013) as tons_2013,
-#                         sum(value_2013) as value_2013,
-#                         sum(tmiles_2013) as tmiles_2013 
-#                         from commodities_by_dest
-#                         where commodity like ? 
-#                         group by dest 
-#                         order by """ + metric + "_2013 " + 
-#                         "desc limit 100", ["%" + commodity + "%"])
-#     elif (year == "2014"):
-#         rows = query_db("""select dest,
-#                         sum(tons_2014) as tons_2014,
-#                         sum(value_2014) as value_2014,
-#                         sum(tmiles_2014) as tmiles_2014 
-#                         from commodities_by_dest
-#                         where commodity like ? 
-#                         group by dest 
-#                         order by """ + metric + "_2014 " + 
-#                         "desc limit 100", ["%" + commodity + "%"])
-#     elif (year == "2015"):
-#         rows = query_db("""select dest,
-#                         sum(tons_2015) as tons_2015,
-#                         sum(value_2015) as value_2015,
-#                         sum(tmiles_2015) as tmiles_2015 
-#                         from commodities_by_dest
-#                         where commodity like ? 
-#                         group by dest 
-#                         order by """ + metric + "_2015 " + 
-#                         "desc limit 100", ["%" + commodity + "%"])
-# 
-#     return jsonify(rows)
 
 @app.route("/state/<target_state>")
 def state(target_state):

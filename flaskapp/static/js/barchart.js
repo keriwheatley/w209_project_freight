@@ -208,7 +208,7 @@ lib.barChartModule = function() {
 
   }
 
-  function plot_absolute(name, accessor_x, accessor_y, g, poi) {
+  function plot_absolute(name, accessor_x, accessor_y, g, poi1, poi2) {
     var x = d3.scaleBand().rangeRound([0, barchartwidth]).padding(0.1),
         y = d3.scaleLinear().rangeRound([barchartheight, 10]);
 
@@ -252,8 +252,10 @@ lib.barChartModule = function() {
     bars.transition().duration(300)
       .attr("id", function(d) { return accessor_x(d);})
       .attr("class", function(d) {
-          if (accessor_x(d) == mapState(poi)) {
-            return "poi";
+          if (accessor_x(d) == mapState(poi1)) {
+            return "poi1";
+          } else if (accessor_x(d) == mapState(poi2)){
+              return "poi2"
           } else {
             return "bar";
           }
@@ -267,10 +269,12 @@ lib.barChartModule = function() {
 
     bars.enter().append("rect")
         .attr("class", function(d) {
-          if (accessor_x(d) == mapState(poi)) {
-            return "poi"
+          if (accessor_x(d) == mapState(poi1)) {
+            return "poi1";
+          } else if (accessor_x(d) == mapState(poi2)){
+              return "poi2"
           } else {
-            return "bar"
+            return "bar";
           }
         })
         .attr("id", function(d) {return accessor_x(d);})
@@ -691,7 +695,7 @@ function renderOutgoingBarChart(bars) {
         bars.plot_absolute("Top Exporters (USD Millions), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.origin;
-          }, getYearAccessor(year, "value"), g1, origin);
+          }, getYearAccessor(year, "value"), g1, origin, dest);
         break;
       case "tons":
         console.log("ktons!!");
@@ -702,7 +706,7 @@ function renderOutgoingBarChart(bars) {
         bars.plot_absolute("Top Exporters (Kilotons), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.origin;
-          }, getYearAccessor(year, "tons"), g1, origin);
+          }, getYearAccessor(year, "tons"), g1, origin, dest);
         break;
       case "tmiles":
         //console.log("ktons!");
@@ -711,7 +715,7 @@ function renderOutgoingBarChart(bars) {
         bars.plot_absolute("Top Exporters (Ton-miles), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.origin;
-          }, getYearAccessor(year, "tmiles"), g1, origin);
+          }, getYearAccessor(year, "tmiles"), g1, origin, dest);
         break;
       default:
       // for default, just use dollar value
@@ -723,7 +727,7 @@ function renderOutgoingBarChart(bars) {
         bars.plot_absolute("Top Exporters (USD Millions), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.origin;
-          }, getYearAccessor(year, "value"), g1, origin);
+          }, getYearAccessor(year, "value"), g1, origin, dest);
         break;
     }
     console.log("done");
@@ -781,7 +785,7 @@ function renderIncomingBarChart(bars) {
         bars.plot_absolute("Top Importers (USD Millions), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.dest;
-          }, getYearAccessor(year, "value"), g2, dest);
+          }, getYearAccessor(year, "value"), g2, origin, dest);
         break;
       case "tons":
         console.log("KTONS");
@@ -790,7 +794,7 @@ function renderIncomingBarChart(bars) {
         bars.plot_absolute("Top Importers (Kilotons), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.dest;
-          }, getYearAccessor(year, "tons"), g2, dest);
+          }, getYearAccessor(year, "tons"), g2, origin, dest);
         break;
       case "tmiles":
         //console.log("ktons!");
@@ -799,7 +803,7 @@ function renderIncomingBarChart(bars) {
         bars.plot_absolute("Top Importers (Ton-miles), " + commodity.replace(/_/g, " "),
         function(d) {
           return d.dest;
-        }, getYearAccessor(year, "tmiles"), g2, dest);
+        }, getYearAccessor(year, "tmiles"), g2, origin, dest);
         break;
       default:
       // for default, just use dollar value
@@ -811,7 +815,7 @@ function renderIncomingBarChart(bars) {
         bars.plot_absolute("Top Importers (USD Millions), " + commodity.replace(/_/g, " "),
           function(d) {
             return d.dest;
-          }, getYearAccessor(year, "value"), g2, dest);
+          }, getYearAccessor(year, "value"), g2, origin, dest);
         break;
     }
     console.log("done incoming");

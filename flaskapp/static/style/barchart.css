@@ -8,8 +8,11 @@
   .bar {
     fill: steelblue;
   }
-  .poi {
+  .poi1 {
     fill: brown;
+  }
+  .poi2 {
+    fill: gold;
   }
   /* .bar:hover {
     fill: brown;
