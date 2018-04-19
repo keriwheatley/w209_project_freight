@@ -196,13 +196,13 @@ def incoming():
                         sum(tons_total) as tons_total,
                         sum(value_total) as value_total,
                         sum(tmiles_total) as tmiles_total 
-                        from commodities_by_origin 
+                        from commodities_by_dest
                         where commodity like ? 
                         group by dest 
                         order by """ + metric + "_total " + 
                         "desc limit 5", ["%" + commodity + "%"])
         if (dest != "All" ):
-            current = query_db("""select origin,
+            current = query_db("""select dest,
                             sum(tons_total) as tons_total,
                             sum(value_total) as value_total,
                             sum(tmiles_total) as tmiles_total 

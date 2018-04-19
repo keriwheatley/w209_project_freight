@@ -34,8 +34,8 @@ if __name__ == "__main__":
 
 
     #column_order = [ 'origin', 'origin_region', 'dest', 'dest_region', 'commodity', 'port', 'dms_mode','fr_inmode', 'fr_outmode', 'tmiles_2012', 'tmiles_2013', 'tmiles_2014', 'tmiles_2015','tons_2012', 'tons_2013', 'tons_2014', 'tons_2015', 'trade_type','value_2012', 'value_2013', 'value_2014', 'value_2015', 'curval_2013', 'curval_2014', 'curval_2015']
-    column_order_imports = [ 'origin', 'dest', 'commodity', 'tmiles_2012', 'tmiles_2013', 'tmiles_2014', 'tmiles_2015','tons_2012', 'tons_2013', 'tons_2014', 'tons_2015', 'value_2012', 'value_2013', 'value_2014', 'value_2015', 'curval_2013', 'curval_2014', 'curval_2015']
-    column_order_exports = [ 'origin', 'dest', 'commodity', 'tmiles_2012', 'tmiles_2013', 'tmiles_2014', 'tmiles_2015','tons_2012', 'tons_2013', 'tons_2014', 'tons_2015', 'value_2012', 'value_2013', 'value_2014', 'value_2015', 'curval_2013', 'curval_2014', 'curval_2015']
+    column_order_imports = [ 'origin', 'dest', 'commodity', 'tmiles_2012', 'tmiles_2013', 'tmiles_2014', 'tmiles_2015','tons_2012', 'tons_2013', 'tons_2014', 'tons_2015', 'value_2012', 'value_2013', 'value_2014', 'value_2015', 'curval_2013', 'curval_2014', 'curval_2015', 'value_total', 'tmiles_total', 'tons_total', 'curval_total']
+    column_order_exports = [ 'origin', 'dest', 'commodity', 'tmiles_2012', 'tmiles_2013', 'tmiles_2014', 'tmiles_2015','tons_2012', 'tons_2013', 'tons_2014', 'tons_2015', 'value_2012', 'value_2013', 'value_2014', 'value_2015', 'curval_2013', 'curval_2014', 'curval_2015', 'value_total', 'tmiles_total', 'tons_total', 'curval_total']
 
 
     fr_importers = data.dropna(axis=0, how='any', subset=['fr_dest'])
@@ -64,7 +64,8 @@ if __name__ == "__main__":
 
     importers.loc[:, 'commodity'] = importers.commodity.apply(lambda x: x.replace(" ", "_"))
     importers = importers[importers['origin'] != importers['dest']]
-    print importers.sample(10)
+    print "importers columns:"
+    print importers.columns
 
     commodities_by_dest = importers.groupby(['commodity', 'dest'])['tmiles_2012', 'tmiles_2013', 'tmiles_2014', 'tmiles_2015','tons_2012', 'tons_2013', 'tons_2014', 'tons_2015', 'value_2012', 'value_2013', 'value_2014', 'value_2015', 'curval_2013', 'curval_2014', 'curval_2015', 'tons_total', 'value_total', 'curval_total', 'tmiles_total'].sum().reset_index()
 
