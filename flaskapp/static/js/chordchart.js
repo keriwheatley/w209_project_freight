@@ -655,7 +655,7 @@ function changeYear(selected_year) {
 
 // Create initial chordchart
 // There is an added 1 second delay so data can load first
-setTimeout(func, 3000);
+setTimeout(func, 5000);
 function func() {
 
     // console.log("Load legend")
@@ -678,6 +678,3 @@ function func() {
         "million_dollars_2015", "All","All", "0" );
     // document.getElementById('run_explore').click();
 }
-
-
-render()

@@ -23,7 +23,7 @@
     background-color: #6699FF;
     position: relative;
     font-weight: normal;
-    font-size:1.2vw;
+    font-size:1.3vw;
  
 }
 
@@ -33,7 +33,7 @@
     padding: 10px 80px 50px 340px;
     background-color: #6699FF;
     font-weight: lighter;
-    font-size:1.2vw;
+    font-size:1.3vw;
      
 
 }
@@ -49,9 +49,10 @@
 .intro3 {
     padding: 10px 80px 20px 80px;
     background-color: white;
-    font-weight: lighter;
-    font-size:1.2vw;
+    font-weight: bold;
+    font-size:1.3vw;
     color: black;
+
 
 }
 
@@ -68,7 +69,8 @@
     padding: 30px 80px 50px 80px;
     background-color: #9cec9c;
     position: relative;
-    font-size:1.2vw;
+    font-size:1.3vw;
+    font-weight: lighter;
 }
 
 .direction {
@@ -176,7 +178,7 @@ display: flex;
 }
 
 .descript {
-    width: 5rem;
+    width: 70rem;
     margin: 4px 20px 20px 20px ;
     border-radius: 10px;
     font-size: 20px;
