@@ -6,6 +6,7 @@ from flask import request
 import pandas as pd
 
 DATABASE = 'sqlite.db'
+#DATABASE = '/~daniel.balck/w209/project_freight/sqlite.db'
 app = Flask(__name__)
 
 @app.route("/")
@@ -37,7 +38,7 @@ def outgoing():
                         where commodity like ? 
                         group by origin
                         order by """ + metric + "_total " + 
-                        "desc limit 9", ["%" + commodity + "%"])
+                        "desc limit 5", ["%" + commodity + "%"])
         if (origin != "All" ):
             current = query_db("""select origin,
                             sum(tons_total) as tons_total,
@@ -58,7 +59,7 @@ def outgoing():
                         where commodity like ? 
                         group by origin
                         order by """ + metric + "_2012 " + 
-                        "desc limit 9", ["%" + commodity + "%"])
+                        "desc limit 5", ["%" + commodity + "%"])
         if (origin != "All" ):
             current = query_db("""select origin,
                             sum(tons_2012) as tons_2012,
@@ -79,7 +80,7 @@ def outgoing():
                         where commodity like ? 
                         group by origin
                         order by """ + metric + "_2013 " + 
-                        "desc limit 9", ["%" + commodity + "%"])
+                        "desc limit 5", ["%" + commodity + "%"])
         if (origin != "All" ):
             current = query_db("""select origin,
                             sum(tons_2013) as tons_2013,
@@ -100,7 +101,7 @@ def outgoing():
                         where commodity like ? 
                         group by origin
                         order by """ + metric + "_2014 " + 
-                        "desc limit 9", ["%" + commodity + "%"])
+                        "desc limit 5", ["%" + commodity + "%"])
         if (origin != "All" ):
             current = query_db("""select origin,
                             sum(tons_2014) as tons_2014,
@@ -121,7 +122,7 @@ def outgoing():
                         where commodity like ? 
                         group by origin
                         order by """ + metric + "_2015 " + 
-                        "desc limit 9", ["%" + commodity + "%"])
+                        "desc limit 5", ["%" + commodity + "%"])
         if (origin != "All" ):
             current = query_db("""select origin,
                             sum(tons_2015) as tons_2015,
@@ -199,7 +200,7 @@ def incoming():
                         where commodity like ? 
                         group by dest 
                         order by """ + metric + "_total " + 
-                        "desc limit 9", ["%" + commodity + "%"])
+                        "desc limit 5", ["%" + commodity + "%"])
         if (dest != "All" ):
             current = query_db("""select origin,
                             sum(tons_total) as tons_total,
@@ -220,7 +221,7 @@ def incoming():
                         where commodity like ? 
                         group by dest
                         order by """ + metric + "_2012 " + 
-                        "desc limit 9", ["%" + commodity + "%"])
+                        "desc limit 5", ["%" + commodity + "%"])
         if (dest != "All" ):
             current = query_db("""select dest,
                             sum(tons_2012) as tons_2012,
@@ -241,7 +242,7 @@ def incoming():
                         where commodity like ? 
                         group by dest
                         order by """ + metric + "_2013 " + 
-                        "desc limit 9", ["%" + commodity + "%"])
+                        "desc limit 5", ["%" + commodity + "%"])
         if (dest != "All" ):
             current = query_db("""select dest,
                             sum(tons_2013) as tons_2013,
@@ -262,7 +263,7 @@ def incoming():
                         where commodity like ? 
                         group by dest
                         order by """ + metric + "_2014 " + 
-                        "desc limit 9", ["%" + commodity + "%"])
+                        "desc limit 5", ["%" + commodity + "%"])
         if (dest != "All" ):
             current = query_db("""select dest,
                             sum(tons_2014) as tons_2014,
@@ -283,7 +284,7 @@ def incoming():
                         where commodity like ? 
                         group by dest
                         order by """ + metric + "_2015 " + 
-                        "desc limit 9", ["%" + commodity + "%"])
+                        "desc limit 5", ["%" + commodity + "%"])
         if (dest != "All" ):
             current = query_db("""select dest,
                             sum(tons_2015) as tons_2015,
